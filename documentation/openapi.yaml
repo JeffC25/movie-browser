@@ -1,0 +1,122 @@
+openapi: 3.1.3
+info:
+  title: movie browser
+  description: api to movie browser backend
+  version: 0.0.1
+servers:
+  - url: http://localhost:8080/api
+paths:
+  /details/{movieId}:
+    get:
+      summary: Get movie details by ID
+      operationId: getMovieDetail
+      parameters:
+        - in: path
+          name: movieId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of movie to get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieDetails"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
+  /nowplaying:
+    get:
+      summary: Get currently playing movies
+      operationId: getNowPlaying
+    responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieList"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
+  /popular:
+    get:
+      summary: Get popular movies
+      operationId: getPopular
+    responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieList"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
+components:
+  schemas:
+    Error:
+      properties:
+        message:
+          type: string
+      required:
+        - message
+
+    MoviePreview:
+      type: object
+      properties:
+        poster: 
+          type: string
+        name:
+          type: string
+        id: 
+          type: int32
+        date:
+          type: string
+      required:
+        - poster
+        - name
+        - id
+        - date
+    MovieDetails:
+      type: object
+      properties:
+        preview:
+          $ref: "#/components/schemas/MoviePreview"
+        overview:
+          type: string
+        rating:
+          type: number
+          format: float
+        cast:
+          type: array
+          items:
+            person:
+              type: string
+    MovieList:
+      type: array
+      items:
+        $ref: "#/components/schemas/MoviePreview"
