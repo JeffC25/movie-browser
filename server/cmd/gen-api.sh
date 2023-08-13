@@ -1,0 +1,1 @@
+goapi-gen -o ../app/api.go -p main ../../documentation/openapi.yaml

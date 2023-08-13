@@ -93,7 +93,8 @@ components:
         name:
           type: string
         id: 
-          type: int32
+          type: integer
+          format: int32
         date:
           type: string
       required:
