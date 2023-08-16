@@ -6,6 +6,34 @@ info:
 servers:
   - url: http://localhost:8080/api
 paths:
+  /search?queryString:
+    get:
+      summary: Search for movie 
+      operationId: searchMovie
+      parameters:
+        - in: query
+          name:  queryString
+          schema:
+            type: string
+          required: true
+          description: Query string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieList"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
   /details/{movieId}:
     get:
       summary: Get movie details by ID
@@ -24,6 +52,34 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/MovieDetails"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
+  /reviews/{movieId}:
+    get:
+      summary: Get movie reviews by ID
+      operationId: getMovieReviews
+      parameters:
+        - in: path
+          name: movieId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of movie to get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ReviewList"
         "400":
           description: Bad Request
           content:
@@ -121,3 +177,19 @@ components:
       type: array
       items:
         $ref: "#/components/schemas/MoviePreview"
+    Review:
+      type: object
+      properties:
+        rating: 
+          type: integer
+          format: int32
+        content:
+          type: string
+      required:
+        - rating
+        - content
+    ReviewList: 
+      type: array
+      items:
+        $ref: "#/components/schemas/Review"
+    

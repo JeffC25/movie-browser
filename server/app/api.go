@@ -34,12 +34,30 @@ type MovieDetails struct {
 	Rating   *float32      `json:"rating,omitempty"`
 }
 
+// MovieList defines model for MovieList.
+type MovieList []MoviePreview
+
 // MoviePreview defines model for MoviePreview.
 type MoviePreview struct {
 	Date   string `json:"date"`
 	ID     int32  `json:"id"`
 	Name   string `json:"name"`
 	Poster string `json:"poster"`
+}
+
+// Review defines model for Review.
+type Review struct {
+	Content string `json:"content"`
+	Rating  int32  `json:"rating"`
+}
+
+// ReviewList defines model for ReviewList.
+type ReviewList []Review
+
+// SearchMovieParams defines parameters for SearchMovie.
+type SearchMovieParams struct {
+	// Query string
+	QueryString string `json:"queryString"`
 }
 
 // Response is a common response struct for all the API calls.
@@ -103,6 +121,46 @@ func GetMovieDetailJSON400Response(body Error) *Response {
 	}
 }
 
+// GetMovieReviewsJSON200Response is a constructor method for a GetMovieReviews response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieReviewsJSON200Response(body ReviewList) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// GetMovieReviewsJSON400Response is a constructor method for a GetMovieReviews response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieReviewsJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// SearchMovieJSON200Response is a constructor method for a SearchMovie response.
+// A *Response is returned with the configured status code and content type from the spec.
+func SearchMovieJSON200Response(body MovieList) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// SearchMovieJSON400Response is a constructor method for a SearchMovie response.
+// A *Response is returned with the configured status code and content type from the spec.
+func SearchMovieJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 	// Get movie details by ID
@@ -114,6 +172,12 @@ type ServerInterface interface {
 	// Get popular movies
 	// (GET /popular)
 	GetPopular(w http.ResponseWriter, r *http.Request) *Response
+	// Get movie reviews by ID
+	// (GET /reviews/{movieId})
+	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID int) *Response
+	// Search for movie
+	// (GET /search?queryString)
+	SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -172,6 +236,61 @@ func (siw *ServerInterfaceWrapper) GetPopular(w http.ResponseWriter, r *http.Req
 
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		resp := siw.Handler.GetPopular(w, r)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
+// GetMovieReviews operation middleware
+func (siw *ServerInterfaceWrapper) GetMovieReviews(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// ------------- Path parameter "movieId" -------------
+	var movieID int
+
+	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetMovieReviews(w, r, movieID)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
+// SearchMovie operation middleware
+func (siw *ServerInterfaceWrapper) SearchMovie(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params SearchMovieParams
+
+	// ------------- Required query parameter "queryString" -------------
+
+	if err := runtime.BindQueryParameter("form", true, true, "queryString", r.URL.Query(), &params.QueryString); err != nil {
+		err = fmt.Errorf("invalid format for parameter queryString: %w", err)
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "queryString"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.SearchMovie(w, r, params)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -302,6 +421,8 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 		r.Get("/details/{movieId}", wrapper.GetMovieDetail)
 		r.Get("/nowplaying", wrapper.GetNowPlaying)
 		r.Get("/popular", wrapper.GetPopular)
+		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
+		r.Get("/search?queryString", wrapper.SearchMovie)
 	})
 	return r
 }
@@ -327,17 +448,19 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+xUTW8TMRD9K9aAxGWVTT+Qqj2iIhQBJYJjlcNkd5K4rD86nk0URfvfkb1O07SBXsoF",
-	"cVrLnn1v3rxn76B2xjtLVgJUOwj1igym5Udmx3Hh2Xli0ZS2DYWAS4pL2XqCCoKwtkvo+wKY7jvN1EB1",
-	"+1A46wv46taarklQt+E5ZI1B4lcLmeGYODh7miLvIDNuoS/ArYnXmjYnqgvwTPuzt0wLqOBNeRBcZrVl",
-	"am+aa6MMlAhQ7WDh2KBABYvWocADve3MnPhxQ25+R7XAXuz0wHwstkGhk73q5ohQW7k4PxBqK7SMjAVY",
-	"NKcRvAtC/LIzuS4jJeZi6Gv2TE78V9uFS61TqFl70dEbQK+VOGWiWjVntwnEao71T7IRT7S0EejoHApY",
-	"E4cBYDwaj86ShZ4seg0VXIzORhdQgEdZpWmVzRCacpdwJk0fd5eU8hLHirGbSQMVfCJ5FLMEwmhIiANU",
-	"t0+7v+kMsa7V5Fq5RRYhTkXkKBiq1MN+RlnGJAo7TFK4oyJfmUdTf7Cqn8Xq4J0Ng/fn43HKu7NCNklA",
-	"71tdJxHlXc78AfDFzO6vVLLpWOC3z3G0l6/IODwIJ6g+YKO+031HIeX/8uzqeVom74xCJYTepaL3Q2NP",
-	"iqwQW2zVD+I1sdozFhA6Y5C3g83ZrhwNNd+qyXWqKq3b+Ba3+fL+LiY3bjPNVUcG2a5tn1LVHTNZabcq",
-	"Aw/kIT0Tf9XbLzrIv25s9Mw737XIfzJsmktedCtj/ffoNT2K1y9tDe9oxy1UsBLxVVm2rsZ25YJUV+Or",
-	"cRlf8X7W/woAAP//aio7+lYIAAA=",
+	"H4sIAAAAAAAC/+xWTW/bOBD9K8TsAnsRLOdjgUCXBRYpCqNtmibHwAdaHttMJZIZjmwYhv97wQ9/KXLd",
+	"AOklzcmCOH7zHt/jiCsoTW2NRs0OihW4coa1DI8fiAz5B0vGIrHC8LpG5+QU/SMvLUIBjknpKazXGRA+",
+	"NYpwDMXDtnC4zuCLmSu8Rpaqcs8hS+nY/yrGOi4jOaO7W6Q3kkguYZ2BmSPNFS46qjOwhJu1vwknUMBf",
+	"+U5wntTmgd5tqvUyJHuAYgUTQ7VkKGBSGcmwba+beoS0T8iMHrFk2Ij9rFqaXtK/rfFg/dn2jSVjp3o1",
+	"PpCgNF+c7yQozTj1GjLQsu5GsMYx0mmvU11CCp2zyGvYsUF3R4SURjNq7mTSYckxPS1u6Z/ZFv44pReZ",
+	"dnfELt9f6YkJ1qArSVlWPs0grRJsRO3dFCMyC4ckRrL8jtrvFyuuPM7BOmQwR3IRoN/r985C6C1qaRUU",
+	"cNE7611ABlbyLFDOx/GY5auAMxiv/dspBmF+t6VnMxhDAR+R9w5mACFZIyM5KB7a7G+aGkmVYnAtzCSJ",
+	"YCM8shcMReCwyUCSMfDCdm4wNZilIbNn8866oa921mgXI3He77eSIa2tVBlE5I9pSuwAT56yzRAKNh0K",
+	"/PrJb+3lK3aMI7Sj1f9yLO7wqUEX0nd5dvU8LYN/aiEFo7QmFP0bibWKNCNpWYl7pDmS2HTMwDV1LWkZ",
+	"bU52pWiI0VIMrkNVrs3CVnKZztaxmNyYxW2qOjBIN1XVblU2RKi5WooEHJu7cIp/q7fh+L5xY71n1tim",
+	"kvQzw25TyUm3Eta7R6/sUfxYv2QKx++Je/NjeO9T+0cO4ZSM/SHsUFI5+++pQVrexyvPsbTch9IQmFNJ",
+	"+ebhRLpCpWyEFrtw7Hf8hYBsb3/D9zHxuvGItoqJSZM4EnLhD9HbhiooYMZsizyvTCmrmXFcXPWv+rm/",
+	"Cq6H6x8BAAD//yqUln/NDQAA",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
