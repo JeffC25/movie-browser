@@ -4,7 +4,8 @@ import (
 	"os"
 	"os/signal"
 
-	"server/config"
+	"main/config"
+	"main/log"
 )
 
 func main() {
@@ -19,4 +20,10 @@ func main() {
 	signal.Notify(notifyCh, os.Interrupt)
 
 	c, err := config.GetConfig()
+	if err != nil {
+		os.Exit(1)
+	}
+
+	log := log.Logger(c.LogLevel)
+
 }
