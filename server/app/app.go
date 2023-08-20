@@ -63,7 +63,6 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 		a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
 	}
 
-	more := nowPlaying.Page < nowPlaying.TotalPages
 	var results []MoviePreview
 
 	for i := range nowPlaying.Results {
@@ -77,8 +76,9 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	}
 
 	resp := MovieList{
-		More:    more,
-		Results: results,
+		Page:       int32(nowPlaying.Page),
+		TotalPages: int32(nowPlaying.TotalPages),
+		Results:    results,
 	}
 
 	return GetNowPlayingJSON200Response(resp)

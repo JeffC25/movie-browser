@@ -196,14 +196,19 @@ components:
     MovieList:
       type: object
       properties:
-        more:
-          type: boolean
+        page:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
         results:
           type: array
           items:
             $ref: "#/components/schemas/MoviePreview"
       required:
-        - more
+        - page
+        - totalPages
         - results
     Review:
       type: object
@@ -219,12 +224,17 @@ components:
     ReviewList: 
       type: object
       properties:
-        more:
-          type: boolean
+        page:
+          type: integer
+          format: int32
+        totalPages:
+          type: integer
+          format: int32
         results:
           type: array
           items:
             $ref: "#/components/schemas/Review"
       required:
-        - more
+        - page
+        - totalages
         - results
