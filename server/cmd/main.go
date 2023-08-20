@@ -25,4 +25,10 @@ func main() {
 		listenCh <- app.Run(c, log)
 	}()
 
+	select {
+	case <-notifyCh:
+		log.Info().Msg("recieved interrupt signal")
+	case err = <-listenCh:
+		log.Info().Err(err).Msg("recieved value from http.ListenAndServe()")
+	}
 }
