@@ -6,6 +6,48 @@ info:
 servers:
   - url: http://localhost:8080/api
 paths:
+  /nowplaying:
+    get:
+      summary: Get currently playing movies
+      operationId: getNowPlaying
+      responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/MovieList"
+          "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "418":
+            description: I'm a teapot
+          "500":
+            description: Internal Server Error
+  /popular:
+    get:
+      summary: Get popular movies
+      operationId: getPopular
+      responses:
+          "200":
+            description: OK
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/MovieList"
+          "400":
+            description: Bad Request
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "418":
+            description: I'm a teapot
+          "500":
+            description: Internal Server Error
   /search?queryString:
     get:
       summary: Search for movie 
@@ -80,48 +122,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReviewList"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "418":
-          description: I'm a teapot
-        "500":
-          description: Internal Server Error
-  /nowplaying:
-    get:
-      summary: Get currently playing movies
-      operationId: getNowPlaying
-    responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MovieList"
-        "400":
-          description: Bad Request
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/Error"
-        "418":
-          description: I'm a teapot
-        "500":
-          description: Internal Server Error
-  /popular:
-    get:
-      summary: Get popular movies
-      operationId: getPopular
-    responses:
-        "200":
-          description: OK
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/MovieList"
         "400":
           description: Bad Request
           content:
