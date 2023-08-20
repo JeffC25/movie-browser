@@ -15,10 +15,17 @@ var (
 	ErrInvalidRequest = errors.New("could not validate request")
 )
 
-func Run(c config.Config, log zerolog.Logger) error {
+type App struct {
+	log zerolog.Logger
+	c   config.Config
+}
+
+func (a App) Run(c config.Config, log zerolog.Logger) error {
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
 	})
-	return http.ListenAndServe(":8080", r)
+
+	handler := Handler(a, WithRouter(r), WithServerBaseURL("/api"))
+	return http.ListenAndServe(":8080", handler)
 }
