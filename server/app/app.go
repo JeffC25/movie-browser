@@ -44,7 +44,7 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	}
 
 	req.Header.Add("accept", "application/json")
-	req.Header.Add("Authorization", "Bearer eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJlYTE2N2U2ZDA1NWMwN2Q1MTJiMTNjNmRhY2Q1MDcwYyIsInN1YiI6IjY0ZDUyNmQzZjQ5NWVlMDI5MzUzNjA3YyIsInNjb3BlcyI6WyJhcGlfcmVhZCJdLCJ2ZXJzaW9uIjoxfQ.jlbH8gQdp8Kreq-ltU08E5aOLfxVHLrrajciIUsSTbc")
+	req.Header.Add("Authorization", "Bearer "+a.c.Token)
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {

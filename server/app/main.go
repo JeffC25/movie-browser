@@ -22,7 +22,10 @@ func main() {
 
 	log := log.Logger(c.LogLevel)
 
-	a := App{}
+	a := App{
+		log: log,
+		c:   c,
+	}
 	go func() {
 		listenCh <- a.Run(c, log)
 	}()
