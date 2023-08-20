@@ -1,15 +1,11 @@
 package main
 
 import (
-	"net/http"
-
-	"github.com/go-chi/chi/v5"
+	"errors"
 )
 
-func main() {
-	r := chi.NewRouter()
-	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-		w.Write([]byte("Hello World!"))
-	})
-	http.ListenAndServe(":8080", r)
-}
+var (
+	ErrServer         = errors.New("server error")
+	ErrInvalidJSON    = errors.New("could not decode JSON")
+	ErrInvalidRequest = errors.New("could not validate request")
+)
