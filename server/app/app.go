@@ -56,15 +56,31 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 		a.log.Warn().Err(err).Msg("failed to read tmdb response")
 	}
 
-	var resp = tmdb.NowPlaying{}
-	err = json.Unmarshal(body, &resp)
+	var nowPlaying = tmdb.NowPlaying{}
+	err = json.Unmarshal(body, &nowPlaying)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
 	}
 
-	result := MovieList{}
+	more := nowPlaying.Page < nowPlaying.TotalPages
+	var results []MoviePreview
 
-	return GetNowPlayingJSON200Response(result)
+	for i := range nowPlaying.Results {
+		results = append(results, MoviePreview{
+			Date:   nowPlaying.Results[i].ReleaseDate,
+			ID:     int32(nowPlaying.Results[i].ID),
+			Name:   nowPlaying.Results[i].Title,
+			Poster: nowPlaying.Results[i].PosterPath,
+			Rating: float32(nowPlaying.Results[i].VoteAverage),
+		})
+	}
+
+	resp := MovieList{
+		More:    more,
+		Results: results,
+	}
+
+	return GetNowPlayingJSON200Response(resp)
 }
 
 func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response {
