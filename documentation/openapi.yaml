@@ -10,6 +10,13 @@ paths:
     get:
       summary: Get currently playing movies
       operationId: getNowPlaying
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+          required: true
+          description: page number
       responses:
           "200":
             description: OK
@@ -31,6 +38,13 @@ paths:
     get:
       summary: Get popular movies
       operationId: getPopular
+      parameters:
+        - in: query
+          name: page
+          schema:
+            type: string
+          required: true
+          description: page number
       responses:
           "200":
             description: OK
@@ -140,23 +154,26 @@ components:
           type: string
       required:
         - message
-
     MoviePreview:
       type: object
       properties:
+        id: 
+          type: integer
+          format: int32
         poster: 
           type: string
         name:
           type: string
-        id: 
-          type: integer
-          format: int32
+        rating:
+          type: number
+          format: float
         date:
           type: string
       required:
+        - id
         - poster
         - name
-        - id
+        - rating
         - date
     MovieDetails:
       type: object
@@ -165,9 +182,6 @@ components:
           $ref: "#/components/schemas/MoviePreview"
         overview:
           type: string
-        rating:
-          type: number
-          format: float
         people:
           type: array
           items:
@@ -177,13 +191,20 @@ components:
           type: string
       required:
         - overview
-        - rating
         - people
         - homepage
     MovieList:
-      type: array
-      items:
-        $ref: "#/components/schemas/MoviePreview"
+      type: object
+      properties:
+        more:
+          type: boolean
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/MoviePreview"
+      required:
+        - more
+        - results
     Review:
       type: object
       properties:
@@ -196,7 +217,14 @@ components:
         - rating
         - content
     ReviewList: 
-      type: array
-      items:
-        $ref: "#/components/schemas/Review"
-    
+      type: object
+      properties:
+        more:
+          type: boolean
+        results:
+          type: array
+          items:
+            $ref: "#/components/schemas/Review"
+      required:
+        - more
+        - results

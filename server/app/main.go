@@ -1,10 +1,10 @@
 package main
 
 import (
+	"fmt"
 	"os"
 	"os/signal"
 
-	app "main/app"
 	config "main/config"
 	log "main/log"
 )
@@ -16,12 +16,13 @@ func main() {
 
 	c, err := config.GetConfig()
 	if err != nil {
+		fmt.Println(err)
 		os.Exit(1)
 	}
 
 	log := log.Logger(c.LogLevel)
 
-	a := app.App{}
+	a := App{}
 	go func() {
 		listenCh <- a.Run(c, log)
 	}()
