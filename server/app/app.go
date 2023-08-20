@@ -20,7 +20,7 @@ type App struct {
 	c   config.Config
 }
 
-func (a App) Run(c config.Config, log zerolog.Logger) error {
+func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	r := chi.NewRouter()
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Hello World!"))
@@ -28,4 +28,24 @@ func (a App) Run(c config.Config, log zerolog.Logger) error {
 
 	handler := Handler(a, WithRouter(r), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)
+}
+
+func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request) resp *Response {
+	return nil
+}
+
+func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request) resp *Response {
+	return nil
+}
+
+func (a *App) GetPopular(w http.ResponseWriter, r *http.Request) resp *Response {
+	return nil
+}
+
+func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request) resp *Response {
+	return nil
+}
+
+func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request) resp *Response {
+	return nil
 }

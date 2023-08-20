@@ -21,8 +21,9 @@ func main() {
 
 	log := log.Logger(c.LogLevel)
 
+	a := app.App{}
 	go func() {
-		listenCh <- app.Run(c, log)
+		listenCh <- a.Run(c, log)
 	}()
 
 	select {
