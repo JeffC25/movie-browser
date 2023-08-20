@@ -30,22 +30,22 @@ func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	return http.ListenAndServe(":8080", handler)
 }
 
-func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request) resp *Response {
+func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID int) (resp *Response) {
 	return nil
 }
 
-func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request) resp *Response {
+func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request) (resp *Response) {
 	return nil
 }
 
-func (a *App) GetPopular(w http.ResponseWriter, r *http.Request) resp *Response {
+func (a *App) GetPopular(w http.ResponseWriter, r *http.Request) (resp *Response) {
 	return nil
 }
 
-func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request) resp *Response {
+func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID int) (resp *Response) {
 	return nil
 }
 
-func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request) resp *Response {
+func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) (resp *Response) {
 	return nil
 }
