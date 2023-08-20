@@ -35,7 +35,8 @@ func (a *App) Run(c config.Config, log zerolog.Logger) error {
 }
 
 func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
-	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=1"
+	page := params.Page
+	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
 
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
