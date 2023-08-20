@@ -8,8 +8,9 @@ import (
 )
 
 type Config struct {
-	Key   string `yaml:"apikey"`
-	Token string `yaml:"apitoken"`
+	Key      string `yaml:"apikey"`
+	Token    string `yaml:"apitoken"`
+	LogLevel int    `yaml:"loglevel"`
 }
 
 func GetConfig() (Config, error) {

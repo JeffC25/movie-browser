@@ -4,17 +4,12 @@ import (
 	"os"
 	"os/signal"
 
-	"main/config"
-	"main/log"
+	app "main/app"
+	config "main/config"
+	log "main/log"
 )
 
 func main() {
-	// r := chi.NewRouter()
-	// r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	w.Write([]byte("Hello World!"))
-	// })
-	// http.ListenAndServe(":8080", r)
-
 	notifyCh := make(chan os.Signal, 1)
 	listenCh := make(chan error)
 	signal.Notify(notifyCh, os.Interrupt)
@@ -25,5 +20,9 @@ func main() {
 	}
 
 	log := log.Logger(c.LogLevel)
+
+	go func() {
+		listenCh <- app.Run(c, log)
+	}()
 
 }
