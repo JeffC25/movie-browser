@@ -26,18 +26,25 @@ type Error struct {
 	Message string `json:"message"`
 }
 
-// MovieInfo defines model for MovieInfo.
-type MovieInfo struct {
-	Date     string  `json:"date"`
-	ID       int32   `json:"id"`
-	Name     string  `json:"name"`
-	Overview string  `json:"overview"`
-	Poster   string  `json:"poster"`
-	Rating   float32 `json:"rating"`
+// MovieDetails defines model for MovieDetails.
+type MovieDetails struct {
+	Homepage string        `json:"homepage"`
+	Overview string        `json:"overview"`
+	People   []interface{} `json:"people"`
+	Preview  *MoviePreview `json:"preview,omitempty"`
+	Rating   float32       `json:"rating"`
 }
 
 // MovieList defines model for MovieList.
-type MovieList []MovieInfo
+type MovieList []MoviePreview
+
+// MoviePreview defines model for MoviePreview.
+type MoviePreview struct {
+	Date   string `json:"date"`
+	ID     int32  `json:"id"`
+	Name   string `json:"name"`
+	Poster string `json:"poster"`
+}
 
 // Review defines model for Review.
 type Review struct {
@@ -93,6 +100,26 @@ func (resp *Response) MarshalJSON() ([]byte, error) {
 // This is used to only marshal the body of the response.
 func (resp *Response) MarshalXML(e *xml.Encoder, start xml.StartElement) error {
 	return e.Encode(resp.body)
+}
+
+// GetMovieDetailJSON200Response is a constructor method for a GetMovieDetail response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieDetailJSON200Response(body MovieDetails) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// GetMovieDetailJSON400Response is a constructor method for a GetMovieDetail response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieDetailJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
 }
 
 // GetNowPlayingJSON200Response is a constructor method for a GetNowPlaying response.
@@ -177,6 +204,9 @@ func SearchMovieJSON400Response(body Error) *Response {
 
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
+	// Get movie details by ID
+	// (GET /details/{movieId})
+	GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID int) *Response
 	// Get currently playing movies
 	// (GET /nowplaying)
 	GetNowPlaying(w http.ResponseWriter, r *http.Request) *Response
@@ -195,6 +225,32 @@ type ServerInterface interface {
 type ServerInterfaceWrapper struct {
 	Handler          ServerInterface
 	ErrorHandlerFunc func(w http.ResponseWriter, r *http.Request, err error)
+}
+
+// GetMovieDetail operation middleware
+func (siw *ServerInterfaceWrapper) GetMovieDetail(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// ------------- Path parameter "movieId" -------------
+	var movieID int
+
+	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetMovieDetail(w, r, movieID)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
 }
 
 // GetNowPlaying operation middleware
@@ -403,6 +459,7 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 	}
 
 	r.Route(options.BaseURL, func(r chi.Router) {
+		r.Get("/details/{movieId}", wrapper.GetMovieDetail)
 		r.Get("/nowplaying", wrapper.GetNowPlaying)
 		r.Get("/popular", wrapper.GetPopular)
 		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
@@ -432,18 +489,19 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+xWS2vbThD/Ksv8/9CLsJxHIehSKCnFtE3T5Bh8WEtje1NpdzM7sjHB373sQ/IzaQrp",
-	"qbmtpdHM/B4z60coTWONRs0Oikdw5RwbGY6fiAz5gyVjkVhheNygc3KG/sgri1CAY1J6But1BoQPrSKs",
-	"oLjrA8frDL6ZhcKRnprDfJXkY8kyUJV/PDXUSIYClOazU8i6OKUZZ0g+UMvmeAazQFooXB59aY1jpKOv",
-	"SLI/bVef1kbyprpum4kvvgdZVdAnTn1lEWCfdKurcZ/OTO6xZOiI+qoc++qKsQkc/U84hQL+yzdi5Ump",
-	"fEPtus8nieTK/77BDv8u6aXRjJpfiv4p7vfg9xC79McQxpb+CGJCcYDP11fJVBW6kpRlZbQPsEqwEY3n",
-	"RkzILB2SmMjyJ2ovESuufZ6d95DBAsnFBMPBcHASPGRRS6uggLPByeDM6yt5HlrOtVnaWq4SWzMMiDzN",
-	"0rcxqqCAz8hXZnmdojxdzhrtogqnw+GeGNLaWpXh8/ze+U66kXyRDQKrgZZdOr5/8VDOX7FcXA5HSn2U",
-	"lbjBhxZdUPv85OJQndG7RkjBKK0JQe9jY3tBmpG0rMUt0gJJdBUzcG3TSFpFdkXZEqHmeiWSFlF1F0Jz",
-	"a2xbS3pOn+sU8ibO64uT6N+RhMI0u/wxPBxV6+fECczF+Xdh9kg2yEgOirv9pq7aBkmVYnQpzDTNPhvh",
-	"U/s9AUUY3W4xp+kfVbC9xJhazLZoPth4479ok63V+I/5JIqVnCEmKzG6jGZxKKmcf3hokVa38Yp6yi23",
-	"ITQY5ndO+eHTiXTlJW+EEhtzbFd8gUH6/0DjtzXyuvaIsoqpSVskNuTCB1HblmooYM5sizyvTSnruXFc",
-	"XAwvhrm/utfj9a8AAAD//+kibu/nCgAA",
+	"H4sIAAAAAAAC/+xWTW/bOBD9K8TsAnsRLOdjgUCXBRYpCqNtmibHwAdaHttMJZIZjmwYhv97wQ/LX3LT",
+	"AOmlyU2QRm/mzXsz5ApKU1ujUbODYgWunGEtw+MHIkP+wZKxSKwwvK7ROTlF/8hLi1CAY1J6Cut1BoRP",
+	"jSIcQ/HQBg7XGXwxc4XXyFJV7hhyZmq03ZgZmDnSXOGi86NFY6vwn2KsIzSSM7q7vPRGEsll+J1wA/03",
+	"4QQK+Cvf9iNPzchD9bcp1rOU7BGLFUwM1ZKhgEllJEObQTf1COmoJS2XFqOlkG27MGxhzOgRS4ZNAz8r",
+	"x3tcX1L0Ife970eSjCV3y6HGe7yV5ovzLW+lGaeeeAZa1t0I1jhGet4/KS4hhcxZrKurQXcniJRGM2ru",
+	"rKRDx1N8Dmpr1dvAny7pRaLdnZDL51d6YoI06EpSlpV3OUirBBtRezXFiMzCIYmRLL+j9v1ixX4+YO87",
+	"ZDBHchGg3+v3zsKgWdTSKijgonfWu/DWlDwLJefjOLr5KuAMxmv/doqBmO+29NUMxlDAR+SdYQ8gJGtk",
+	"JAfFw2H1N02NpEoxuBZmkkiwER7ZE4Yi1LDxQKIx8MS2ajA1mKXFtSPzVrqhj3bWaBctcd7vHzhDWlup",
+	"MpDIH9P22AI+O2WbxRZk2if49ZNv7eUrZoxruSPV/3Is7vCpQRfcd3l2deyWwT+1kIJRWhOC/o2FHQRp",
+	"RtKyEvdIcySxyZiBa+pa0jLKnORK1hCjpRhch6hcm4Wt5DLN1imb3JjFbYr63QKFGXxj6pQNEWquliJp",
+	"EfVyUSJrbFNJ+pk+tynkXZzXFye1f0+SeBS/ZMfG08L98Ut25yB9kys2OWN3xTqUVM7+e2qQlvfxQnPK",
+	"LfchNBjmOad883AiXZCSN0KKrTl2M/6CQdq73fB9jbyuPaKsYmLSFokFufBD1LahCgqYMdsizytTympm",
+	"HBdX/at+7i966+H6RwAAAP//riNxiP8NAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

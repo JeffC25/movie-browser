@@ -76,6 +76,34 @@ paths:
           description: I'm a teapot
         "500":
           description: Internal Server Error
+  /details/{movieId}:
+    get:
+      summary: Get movie details by ID
+      operationId: getMovieDetail
+      parameters:
+        - in: path
+          name: movieId
+          schema:
+            type: integer
+          required: true
+          description: Numeric ID of movie to get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MovieDetails"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
   /reviews/{movieId}:
     get:
       summary: Get movie reviews by ID
@@ -113,34 +141,49 @@ components:
       required:
         - message
 
-    MovieInfo:
+    MoviePreview:
       type: object
       properties:
-        id: 
-          type: integer
-          format: int32
         poster: 
           type: string
         name:
           type: string
+        id: 
+          type: integer
+          format: int32
         date:
+          type: string
+      required:
+        - poster
+        - name
+        - id
+        - date
+    MovieDetails:
+      type: object
+      properties:
+        preview:
+          $ref: "#/components/schemas/MoviePreview"
+        overview:
           type: string
         rating:
           type: number
           format: float
-        overview:
+        people:
+          type: array
+          items:
+            person:
+              type: string
+        homepage:
           type: string
       required:
-        - id
-        - poster
-        - name
-        - date
-        - rating
         - overview
+        - rating
+        - people
+        - homepage
     MovieList:
       type: array
       items:
-        $ref: "#/components/schemas/MovieInfo"
+        $ref: "#/components/schemas/MoviePreview"
     Review:
       type: object
       properties:
