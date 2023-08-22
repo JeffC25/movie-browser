@@ -26,10 +26,6 @@ type App struct {
 func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	r := chi.NewRouter()
 
-	// r.Get("/", func(w http.ResponseWriter, r *http.Request) {
-	// 	w.Write([]byte("Hello World!"))
-	// })
-
 	handler := Handler(a, WithRouter(r), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)
 }
