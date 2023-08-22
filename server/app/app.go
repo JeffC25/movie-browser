@@ -34,11 +34,8 @@ func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	return http.ListenAndServe(":8080", handler)
 }
 
-func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
-	page := params.Page
-	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
-
-	req, err := http.NewRequest("GET", url, nil)
+func (a *App) GetTMDB(method string, url string) ([]byte, error) {
+	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("error creating new request")
 	}
@@ -48,13 +45,44 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		a.log.Warn().Err(err).Msg("failed to get request")
+		return nil, err
 	}
 
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		a.log.Warn().Err(err).Msg("failed to read tmdb response")
+		return nil, err
+	}
+
+	return body, err
+}
+
+func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
+	page := params.Page
+	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
+
+	// req, err := http.NewRequest("GET", url, nil)
+	// if err != nil {
+	// 	a.log.Warn().Err(err).Msg("error creating new request")
+	// }
+
+	// req.Header.Add("accept", "application/json")
+	// req.Header.Add("Authorization", "Bearer "+a.c.Token)
+
+	// res, err := http.DefaultClient.Do(req)
+	// if err != nil {
+	// 	a.log.Warn().Err(err).Msg("failed to get request")
+	// }
+
+	// defer res.Body.Close()
+	// body, err := io.ReadAll(res.Body)
+	// if err != nil {
+	// 	a.log.Warn().Err(err).Msg("failed to read tmdb response")
+	// }
+
+	body, err := a.GetTMDB("GET", url)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb request")
 	}
 
 	var nowPlaying = tmdb.NowPlaying{}
