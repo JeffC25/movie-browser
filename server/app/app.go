@@ -61,25 +61,6 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	page := params.Page
 	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
 
-	// req, err := http.NewRequest("GET", url, nil)
-	// if err != nil {
-	// 	a.log.Warn().Err(err).Msg("error creating new request")
-	// }
-
-	// req.Header.Add("accept", "application/json")
-	// req.Header.Add("Authorization", "Bearer "+a.c.Token)
-
-	// res, err := http.DefaultClient.Do(req)
-	// if err != nil {
-	// 	a.log.Warn().Err(err).Msg("failed to get request")
-	// }
-
-	// defer res.Body.Close()
-	// body, err := io.ReadAll(res.Body)
-	// if err != nil {
-	// 	a.log.Warn().Err(err).Msg("failed to read tmdb response")
-	// }
-
 	body, err := a.GetTMDB("GET", url)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb request")
