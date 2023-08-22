@@ -67,7 +67,7 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	page := params.Page
 	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
 
-	var nowPlaying = tmdb.NowPlaying{}
+	var nowPlaying = tmdb.MovieList{}
 	err := a.GetTMDB("GET", url, &nowPlaying)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb request")
@@ -94,7 +94,33 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 }
 
 func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response {
-	return nil
+	page := params.Page
+	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page" + page
+
+	var popular = tmdb.MovieList{}
+	err := a.GetTMDB("GET", url, &popular)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb request")
+	}
+
+	var results []MoviePreview
+	for i := range popular.Results {
+		results = append(results, MoviePreview{
+			Date:   popular.Results[i].ReleaseDate,
+			ID:     int32(popular.Results[i].ID),
+			Name:   popular.Results[i].Title,
+			Poster: popular.Results[i].PosterPath,
+			Rating: float32(popular.Results[i].VoteAverage),
+		})
+	}
+
+	resp := MovieList{
+		Page:       int32(popular.Page),
+		TotalPages: int32(popular.TotalPages),
+		Results:    results,
+	}
+
+	return GetPopularJSON200Response(resp)
 }
 
 func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID int) *Response {

@@ -2,7 +2,7 @@ package tmdb
 
 type Struct interface{}
 
-type NowPlaying struct {
+type MovieList struct {
 	Dates struct {
 		Maximum string `json:"maximum"`
 		Minimum string `json:"minimum"`
