@@ -30,7 +30,7 @@ func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	return http.ListenAndServe(":8080", handler)
 }
 
-func (a *App) GetTMDB(method string, url string) ([]byte, error) {
+func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("error creating new request")
@@ -41,32 +41,42 @@ func (a *App) GetTMDB(method string, url string) ([]byte, error) {
 
 	res, err := http.DefaultClient.Do(req)
 	if err != nil {
-		return nil, err
+		a.log.Warn().Err(err).Msg("failed to fetch tmdb")
+		return err
 	}
 
 	defer res.Body.Close()
 	body, err := io.ReadAll(res.Body)
 	if err != nil {
-		return nil, err
+		a.log.Warn().Err(err).Msg("failed to read tmdb response")
+		return err
 	}
 
-	return body, err
+	err = json.Unmarshal(body, &tmdbStruct)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
+		return err
+	}
+
+	return err
 }
 
 func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
 	page := params.Page
 	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
 
-	body, err := a.GetTMDB("GET", url)
+	var nowPlaying = tmdb.NowPlaying{}
+
+	err := a.GetTMDB("GET", url, &nowPlaying)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb request")
 	}
 
-	var nowPlaying = tmdb.NowPlaying{}
-	err = json.Unmarshal(body, &nowPlaying)
-	if err != nil {
-		a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
-	}
+	// var nowPlaying = tmdb.NowPlaying{}
+	// err = json.Unmarshal(body, &nowPlaying)
+	// if err != nil {
+	// 	a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
+	// }
 
 	var results []MoviePreview
 

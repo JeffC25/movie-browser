@@ -1,5 +1,7 @@
 package tmdb
 
+type Struct interface{}
+
 type NowPlaying struct {
 	Dates struct {
 		Maximum string `json:"maximum"`
