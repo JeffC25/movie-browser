@@ -79,6 +79,9 @@ type GetPopularParams struct {
 type SearchMovieParams struct {
 	// Query string
 	QueryString string `json:"queryString"`
+
+	// page number
+	Page string `json:"page"`
 }
 
 // Response is a common response struct for all the API calls.
@@ -237,7 +240,7 @@ type ServerInterface interface {
 	// (GET /reviews/{movieId})
 	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID int) *Response
 	// Search for movie
-	// (GET /search?queryString)
+	// (GET /search)
 	SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response
 }
 
@@ -369,6 +372,14 @@ func (siw *ServerInterfaceWrapper) SearchMovie(w http.ResponseWriter, r *http.Re
 	if err := runtime.BindQueryParameter("form", true, true, "queryString", r.URL.Query(), &params.QueryString); err != nil {
 		err = fmt.Errorf("invalid format for parameter queryString: %w", err)
 		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "queryString"})
+		return
+	}
+
+	// ------------- Required query parameter "page" -------------
+
+	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
+		err = fmt.Errorf("invalid format for parameter page: %w", err)
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
 		return
 	}
 
@@ -505,7 +516,7 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 		r.Get("/nowplaying", wrapper.GetNowPlaying)
 		r.Get("/popular", wrapper.GetPopular)
 		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
-		r.Get("/search?queryString", wrapper.SearchMovie)
+		r.Get("/search", wrapper.SearchMovie)
 	})
 	return r
 }
@@ -531,20 +542,20 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+xWTYvjRhD9K00lkIuwPDsbGHQJhAnBJNk4M8fFh7ZUtnsjdfdUl2zM4P8e+sOSP+TY",
-	"gWQDu3MTUvWrV69eV+kVStNYo1Gzg+IVXLnCRobHn4gM+QdLxiKxwvC6QefkEv0jby1CAY5J6SXsdhkQ",
-	"vrSKsILiYxc422Xwm1krfESWqnbnkCvToB3GzMCskdYKN4MfLRpbh3OKsYnQSM7oYXrpjSSS23CccA/9",
-	"LeECCvgm7/XIkxh5YD9Nsadldvw6Nllf0KzLaeafsGTYa/GrcnwuxF6EhaFGMhSgNN+/gw5EacYlEgQK",
-	"rq1jz7rSb6/hXAo2LOupXEYiVwmciBCIH4H0DC9qMO3VP5ahkjzsBVXdqI6WzTCCNY6RBj+RZP90mGBR",
-	"G8l9At0284HiVQUdcErdoWWxmCENni5UXxrNqPlWjjd2qOOzh79M6bN78+kzuPKqKf1hpRcmGBBdScqy",
-	"8oMEpFWCjWi8Z8WczMYhibks/0TtO8+K/QiCo++QwRrJRYDxaDy6C7PMopZWQQH3o7vRvbeN5FWoLa/i",
-	"dMxfA86k2vm3Swyd8H2Qns2kggJ+Rj6YpwGEZIOM5KD4eMr+Q9sgqVJMHoVZpCLYCI/sC4YicNgbN5Ux",
-	"qeBQSqYWs7QbDnzZ6z4LylqjXezUu/H4xMrS2lqVoYj8UxrQPeDVybXfHaFNxwX+/ouX9v2/mDFuvoFU",
-	"P8pKPOFLiy5cl/d3D+dumXzXCCkYpTUh6PtI7CRIM5KWtXhGWiOJfcYMXNs0kraxzaldyRpivhWTxxCV",
-	"a7OxtdymYXDJJh/MZpqirrjEXxWR5luyxUuLtO19kS7TVVN06/Y/90SYU1+ZIcqWCDXXW5HaHy3ioius",
-	"sW0t6e8sMU0hb374IvyQOn7kgvhb9U82SVzA7otfJQf/N1/lIknOOFwkDiWVqx/C5X6OV/WSW55DaDDM",
-	"Naf84eFEuvrD8+Mw49sY+R/tEdsqFiZNkUjIhQOxty3VUMCK2RZ5XptS1ivjuHgYP4xz/zu7m+3+CgAA",
-	"///UIzZSSBAAAA==",
+	"H4sIAAAAAAAC/+yWTW/jRgyG/8qALdCLEDmbLRDoWKQojLZbNzkuchhLtD1baWbCoWwYgf97MR+S/CHX",
+	"LtAusLu5yRbFefnyEalXKE1jjUbNDopXcOUKGxkufyYy5C8sGYvECsPfDTonl+gveWsRCnBMSi9ht8uA",
+	"8KVVhBUUH/vA510Gv5u1wgdkqWp3mnJlGrTjOTMwa6S1ws3oTYvG1uE5xdjE1EjO6HF56R9JJLfhccIu",
+	"9feECyjgu3zwI09m5EH9LMUel9nr69VkQ0HP/Zlm/glLhs6L35TjUyM6ExaGGslQgNJ89w76JEozLpEg",
+	"SHBtHXvWl359DadWsGFZz+QyCrko4MiEIPwgyaDwrAezwf1DGyrJ4yyo6kp3tGzGM1jjGGn0Fkn2V/sH",
+	"LGojeThAt818pHhVQZ84Hd1ny2IxYx48nqm+NJpR87Uar+xQr6dLf17SZ2fz8TNQeRFK/7DSCxMARFeS",
+	"sqz8IAFplWAjGs+smJPZOCQxl+VfqH3nWbEfQXBwHzJYI7mYYHIzubkNs8yillZBAXc3tzd3HhvJq1Bb",
+	"XsXpmL+GPNNq5/9dYuiE74P0aqYVFPAL8t48DUlINshIDoqPx+o/tA2SKsX0QZhFKoKN8Jl9wVAEDR24",
+	"qYxpBftWMrWYpd2wx+Xg+3Nw1hrtYqfeTSZHKEtra1WGIvJPaUAPCS9Orm53hDYdFvjHr97a9//hiXHz",
+	"jRz1k6zEI7606MLr8v72/pSW6Q+NkIJRWhOCfozCjoI0I2lZiyekNZLoTszAtU0jaRvbnNqV0BDzrZg+",
+	"hKhcm42t5TYNg3OYfDCbWYq6QIl/VUSabwmLlxZpO3CRXqaLUPTr9n9nIsypbwyIsiVCzfVWpPZHRFyk",
+	"whrb1pL+CYlZCnnj4avgIXX8gIL4WfVvNklcwO6rXyV73zff5CJJZOwvEoeSytVZQp7C7QDJJTr+9PNB",
+	"pNd9fGaEn09dxPWjI3sbT18edhEdsTBpOkVBLjwQ+WmphgJWzLbI89qUsl4Zx8X95H6S+8/k3fPu7wAA",
+	"AP//Zrdx7qAQAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file
