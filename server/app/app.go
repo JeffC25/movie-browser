@@ -30,6 +30,8 @@ func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	return http.ListenAndServe(":8080", handler)
 }
 
+// relies on dev using the correct tmdbStruct for the url
+// not sure if that's good or bad design
 func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
