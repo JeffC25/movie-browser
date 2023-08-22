@@ -66,20 +66,12 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
 
 	var nowPlaying = tmdb.NowPlaying{}
-
 	err := a.GetTMDB("GET", url, &nowPlaying)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb request")
 	}
 
-	// var nowPlaying = tmdb.NowPlaying{}
-	// err = json.Unmarshal(body, &nowPlaying)
-	// if err != nil {
-	// 	a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
-	// }
-
 	var results []MoviePreview
-
 	for i := range nowPlaying.Results {
 		results = append(results, MoviePreview{
 			Date:   nowPlaying.Results[i].ReleaseDate,
