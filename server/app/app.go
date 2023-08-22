@@ -65,7 +65,7 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 
 func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
 	page := params.Page
-	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page" + page
+	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=" + page
 
 	var nowPlaying = tmdb.MovieList{}
 	err := a.GetTMDB("GET", url, &nowPlaying)
@@ -95,7 +95,7 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 
 func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response {
 	page := params.Page
-	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page" + page
+	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page=" + page
 
 	var popular = tmdb.MovieList{}
 	err := a.GetTMDB("GET", url, &popular)
