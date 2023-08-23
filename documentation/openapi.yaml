@@ -34,6 +34,16 @@ paths:
             description: I'm a teapot
           "500":
             description: Internal Server Error
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "502":
+            description: Bad Gateway
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
   /popular:
     get:
       summary: Get popular movies
@@ -62,7 +72,17 @@ paths:
             description: I'm a teapot
           "500":
             description: Internal Server Error
-  /search?queryString:
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+          "502":
+            description: Bad Gateway
+            content:
+              application/json:
+                schema:
+                  $ref: "#/components/schemas/Error"
+  /search:
     get:
       summary: Search for movie 
       operationId: searchMovie
@@ -73,6 +93,12 @@ paths:
             type: string
           required: true
           description: Query string
+        - in: query
+          name: page
+          schema:
+            type: string
+          required: true
+          description: page number
       responses:
         "200":
           description: OK
@@ -90,6 +116,16 @@ paths:
           description: I'm a teapot
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /details/{movieId}:
     get:
       summary: Get movie details by ID
@@ -98,7 +134,7 @@ paths:
         - in: path
           name: movieId
           schema:
-            type: integer
+            type: string
           required: true
           description: Numeric ID of movie to get
       responses:
@@ -118,6 +154,16 @@ paths:
           description: I'm a teapot
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
   /reviews/{movieId}:
     get:
       summary: Get movie reviews by ID
@@ -126,7 +172,7 @@ paths:
         - in: path
           name: movieId
           schema:
-            type: integer
+            type: string
           required: true
           description: Numeric ID of movie to get
       responses:
@@ -146,6 +192,54 @@ paths:
           description: I'm a teapot
         "500":
           description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /cast/{movieId}:
+    get:
+      summary: Get movie cast by ID
+      operationId: getMovieCast
+      parameters:
+        - in: path
+          name: movieId
+          schema:
+            type: string
+          required: true
+          description: Numeric ID of movie to get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Cast"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
 components:
   schemas:
     Error:
@@ -178,21 +272,16 @@ components:
     MovieDetails:
       type: object
       properties:
-        preview:
-          $ref: "#/components/schemas/MoviePreview"
         overview:
           type: string
-        people:
-          type: array
-          items:
-            person:
-              type: string
         homepage:
+          type: string
+        backdrop:
           type: string
       required:
         - overview
-        - people
         - homepage
+        - backdrop
     MovieList:
       type: object
       properties:
@@ -238,3 +327,20 @@ components:
         - page
         - totalages
         - results
+    Person:
+      type: object
+      properties:
+        name:
+          type: string
+        picture:
+          type: string
+        character:
+          type: string
+      required:
+        - name
+        - picture
+        - character
+    Cast:
+      type: array
+      items:
+        $ref: "#/components/schemas/Person"
