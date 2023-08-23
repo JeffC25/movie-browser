@@ -8,6 +8,7 @@ import (
 	"main/config"
 	"main/tmdb"
 	"net/http"
+	"strings"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/rs/zerolog"
@@ -79,7 +80,7 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 			Date:   nowPlaying.Results[i].ReleaseDate,
 			ID:     int32(nowPlaying.Results[i].ID),
 			Name:   nowPlaying.Results[i].Title,
-			Poster: nowPlaying.Results[i].PosterPath,
+			Poster: tmdb.ImagePath + nowPlaying.Results[i].PosterPath,
 			Rating: float32(nowPlaying.Results[i].VoteAverage),
 		})
 	}
@@ -109,7 +110,7 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 			Date:   popular.Results[i].ReleaseDate,
 			ID:     int32(popular.Results[i].ID),
 			Name:   popular.Results[i].Title,
-			Poster: popular.Results[i].PosterPath,
+			Poster: tmdb.ImagePath + popular.Results[i].PosterPath,
 			Rating: float32(popular.Results[i].VoteAverage),
 		})
 	}
@@ -139,7 +140,7 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 			Date:   search.Results[i].ReleaseDate,
 			ID:     int32(search.Results[i].ID),
 			Name:   search.Results[i].Title,
-			Poster: search.Results[i].PosterPath,
+			Poster: tmdb.ImagePath + search.Results[i].PosterPath,
 			Rating: float32(search.Results[i].VoteAverage),
 		})
 	}
@@ -164,22 +165,26 @@ func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID str
 	}
 
 	resp := MovieDetails{
-		Backdrop: details.BackdropPath,
+		Backdrop: tmdb.ImagePath + details.BackdropPath,
+		Date:     details.ReleaseDate,
 		Homepage: details.Homepage,
+		Name:     details.Title,
 		Overview: details.Overview,
+		Poster:   tmdb.ImagePath + details.PosterPath,
+		Rating:   float32(details.VoteAverage),
 	}
 
 	return GetMovieDetailJSON200Response(resp)
 }
 
-func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string, params GetMovieReviewsParams) *Response {
 	reviews := tmdb.ReviewList{}
 
-	url := "https://api.themoviedb.org/3/movie/" + movieID + "/reviews?language=en-US&page=1"
+	url := "https://api.themoviedb.org/3/movie/" + movieID + "/reviews?language=en-US&page=" + params.Page
 	err := a.GetTMDB("GET", url, &reviews)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb reviews request")
-		return GetMovieReviewsJSON502Response(Error{Message: "failed tmmdb request"})
+		return GetMovieReviewsJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
 	var results = []Review{}
@@ -206,6 +211,32 @@ func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID st
 	return GetMovieReviewsJSON200Response(resp)
 }
 
+func (a *App) GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+	videos := tmdb.VideoList{}
+
+	url := "https://api.themoviedb.org/3/movie/" + movieID + "/videos?language=en-US"
+	err := a.GetTMDB("GET", url, &videos)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb videos request")
+		return GetMovieReviewsJSON502Response(Error{Message: "failed tmdb request"})
+	}
+
+	var results = []Video{}
+	for i := range videos.Results {
+		isTrailer := false
+		if strings.Contains(videos.Results[i].Type, "Teaser") || strings.Contains(videos.Results[i].Type, "Trailer") {
+			isTrailer = true
+		}
+		results = append(results, Video{
+			Link:    tmdb.VideoPath + videos.Results[i].Key,
+			Title:   videos.Results[i].Name,
+			Trailer: isTrailer,
+		})
+	}
+
+	return GetMovieVideosJSON200Response(results)
+}
+
 func (a *App) GetMovieCast(w http.ResponseWriter, r *http.Request, movieID string) *Response {
 	credits := tmdb.MovieCredits{}
 
@@ -216,14 +247,14 @@ func (a *App) GetMovieCast(w http.ResponseWriter, r *http.Request, movieID strin
 		return GetMovieCastJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
-	cast := []Person{}
+	results := []Person{}
 	for i := range credits.Cast {
-		cast = append(cast, Person{
+		results = append(results, Person{
 			Name:      credits.Cast[i].Name,
-			Picture:   credits.Cast[i].ProfilePath,
+			Picture:   tmdb.ImagePath + credits.Cast[i].ProfilePath,
 			Character: credits.Cast[i].Character,
 		})
 	}
 
-	return GetMovieCastJSON200Response(cast)
+	return GetMovieCastJSON200Response(results)
 }

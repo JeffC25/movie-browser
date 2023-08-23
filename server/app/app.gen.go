@@ -76,6 +76,16 @@ type ReviewList struct {
 	TotalPages int32    `json:"totalPages"`
 }
 
+// Video defines model for Video.
+type Video struct {
+	Link    string `json:"link"`
+	Title   string `json:"title"`
+	Trailer bool   `json:"trailer"`
+}
+
+// VideoList defines model for VideoList.
+type VideoList []Video
+
 // GetNowPlayingParams defines parameters for GetNowPlaying.
 type GetNowPlayingParams struct {
 	// page number
@@ -84,6 +94,12 @@ type GetNowPlayingParams struct {
 
 // GetPopularParams defines parameters for GetPopular.
 type GetPopularParams struct {
+	// page number
+	Page string `json:"page"`
+}
+
+// GetMovieReviewsParams defines parameters for GetMovieReviews.
+type GetMovieReviewsParams struct {
 	// page number
 	Page string `json:"page"`
 }
@@ -378,6 +394,46 @@ func SearchMovieJSON502Response(body Error) *Response {
 	}
 }
 
+// GetMovieVideosJSON200Response is a constructor method for a GetMovieVideos response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieVideosJSON200Response(body VideoList) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// GetMovieVideosJSON400Response is a constructor method for a GetMovieVideos response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieVideosJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetMovieVideosJSON500Response is a constructor method for a GetMovieVideos response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieVideosJSON500Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
+// GetMovieVideosJSON502Response is a constructor method for a GetMovieVideos response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetMovieVideosJSON502Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        502,
+		contentType: "application/json",
+	}
+}
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 	// Get movie cast by ID
@@ -394,10 +450,13 @@ type ServerInterface interface {
 	GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response
 	// Get movie reviews by ID
 	// (GET /reviews/{movieId})
-	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string) *Response
+	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string, params GetMovieReviewsParams) *Response
 	// Search for movie
 	// (GET /search)
 	SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response
+	// Get movie videos by ID
+	// (GET /videos/{movieId})
+	GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID string) *Response
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -528,8 +587,19 @@ func (siw *ServerInterfaceWrapper) GetMovieReviews(w http.ResponseWriter, r *htt
 		return
 	}
 
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetMovieReviewsParams
+
+	// ------------- Required query parameter "page" -------------
+
+	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
+		err = fmt.Errorf("invalid format for parameter page: %w", err)
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
+		return
+	}
+
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := siw.Handler.GetMovieReviews(w, r, movieID)
+		resp := siw.Handler.GetMovieReviews(w, r, movieID, params)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -567,6 +637,32 @@ func (siw *ServerInterfaceWrapper) SearchMovie(w http.ResponseWriter, r *http.Re
 
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		resp := siw.Handler.SearchMovie(w, r, params)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
+// GetMovieVideos operation middleware
+func (siw *ServerInterfaceWrapper) GetMovieVideos(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// ------------- Path parameter "movieId" -------------
+	var movieID string
+
+	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetMovieVideos(w, r, movieID)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -700,6 +796,7 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 		r.Get("/popular", wrapper.GetPopular)
 		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
 		r.Get("/search", wrapper.SearchMovie)
+		r.Get("/videos/{movieId}", wrapper.GetMovieVideos)
 	})
 	return r
 }
@@ -725,21 +822,22 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

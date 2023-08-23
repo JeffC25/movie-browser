@@ -175,6 +175,12 @@ paths:
             type: string
           required: true
           description: Numeric ID of movie to get
+        - in: query
+          name: page
+          schema:
+            type: string
+          required: true
+          description: page number
       responses:
         "200":
           description: OK
@@ -182,6 +188,44 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/ReviewList"
+        "400":
+          description: Bad Request
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "418":
+          description: I'm a teapot
+        "500":
+          description: Internal Server Error
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+        "502":
+          description: Bad Gateway
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Error"
+  /videos/{movieId}:
+    get:
+      summary: Get movie videos by ID
+      operationId: getMovieVideos
+      parameters:
+        - in: path
+          name: movieId
+          schema:
+            type: string
+          required: true
+          description: Numeric ID of movie to get
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VideoList"
         "400":
           description: Bad Request
           content:
@@ -272,6 +316,15 @@ components:
     MovieDetails:
       type: object
       properties:
+        poster: 
+          type: string
+        name:
+          type: string
+        rating:
+          type: number
+          format: float
+        date:
+          type: string
         overview:
           type: string
         homepage:
@@ -279,6 +332,10 @@ components:
         backdrop:
           type: string
       required:
+        - poster
+        - name
+        - rating
+        - date
         - overview
         - homepage
         - backdrop
@@ -326,6 +383,23 @@ components:
         - page
         - totalPages
         - results
+    Video:
+      type: object
+      properties:
+        title:
+          type: string
+        link:
+          type: string
+        trailer:
+          type: boolean
+      required:
+        - title
+        - link
+        - trailer
+    VideoList:
+      type: array
+      items:
+        $ref: "#/components/schemas/Video"
     Person:
       type: object
       properties:
