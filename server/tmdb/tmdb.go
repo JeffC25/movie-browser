@@ -1,5 +1,7 @@
 package tmdb
 
+import "time"
+
 type Struct interface{}
 
 type MovieList struct {
@@ -105,4 +107,25 @@ type MovieCredits struct {
 		Department         string  `json:"department"`
 		Job                string  `json:"job"`
 	} `json:"crew"`
+}
+
+type ReviewList struct {
+	ID      int `json:"id"`
+	Page    int `json:"page"`
+	Results []struct {
+		Author        string `json:"author"`
+		AuthorDetails struct {
+			Name       string `json:"name"`
+			Username   string `json:"username"`
+			AvatarPath any    `json:"avatar_path"`
+			Rating     any    `json:"rating"`
+		} `json:"author_details"`
+		Content   string    `json:"content"`
+		CreatedAt time.Time `json:"created_at"`
+		ID        string    `json:"id"`
+		UpdatedAt time.Time `json:"updated_at"`
+		URL       string    `json:"url"`
+	} `json:"results"`
+	TotalPages   int `json:"total_pages"`
+	TotalResults int `json:"total_results"`
 }

@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"io"
 	"main/config"
 	"main/tmdb"
@@ -63,10 +64,9 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 }
 
 func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
-	page := params.Page
-	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=" + page
-
 	nowPlaying := tmdb.MovieList{}
+
+	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=" + params.Page
 	err := a.GetTMDB("GET", url, &nowPlaying)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb now-playing request")
@@ -94,10 +94,9 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 }
 
 func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response {
-	page := params.Page
-	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page=" + page
-
 	popular := tmdb.MovieList{}
+
+	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page=" + params.Page
 	err := a.GetTMDB("GET", url, &popular)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb popular request")
@@ -125,11 +124,9 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 }
 
 func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response {
-	page := params.Page
-	query := params.QueryString
-	url := "https://api.themoviedb.org/3/search/movie?query=" + query + "&include_adult=false&language=en-US&page=" + page
-
 	search := tmdb.MovieList{}
+
+	url := "https://api.themoviedb.org/3/search/movie?query=" + params.QueryString + "&include_adult=false&language=en-US&page=" + params.Page
 	err := a.GetTMDB("GET", url, &search)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb search request")
@@ -157,9 +154,9 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 }
 
 func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID string) *Response {
-	url := "https://api.themoviedb.org/3/movie/" + movieID + "?language=en-US"
-
 	details := tmdb.MovieDetails{}
+
+	url := "https://api.themoviedb.org/3/movie/" + movieID + "?language=en-US"
 	err := a.GetTMDB("GET", url, &details)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb details request")
@@ -176,12 +173,43 @@ func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID str
 }
 
 func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string) *Response {
-	return nil
+	reviews := tmdb.ReviewList{}
+
+	url := "https://api.themoviedb.org/3/movie/" + movieID + "/reviews?language=en-US&page=1"
+	err := a.GetTMDB("GET", url, &reviews)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb reviews request")
+		return GetMovieReviewsJSON502Response(Error{Message: "failed tmmdb request"})
+	}
+
+	var results = []Review{}
+	for i := range reviews.Results {
+
+		// This is REALLY jank but going with it for now
+		// TODO: properly unmarshal/assert this
+		rating := fmt.Sprint(reviews.Results[i].AuthorDetails.Rating)
+		if rating == "<nil>" {
+			rating = "none"
+		}
+
+		results = append(results, Review{
+			Content: reviews.Results[i].Content,
+			Rating:  rating,
+		})
+	}
+
+	resp := ReviewList{
+		Page:       int32(reviews.Page),
+		TotalPages: int32(reviews.TotalPages),
+		Results:    results,
+	}
+	return GetMovieReviewsJSON200Response(resp)
 }
 
 func (a *App) GetMovieCast(w http.ResponseWriter, r *http.Request, movieID string) *Response {
-	url := "https://api.themoviedb.org/3/movie/" + string(movieID) + "/credits?language=en-US"
 	credits := tmdb.MovieCredits{}
+
+	url := "https://api.themoviedb.org/3/movie/" + string(movieID) + "/credits?language=en-US"
 	err := a.GetTMDB("GET", url, &credits)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb credits request")

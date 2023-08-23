@@ -303,8 +303,7 @@ components:
       type: object
       properties:
         rating: 
-          type: integer
-          format: int32
+          type: string
         content:
           type: string
       required:
