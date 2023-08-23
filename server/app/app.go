@@ -34,6 +34,7 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("error creating new request")
+		return err
 	}
 
 	req.Header.Add("accept", "application/json")
@@ -65,13 +66,14 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	page := params.Page
 	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=" + page
 
-	var nowPlaying = tmdb.MovieList{}
+	nowPlaying := tmdb.MovieList{}
 	err := a.GetTMDB("GET", url, &nowPlaying)
 	if err != nil {
-		a.log.Warn().Err(err).Msg("failed tmdb request")
+		a.log.Warn().Err(err).Msg("failed tmdb now-playing request")
+		return GetNowPlayingJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
-	var results []MoviePreview
+	results := []MoviePreview{}
 	for i := range nowPlaying.Results {
 		results = append(results, MoviePreview{
 			Date:   nowPlaying.Results[i].ReleaseDate,
@@ -95,13 +97,14 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 	page := params.Page
 	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page=" + page
 
-	var popular = tmdb.MovieList{}
+	popular := tmdb.MovieList{}
 	err := a.GetTMDB("GET", url, &popular)
 	if err != nil {
-		a.log.Warn().Err(err).Msg("failed tmdb request")
+		a.log.Warn().Err(err).Msg("failed tmdb popular request")
+		return GetPopularJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
-	var results []MoviePreview
+	results := []MoviePreview{}
 	for i := range popular.Results {
 		results = append(results, MoviePreview{
 			Date:   popular.Results[i].ReleaseDate,
@@ -121,14 +124,78 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 	return GetPopularJSON200Response(resp)
 }
 
-func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID int) *Response {
-	return nil
-}
-
-func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID int) (resp *Response) {
-	return nil
-}
-
 func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response {
+	page := params.Page
+	query := params.QueryString
+	url := "https://api.themoviedb.org/3/search/movie?query=" + query + "&include_adult=false&language=en-US&page=" + page
+
+	search := tmdb.MovieList{}
+	err := a.GetTMDB("GET", url, &search)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb search request")
+		return SearchMovieJSON502Response(Error{Message: "failed tmdb request"})
+	}
+
+	var results = []MoviePreview{}
+	for i := range search.Results {
+		results = append(results, MoviePreview{
+			Date:   search.Results[i].ReleaseDate,
+			ID:     int32(search.Results[i].ID),
+			Name:   search.Results[i].Title,
+			Poster: search.Results[i].PosterPath,
+			Rating: float32(search.Results[i].VoteAverage),
+		})
+	}
+
+	resp := MovieList{
+		Page:       int32(search.Page),
+		TotalPages: int32(search.TotalPages),
+		Results:    results,
+	}
+
+	return SearchMovieJSON200Response(resp)
+}
+
+func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+	url := "https://api.themoviedb.org/3/movie/" + movieID + "?language=en-US"
+
+	details := tmdb.MovieDetails{}
+	err := a.GetTMDB("GET", url, &details)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb details request")
+		return GetMovieDetailJSON502Response(Error{Message: "failed tmdb request"})
+	}
+
+	resp := MovieDetails{
+		Backdrop: details.BackdropPath,
+		Homepage: details.Homepage,
+		Overview: details.Overview,
+	}
+
+	return GetMovieDetailJSON200Response(resp)
+}
+
+func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string) *Response {
 	return nil
+}
+
+func (a *App) GetMovieCast(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+	url := "https://api.themoviedb.org/3/movie/" + string(movieID) + "/credits?language=en-US"
+	credits := tmdb.MovieCredits{}
+	err := a.GetTMDB("GET", url, &credits)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb credits request")
+		return GetMovieCastJSON502Response(Error{Message: "failed tmdb request"})
+	}
+
+	cast := []Person{}
+	for i := range credits.Cast {
+		cast = append(cast, Person{
+			Name:      credits.Cast[i].Name,
+			Picture:   credits.Cast[i].ProfilePath,
+			Character: credits.Cast[i].Character,
+		})
+	}
+
+	return GetMovieCastJSON200Response(cast)
 }
