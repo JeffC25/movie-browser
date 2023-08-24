@@ -1,1 +1,0 @@
-./../node_modules/openapi-typescript-codegen/bin/index.js --input ../../oapi/openapi.yaml --output ../src/api
