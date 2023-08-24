@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes} from 'react-router-dom'
+import { BrowserRouter, Routes} from 'react-router-dom'
 import NavBar from './components/NavBar'
 
 function App() {

@@ -26,6 +26,7 @@ func main() {
 		log: log,
 		c:   c,
 	}
+
 	go func() {
 		listenCh <- a.Run(c, log)
 	}()
