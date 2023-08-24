@@ -1,2 +1,3 @@
 src/api/** linguist-generated
 *.tsx linguist-language=TypeScript
+*.ts linguist-language=TypeScript
