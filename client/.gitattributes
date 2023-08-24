@@ -1,1 +1,4 @@
 src/api/* linguist-generated
+src/api/core* linguist-generated
+src/api/models* linguist-generated
+src/api/services* linguist-generated
