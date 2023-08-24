@@ -1,8 +1,7 @@
 import { BrowserRouter, Routes} from 'react-router-dom'
-import NavBar from './components/NavBar'
+import NavBar from './components/navigation/NavBar'
 
 function App() {
-
   return (
     <BrowserRouter>
       <NavBar/>
