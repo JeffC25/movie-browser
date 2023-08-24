@@ -1,1 +1,1 @@
-goapi-gen -o ../app/app.gen.go -p main ../../oapi/openapi.yaml
+goapi-gen -o ../app/oapi.go -p main ../../oapi/openapi.yaml
