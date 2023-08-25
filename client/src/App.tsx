@@ -7,7 +7,7 @@ function App() {
   return (
     <BrowserRouter>
       <NavBar/>
-      <div className="flex bg-gray-700 min-h-screen">
+      <div className="flex bg-gray-700 h-screen">
         <Routes>
           <Route path="/" element={<HomePage />} />
           <Route path="/search" element={<Results />} />
