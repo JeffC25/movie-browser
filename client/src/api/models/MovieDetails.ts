@@ -11,5 +11,7 @@ export type MovieDetails = {
     overview: string;
     homepage: string;
     backdrop: string;
+    runtime: number;
+    genres: Array<string>;
 };
 
