@@ -9,5 +9,6 @@ export type MoviePreview = {
     name: string;
     rating: number;
     date: string;
+    overview: string;
 };
 

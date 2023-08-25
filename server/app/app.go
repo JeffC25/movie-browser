@@ -81,11 +81,12 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	results := []MoviePreview{}
 	for i := range nowPlaying.Results {
 		results = append(results, MoviePreview{
-			Date:   nowPlaying.Results[i].ReleaseDate,
-			ID:     nowPlaying.Results[i].ID,
-			Name:   nowPlaying.Results[i].Title,
-			Poster: tmdb.ImagePath + nowPlaying.Results[i].PosterPath,
-			Rating: nowPlaying.Results[i].VoteAverage,
+			Date:     nowPlaying.Results[i].ReleaseDate,
+			ID:       nowPlaying.Results[i].ID,
+			Name:     nowPlaying.Results[i].Title,
+			Poster:   tmdb.ImagePath + nowPlaying.Results[i].PosterPath,
+			Rating:   nowPlaying.Results[i].VoteAverage,
+			Overview: nowPlaying.Results[i].Overview,
 		})
 	}
 
@@ -111,11 +112,12 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 	results := []MoviePreview{}
 	for i := range popular.Results {
 		results = append(results, MoviePreview{
-			Date:   popular.Results[i].ReleaseDate,
-			ID:     popular.Results[i].ID,
-			Name:   popular.Results[i].Title,
-			Poster: tmdb.ImagePath + popular.Results[i].PosterPath,
-			Rating: popular.Results[i].VoteAverage,
+			Date:     popular.Results[i].ReleaseDate,
+			ID:       popular.Results[i].ID,
+			Name:     popular.Results[i].Title,
+			Poster:   tmdb.ImagePath + popular.Results[i].PosterPath,
+			Rating:   popular.Results[i].VoteAverage,
+			Overview: popular.Results[i].Overview,
 		})
 	}
 

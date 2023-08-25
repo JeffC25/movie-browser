@@ -6,7 +6,7 @@ import type { MovieList } from "../api";
 import { DefaultService } from "../api";
 
 // for initial load
-const emptyList = Array(8).fill({id: 0, poster: "", name: "loading", rating: 0, date: ""})
+const emptyList = Array(1).fill({id: 0, poster: "", name: "loading", rating: 0, date: ""})
 
 const HomePage = () => {
     const [nowPlaying, setNowPlaying] = useState<MovieList>({

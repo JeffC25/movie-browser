@@ -14,7 +14,7 @@ type Config struct {
 }
 
 func GetConfig() (Config, error) {
-	f, err := os.ReadFile("../config/config.yaml")
+	f, err := os.ReadFile("./config/config.yaml")
 	if err != nil {
 		return Config{}, fmt.Errorf("unable to read config file: %v", err)
 	}

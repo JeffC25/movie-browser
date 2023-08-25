@@ -306,12 +306,15 @@ components:
           format: double
         date:
           type: string
+        overview:
+          type: string
       required:
         - id
         - poster
         - name
         - rating
         - date
+        - overview
     MovieDetails:
       type: object
       properties:
