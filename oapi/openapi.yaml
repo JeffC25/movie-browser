@@ -331,6 +331,13 @@ components:
           type: string
         backdrop:
           type: string
+        runtime:
+          type: integer
+          format: int32
+        genres:
+          type: array
+          items:
+            type: string
       required:
         - poster
         - name
@@ -339,6 +346,8 @@ components:
         - overview
         - homepage
         - backdrop
+        - runtime
+        - genres
     MovieList:
       type: object
       properties:

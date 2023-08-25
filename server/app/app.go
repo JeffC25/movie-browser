@@ -138,7 +138,7 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 		return SearchMovieJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
-	var results = []MoviePreview{}
+	results := []MoviePreview{}
 	for i := range search.Results {
 		results = append(results, MoviePreview{
 			Date:   search.Results[i].ReleaseDate,
@@ -168,14 +168,21 @@ func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID str
 		return GetMovieDetailJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
+	genres := []string{}
+	for i := range details.Genres {
+		genres = append(genres, details.Genres[i].Name)
+	}
+
 	resp := MovieDetails{
 		Backdrop: tmdb.ImagePath + details.BackdropPath,
 		Date:     details.ReleaseDate,
+		Genres:   genres,
 		Homepage: details.Homepage,
 		Name:     details.Title,
 		Overview: details.Overview,
 		Poster:   tmdb.ImagePath + details.PosterPath,
 		Rating:   float32(details.VoteAverage),
+		Runtime:  int32(details.Runtime),
 	}
 
 	return GetMovieDetailJSON200Response(resp)
