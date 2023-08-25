@@ -1,5 +1,7 @@
-import { BrowserRouter, Routes} from 'react-router-dom'
+import { BrowserRouter, Routes, Route} from 'react-router-dom'
 import NavBar from './components/navigation/NavBar'
+import HomePage from './scenes/HomePage'
+import Results from './scenes/Results'
 
 function App() {
   return (
@@ -7,6 +9,8 @@ function App() {
       <NavBar/>
       <div className="flex bg-gray-700 min-h-screen">
         <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/search" element={<Results />} />
         </Routes>
       </div>
     </BrowserRouter>
