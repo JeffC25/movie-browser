@@ -5,7 +5,9 @@ go 1.20
 require (
 	github.com/discord-gophers/goapi-gen v0.3.0
 	github.com/getkin/kin-openapi v0.118.0
+	github.com/go-chi/chi v1.5.4
 	github.com/go-chi/chi/v5 v5.0.10
+	github.com/go-chi/cors v1.2.1
 	github.com/go-chi/render v1.0.3
 	github.com/rs/zerolog v1.30.0
 	gopkg.in/yaml.v2 v2.4.0

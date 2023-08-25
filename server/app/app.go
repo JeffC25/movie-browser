@@ -10,7 +10,9 @@ import (
 	"net/http"
 	"strings"
 
+	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/cors"
 	"github.com/rs/zerolog"
 )
 
@@ -27,6 +29,8 @@ type App struct {
 
 func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	r := chi.NewRouter()
+	r.Use(middleware.RedirectSlashes)
+	r.Use(cors.Handler(cors.Options{AllowedOrigins: []string{"http://localhost:5173"}}))
 
 	handler := Handler(a, WithRouter(r), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)
