@@ -82,16 +82,16 @@ func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNo
 	for i := range nowPlaying.Results {
 		results = append(results, MoviePreview{
 			Date:   nowPlaying.Results[i].ReleaseDate,
-			ID:     int32(nowPlaying.Results[i].ID),
+			ID:     nowPlaying.Results[i].ID,
 			Name:   nowPlaying.Results[i].Title,
 			Poster: tmdb.ImagePath + nowPlaying.Results[i].PosterPath,
-			Rating: float32(nowPlaying.Results[i].VoteAverage),
+			Rating: nowPlaying.Results[i].VoteAverage,
 		})
 	}
 
 	resp := MovieList{
-		Page:       int32(nowPlaying.Page),
-		TotalPages: int32(nowPlaying.TotalPages),
+		Page:       nowPlaying.Page,
+		TotalPages: nowPlaying.TotalPages,
 		Results:    results,
 	}
 
@@ -112,16 +112,16 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 	for i := range popular.Results {
 		results = append(results, MoviePreview{
 			Date:   popular.Results[i].ReleaseDate,
-			ID:     int32(popular.Results[i].ID),
+			ID:     popular.Results[i].ID,
 			Name:   popular.Results[i].Title,
 			Poster: tmdb.ImagePath + popular.Results[i].PosterPath,
-			Rating: float32(popular.Results[i].VoteAverage),
+			Rating: popular.Results[i].VoteAverage,
 		})
 	}
 
 	resp := MovieList{
-		Page:       int32(popular.Page),
-		TotalPages: int32(popular.TotalPages),
+		Page:       popular.Page,
+		TotalPages: popular.TotalPages,
 		Results:    results,
 	}
 
@@ -142,16 +142,16 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 	for i := range search.Results {
 		results = append(results, MoviePreview{
 			Date:   search.Results[i].ReleaseDate,
-			ID:     int32(search.Results[i].ID),
+			ID:     search.Results[i].ID,
 			Name:   search.Results[i].Title,
 			Poster: tmdb.ImagePath + search.Results[i].PosterPath,
-			Rating: float32(search.Results[i].VoteAverage),
+			Rating: search.Results[i].VoteAverage,
 		})
 	}
 
 	resp := MovieList{
-		Page:       int32(search.Page),
-		TotalPages: int32(search.TotalPages),
+		Page:       search.Page,
+		TotalPages: search.TotalPages,
 		Results:    results,
 	}
 
@@ -181,8 +181,8 @@ func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID str
 		Name:     details.Title,
 		Overview: details.Overview,
 		Poster:   tmdb.ImagePath + details.PosterPath,
-		Rating:   float32(details.VoteAverage),
-		Runtime:  int32(details.Runtime),
+		Rating:   details.VoteAverage,
+		Runtime:  details.Runtime,
 	}
 
 	return GetMovieDetailJSON200Response(resp)
@@ -215,8 +215,8 @@ func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID st
 	}
 
 	resp := ReviewList{
-		Page:       int32(reviews.Page),
-		TotalPages: int32(reviews.TotalPages),
+		Page:       reviews.Page,
+		TotalPages: reviews.TotalPages,
 		Results:    results,
 	}
 	return GetMovieReviewsJSON200Response(resp)
