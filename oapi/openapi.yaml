@@ -129,7 +129,7 @@ paths:
   /details/{movieId}:
     get:
       summary: Get movie details by ID
-      operationId: getMovieDetail
+      operationId: getMovieDetails
       parameters:
         - in: path
           name: movieId

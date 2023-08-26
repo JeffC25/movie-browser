@@ -1,17 +1,17 @@
 import { BrowserRouter, Routes, Route} from 'react-router-dom'
-import NavBar from './components/navigation/NavBar'
+import Details from './scenes/Details'
 import HomePage from './scenes/HomePage'
 import Results from './scenes/Results'
 
 function App() {
   return (
-    <div className="bg-gray-800 min-h-screen">
+    <div>
       <BrowserRouter>
-        <NavBar/>
         <div className="flex">
           <Routes>
             <Route path="/" element={<HomePage />} />
-            <Route path="/search" element={<Results />} />
+            <Route path="/results" element={<Results />} />
+            <Route path="/details/:id" element={<Details />}/>
           </Routes>
         </div>
       </BrowserRouter>

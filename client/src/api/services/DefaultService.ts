@@ -95,7 +95,7 @@ export class DefaultService {
      * @returns MovieDetails OK
      * @throws ApiError
      */
-    public static getMovieDetail(
+    public static getMovieDetails(
         movieId: string,
     ): CancelablePromise<MovieDetails> {
         return __request(OpenAPI, {

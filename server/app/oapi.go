@@ -197,9 +197,9 @@ func GetMovieCastJSON502Response(body Error) *Response {
 	}
 }
 
-// GetMovieDetailJSON200Response is a constructor method for a GetMovieDetail response.
+// GetMovieDetailsJSON200Response is a constructor method for a GetMovieDetails response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetMovieDetailJSON200Response(body MovieDetails) *Response {
+func GetMovieDetailsJSON200Response(body MovieDetails) *Response {
 	return &Response{
 		body:        body,
 		Code:        200,
@@ -207,9 +207,9 @@ func GetMovieDetailJSON200Response(body MovieDetails) *Response {
 	}
 }
 
-// GetMovieDetailJSON400Response is a constructor method for a GetMovieDetail response.
+// GetMovieDetailsJSON400Response is a constructor method for a GetMovieDetails response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetMovieDetailJSON400Response(body Error) *Response {
+func GetMovieDetailsJSON400Response(body Error) *Response {
 	return &Response{
 		body:        body,
 		Code:        400,
@@ -217,9 +217,9 @@ func GetMovieDetailJSON400Response(body Error) *Response {
 	}
 }
 
-// GetMovieDetailJSON500Response is a constructor method for a GetMovieDetail response.
+// GetMovieDetailsJSON500Response is a constructor method for a GetMovieDetails response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetMovieDetailJSON500Response(body Error) *Response {
+func GetMovieDetailsJSON500Response(body Error) *Response {
 	return &Response{
 		body:        body,
 		Code:        500,
@@ -227,9 +227,9 @@ func GetMovieDetailJSON500Response(body Error) *Response {
 	}
 }
 
-// GetMovieDetailJSON502Response is a constructor method for a GetMovieDetail response.
+// GetMovieDetailsJSON502Response is a constructor method for a GetMovieDetails response.
 // A *Response is returned with the configured status code and content type from the spec.
-func GetMovieDetailJSON502Response(body Error) *Response {
+func GetMovieDetailsJSON502Response(body Error) *Response {
 	return &Response{
 		body:        body,
 		Code:        502,
@@ -444,7 +444,7 @@ type ServerInterface interface {
 	GetMovieCast(w http.ResponseWriter, r *http.Request, movieID string) *Response
 	// Get movie details by ID
 	// (GET /details/{movieId})
-	GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID string) *Response
+	GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID string) *Response
 	// Get currently playing movies
 	// (GET /nowplaying)
 	GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response
@@ -494,8 +494,8 @@ func (siw *ServerInterfaceWrapper) GetMovieCast(w http.ResponseWriter, r *http.R
 	handler(w, r.WithContext(ctx))
 }
 
-// GetMovieDetail operation middleware
-func (siw *ServerInterfaceWrapper) GetMovieDetail(w http.ResponseWriter, r *http.Request) {
+// GetMovieDetails operation middleware
+func (siw *ServerInterfaceWrapper) GetMovieDetails(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
 
 	// ------------- Path parameter "movieId" -------------
@@ -507,7 +507,7 @@ func (siw *ServerInterfaceWrapper) GetMovieDetail(w http.ResponseWriter, r *http
 	}
 
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := siw.Handler.GetMovieDetail(w, r, movieID)
+		resp := siw.Handler.GetMovieDetails(w, r, movieID)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -794,7 +794,7 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 
 	r.Route(options.BaseURL, func(r chi.Router) {
 		r.Get("/cast/{movieId}", wrapper.GetMovieCast)
-		r.Get("/details/{movieId}", wrapper.GetMovieDetail)
+		r.Get("/details/{movieId}", wrapper.GetMovieDetails)
 		r.Get("/nowplaying", wrapper.GetNowPlaying)
 		r.Get("/popular", wrapper.GetPopular)
 		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
@@ -837,11 +837,11 @@ var swaggerSpec = []string{
 	"69JLGVZQwHvkcGSF+93PJ9kgIzkoPu4L/9A2SKoUw2thxkk/G+HX9bFCEdyvDocUwbCC7c1gajFLjUVX",
 	"udwHeqzRLnLxZjDYqz1pba3KEEH+KZ0nm/We2qkQY9iY3bj++t0n891/6Cm2OR2ufpGVuMWHFl2g7d3l",
 	"1SEfw58aIQWjtCYY/fwlhA01I2lZizukGZJIht77my+TlveScR4qJwPXNo2kReQzkeaBFqOFGF4Hk7yK",
-	"nd8LGI+94rdO+U5bfKb9RGlPdG8Dr83c1nKR+ow+0j+Y+U2yegZ0f3OL1Owlsh9apMUG7XS3vyKuw818",
-	"hvrkoC5bItRcL0RCOGLuItnW2LaW9BTWN8nkzPSZ6VfCdKJ2h+T44v+SpiS+hrnX0JVkJ15NW+/N53I6",
-	"0b4nFdB23+NQUjntLaS7MBxq6bki+tvDKxKL3UCHr3cri++nds430YmWTsRfjE26iGLNzFSF5iXXUPgX",
-	"y33r78abf/fOlJ/oBRHJXt8P3ipIjbi2VEMBU2Zb5HltSllPjePianA1yKVVsLxf/hsAAP//r0fm9+Uc",
-	"AAA=",
+	"nd8LGF/1it845juxnnE/UdwT3tvEazO3tVykRqMP9Q9mfpOsngHdX90idXuJ7IcWabFBO13ur4jrcDWf",
+	"oT45qMuWCDXXC5EQjpi7SLY1tq0lPYX1TTI5M31m+pUwnajdITm++b+kK4nvYa+iK8lOvJq2XpzP5XSi",
+	"fU8qoO2+x6GkctpbSHdhONTSc0X0t4dXJBa7gQ5f71YW30/tnG+iEy2diL8Ym3QRxZqZqQrNS66h8DfW",
+	"N/9uvPl770z5iV4Qkez1/eCtgtSIa0s1FDBltkWe16aU9dQ4Lq4GV4NcWgXL++W/AQAA//8Ks8Lz5hwA",
+	"AA==",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

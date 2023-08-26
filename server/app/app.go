@@ -160,14 +160,14 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 	return SearchMovieJSON200Response(resp)
 }
 
-func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+func (a *App) GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID string) *Response {
 	details := tmdb.MovieDetails{}
 
 	url := "https://api.themoviedb.org/3/movie/" + movieID + "?language=en-US"
 	err := a.GetTMDB("GET", url, &details)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb details request")
-		return GetMovieDetailJSON502Response(Error{Message: "failed tmdb request"})
+		return GetMovieDetailsJSON502Response(Error{Message: "failed tmdb request"})
 	}
 
 	genres := []string{}
@@ -187,7 +187,7 @@ func (a *App) GetMovieDetail(w http.ResponseWriter, r *http.Request, movieID str
 		Runtime:  details.Runtime,
 	}
 
-	return GetMovieDetailJSON200Response(resp)
+	return GetMovieDetailsJSON200Response(resp)
 }
 
 func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string, params GetMovieReviewsParams) *Response {
