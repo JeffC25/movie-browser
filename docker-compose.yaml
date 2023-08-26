@@ -1,0 +1,18 @@
+version: '1'
+services:
+  server:
+    build:
+      dockerfile: server.Dockerfile
+      context: ./server
+    volumes:
+      - .:/server
+    ports: 
+      - '8080:8080'
+  client:
+    build:
+      dockerfile: client.Dockerfile
+      context: ./client
+    volumes:
+      - .:/client
+    ports: 
+      - '5173:5173'
