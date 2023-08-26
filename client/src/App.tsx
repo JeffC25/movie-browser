@@ -5,15 +5,17 @@ import Results from './scenes/Results'
 
 function App() {
   return (
-    <BrowserRouter>
-      <NavBar/>
-      <div className="flex h-screen object-fill bg-gray-800">
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/search" element={<Results />} />
-        </Routes>
-      </div>
-    </BrowserRouter>
+    <div className="bg-gray-800 min-h-screen">
+      <BrowserRouter>
+        <NavBar/>
+        <div className="flex">
+          <Routes>
+            <Route path="/" element={<HomePage />} />
+            <Route path="/search" element={<Results />} />
+          </Routes>
+        </div>
+      </BrowserRouter>
+    </div>
   )
 }
 
