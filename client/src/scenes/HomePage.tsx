@@ -1,7 +1,5 @@
 import { useEffect, useState } from "react";
 import Carousel from "../components/carousel/Carousel";
-import CarouselWrapper from "../components/carousel/CarouselWrapper";
-// import Divider from "../components/Divider";
 import type { MovieList } from "../api";
 import { DefaultService } from "../api";
 
@@ -43,17 +41,16 @@ const HomePage = () => {
     
 
     return (
-        <CarouselWrapper>
+        <div className="w-full">
             <Carousel
                 title = "Now Playing"
                 movieList = {nowPlaying.results}
             />
-            {/* <Divider/> */}
             <Carousel 
                 title = "Popular"
                 movieList = {popular.results}
             />
-        </CarouselWrapper>
+        </div>
     )
 }
 

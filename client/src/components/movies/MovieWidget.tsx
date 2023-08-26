@@ -16,7 +16,7 @@ const MovieWidget = (movie: MoviePreview) => {
                 </div>
                 <img src= {movie.poster} alt="poster" className="object-fill shadow-md"/>
             </div>    
-            <div className="block">{movie.name}</div>
+            <div className="block font-bold">{movie.name}</div>
         </div>
     )
 }
