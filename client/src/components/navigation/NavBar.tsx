@@ -9,7 +9,7 @@ const NavBar = () => {
                 <SearchButton/>                
             </div>
         </nav>
-      )
-}
+      );
+};
 
 export default NavBar;
