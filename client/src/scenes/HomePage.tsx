@@ -20,6 +20,18 @@ const HomePage = () => {
         results: emptyList,
     });
 
+    const [topRated, setTopRated] = useState<MovieList>({
+        page: 0,
+        totalPages: 0,
+        results: emptyList
+    });
+
+    const [upcoming, setUpcoming] = useState<MovieList>({
+        page: 0,
+        totalPages: 0,
+        results: emptyList,
+    });
+
     useEffect(() => {
         DefaultService.getNowPlaying("1")
         .then((result) => {
@@ -40,6 +52,25 @@ const HomePage = () => {
         })
     }, []);
     
+    useEffect(() => {
+        DefaultService.getTopRated("1")
+        .then((result) => {
+            setTopRated(result);
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        })
+    }, []);
+
+    useEffect(() => {
+        DefaultService.getUpcoming("1")
+        .then((result) => {
+            setUpcoming(result);
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        })
+    }, []);
 
     return (
         <Layout>
@@ -48,8 +79,16 @@ const HomePage = () => {
                 movieList = {nowPlaying.results}
             />
             <Carousel 
-                title = "Popular"
+                title = "Trending"
                 movieList = {popular.results}
+            />
+            <Carousel 
+                title = "Upcoming"
+                movieList = {upcoming.results}
+            />
+            <Carousel
+                title = "Top Rated"
+                movieList = {topRated.results}
             />
         </Layout>
     )

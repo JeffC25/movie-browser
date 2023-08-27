@@ -116,6 +116,18 @@ type SearchMovieParams struct {
 	Page string `json:"page"`
 }
 
+// GetTopRatedParams defines parameters for GetTopRated.
+type GetTopRatedParams struct {
+	// page number
+	Page string `json:"page"`
+}
+
+// GetUpcomingParams defines parameters for GetUpcoming.
+type GetUpcomingParams struct {
+	// page number
+	Page string `json:"page"`
+}
+
 // Response is a common response struct for all the API calls.
 // A Response object may be instantiated via functions for specific operation responses.
 // It may also be instantiated directly, for the purpose of responding with a single status code.
@@ -397,6 +409,86 @@ func SearchMovieJSON502Response(body Error) *Response {
 	}
 }
 
+// GetTopRatedJSON200Response is a constructor method for a GetTopRated response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTopRatedJSON200Response(body MovieList) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// GetTopRatedJSON400Response is a constructor method for a GetTopRated response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTopRatedJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetTopRatedJSON500Response is a constructor method for a GetTopRated response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTopRatedJSON500Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
+// GetTopRatedJSON502Response is a constructor method for a GetTopRated response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetTopRatedJSON502Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        502,
+		contentType: "application/json",
+	}
+}
+
+// GetUpcomingJSON200Response is a constructor method for a GetUpcoming response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetUpcomingJSON200Response(body MovieList) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// GetUpcomingJSON400Response is a constructor method for a GetUpcoming response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetUpcomingJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetUpcomingJSON500Response is a constructor method for a GetUpcoming response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetUpcomingJSON500Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
+// GetUpcomingJSON502Response is a constructor method for a GetUpcoming response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetUpcomingJSON502Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        502,
+		contentType: "application/json",
+	}
+}
+
 // GetMovieVideosJSON200Response is a constructor method for a GetMovieVideos response.
 // A *Response is returned with the configured status code and content type from the spec.
 func GetMovieVideosJSON200Response(body VideoList) *Response {
@@ -457,6 +549,12 @@ type ServerInterface interface {
 	// Search for movie
 	// (GET /search)
 	SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response
+	// Get top rated movies
+	// (GET /toprated)
+	GetTopRated(w http.ResponseWriter, r *http.Request, params GetTopRatedParams) *Response
+	// Get upcoming movies
+	// (GET /upcoming)
+	GetUpcoming(w http.ResponseWriter, r *http.Request, params GetUpcomingParams) *Response
 	// Get movie videos by ID
 	// (GET /videos/{movieId})
 	GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID string) *Response
@@ -652,6 +750,64 @@ func (siw *ServerInterfaceWrapper) SearchMovie(w http.ResponseWriter, r *http.Re
 	handler(w, r.WithContext(ctx))
 }
 
+// GetTopRated operation middleware
+func (siw *ServerInterfaceWrapper) GetTopRated(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetTopRatedParams
+
+	// ------------- Required query parameter "page" -------------
+
+	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
+		err = fmt.Errorf("invalid format for parameter page: %w", err)
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetTopRated(w, r, params)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
+// GetUpcoming operation middleware
+func (siw *ServerInterfaceWrapper) GetUpcoming(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetUpcomingParams
+
+	// ------------- Required query parameter "page" -------------
+
+	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
+		err = fmt.Errorf("invalid format for parameter page: %w", err)
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetUpcoming(w, r, params)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
 // GetMovieVideos operation middleware
 func (siw *ServerInterfaceWrapper) GetMovieVideos(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -799,6 +955,8 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 		r.Get("/popular", wrapper.GetPopular)
 		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
 		r.Get("/search", wrapper.SearchMovie)
+		r.Get("/toprated", wrapper.GetTopRated)
+		r.Get("/upcoming", wrapper.GetUpcoming)
 		r.Get("/videos/{movieId}", wrapper.GetMovieVideos)
 	})
 	return r
@@ -825,23 +983,23 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+yY32/bNhDH/xXiNmAvQuS0HRDocctQGNu6LAH2UuSBls42W4lkjicbRuD/feAP/5YS",
-	"B9jauPWTZfPI+97xc+TJj1CaxhqNmh0Uj+DKKTYyPP4qHftPxdiEH34kHEMBP+SbKXmyz2+QnNGwzIAX",
-	"FqEASSQX/vtvRIb8dEvGIrHCsFiDzskJ+sc0wzEpPYHlMgPCh1YRVlB8XBveLzP408wUXiNLVbvDJUey",
-	"/FyRsR1rZlBJxs6BCWqK89eBHtjsxzQ1Ddpu9Rlo2XQPmBnSTOG8c9Aax0idQyTZPxWPMDbUSIYCKtOO",
-	"aoS1Mt02I6Rg3GpWOwKUZpz4wb3EJo9J8NpNStWW3K14s02SN67WObxf6zGjT1gyrLbsDxVR2t2vvQyu",
-	"dXqZrq3ZHU1fcHJDGOR27BcblvWNnKA7Ji8x0K05G0G9Ea6cHwTZy52qumP/mvjsZUJVkB2PSVdu0rFw",
-	"kJVyKkmWfYp7U2BVyS0dcWgkrSv7bMthl8zbns0rjWbU/Exan5ayztdqsX4B/3eZ3H6dAvlHVWgO46qV",
-	"/tx92iquu/efSap6B5qRMTVKfaAxrpFFJ5uJvfJWqT8qjzGggzR6DUqPQ6gVupKUZeXpB2mVYCMaf1KI",
-	"EZm5QxL+JEXtSywFDDvjkMEMycUFBheDi8twCFjU0ioo4O3F5cVbz7jkaVCcl9Jx/hgWGVZL/9MEQ1A+",
-	"69JLGVZQwHvkcGSF+93PJ9kgIzkoPu4L/9A2SKoUw2thxkk/G+HX9bFCEdyvDocUwbCC7c1gajFLjUVX",
-	"udwHeqzRLnLxZjDYqz1pba3KEEH+KZ0nm/We2qkQY9iY3bj++t0n891/6Cm2OR2ufpGVuMWHFl2g7d3l",
-	"1SEfw58aIQWjtCYY/fwlhA01I2lZizukGZJIht77my+TlveScR4qJwPXNo2kReQzkeaBFqOFGF4Hk7yK",
-	"nd8LGF/1it845juxnnE/UdwT3tvEazO3tVykRqMP9Q9mfpOsngHdX90idXuJ7IcWabFBO13ur4jrcDWf",
-	"oT45qMuWCDXXC5EQjpi7SLY1tq0lPYX1TTI5M31m+pUwnajdITm++b+kK4nvYa+iK8lOvJq2XpzP5XSi",
-	"fU8qoO2+x6GkctpbSHdhONTSc0X0t4dXJBa7gQ5f71YW30/tnG+iEy2diL8Ym3QRxZqZqQrNS66h8DfW",
-	"N/9uvPl770z5iV4Qkez1/eCtgtSIa0s1FDBltkWe16aU9dQ4Lq4GV4NcWgXL++W/AQAA//8Ks8Lz5hwA",
-	"AA==",
+	"H4sIAAAAAAAC/+yZTW/jNhPHvwrB5wF6ESJndwsEOrYpFkbbrZu0vSxyoKWxzV2JZIYjG0bg717wRbZl",
+	"S4kDtLv2VqfI5pDzn+FvyFH8xHNdGa1AkeXZE7f5AirhH38UltxfSVD5L/6PMOMZ/1+6m5JG+3QCaLXi",
+	"m4TT2gDPuEAUa/f5J0SNbrpBbQBJgl+sAmvFHNxjnGEJpZrzzSbhCI+1RCh49nFr+LBJ+K96KeEWSMjS",
+	"Hi85FfnnArXpWDPhhSDoHJiDwjB/G+iRzWFMC12B6VafcCWq7gG9BFxKWHUOGm0JsHMIBbmn7InPNFaC",
+	"eMYLXU9L4Ftlqq6mgN64ViRbAqQimLvBg8RGj1Hw1k1M1Z7cvXiTXZJ3rrY5fNjq0dNPkBNvtuwXGVBq",
+	"79dBBrc6nUxbl2RPps87mSB4uR37RZpEORFzsKfkJQS6N2cnqDfCxvlRkL3cyaI79q+Jz0EmZMGT0zHp",
+	"yk08Fo6yki8EirxPcW8KjMypxhMOjai1sU/2HHbJvOvZvFwrAkUvpPV5Kdt8NYv1C/i3y+Tu6xTIX7IA",
+	"fRxXKdXn7tNWUtm9/4RCli1oplqXINSRxrBGEpzsJvbKa1J/Uh5DQEdpdBqkmvlQC7A5SkPS0c+FkYw0",
+	"q9xJwaaoVxaQuZMUlCuxGDBvjfOELwFtWGB0Nbq69oeAASWM5Bl/e3V99dYxLmjhFae5sJQ++UXGxcZ9",
+	"NQcflMu6cFLGBc/4eyB/ZPn73c1HUQEBWp59PBT+oa4AZc7Gt0zPon7SzK3rYuWZd98cDjGCccH3N4Ow",
+	"hiQ2Fl3l8uDpMVrZwMWb0eig9oQxpcx9BOmneJ7s1ntup3yMfmPacf32s0vmu3/QU2hzOlz9IAp2B481",
+	"WE/bu+ubYz7G31VMMAJhtDf6/ksIGysCVKJk94BLQBYNnfc3XyYt7wXByldOwm1dVQLXgc9ImgOaTdds",
+	"fOtN0iJ0fq9gvOkVv3HMW7EOuF8o7hHvfeKVXplSrGOj0Yf6B72aRKsXQHdXN4vdXiT7sQZc79COl/sZ",
+	"ce2v5gHqi4M6rxFBUblmEeGAuQ1kG23qUuBzWE+iycD0wPSZMB2pbZEc3vxf05WE97Cz6EqSC6+mvRfn",
+	"oZwutO+JBbTf91gQmC96C+neD/taeqmIfnfwsshiN9D+431j8d+pneEmutDSCfizmY4XUagZ0gYFQfHc",
+	"9fOHNnfeZuipBpLP5BIgbZgHt9VV1SbX1QvvvX82NgPNA81nQnPDbQvmpSxAv+YNwf/C8M3/23L3y8sA",
+	"+oX27oHsbevurLzUgGuNJc/4gshkaVrqXJQLbSm7Gd2MUmEk3zxs/g4AAP//dm0Q94EiAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

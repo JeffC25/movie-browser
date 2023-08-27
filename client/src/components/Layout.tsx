@@ -8,8 +8,10 @@ interface Props {
 const Layout = ({children}: Props) => {
     return (
         <div className="bg-gray-800 h-max min-h-screen w-full overflow-auto">
-            <div className="fixed w-full h-20 backdrop:blur-sm z-50">
+            <div className="fixed h-20 w-full z-50">
+                
                 <NavBar />
+                {/* <div className="absolute inset-x-0 top-4 w-[calc(33%)] h-12 rounded-full mx-auto bg-red-500 z-40"></div> */}
             </div>
             <div className="mt-20">
                 {children}

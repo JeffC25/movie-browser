@@ -130,6 +130,68 @@ func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopul
 	return GetPopularJSON200Response(resp)
 }
 
+func (a *App) GetTopRated(w http.ResponseWriter, r *http.Request, params GetTopRatedParams) *Response {
+	toprated := tmdb.MovieList{}
+
+	url := "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=" + params.Page
+	err := a.GetTMDB("GET", url, &toprated)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb toprated request")
+		return GetTopRatedJSON502Response(Error{Message: "failed tmdb request"})
+	}
+
+	results := []MoviePreview{}
+	for i := range toprated.Results {
+		results = append(results, MoviePreview{
+			Date:     toprated.Results[i].ReleaseDate,
+			ID:       toprated.Results[i].ID,
+			Name:     toprated.Results[i].Title,
+			Poster:   tmdb.ImagePath + toprated.Results[i].PosterPath,
+			Rating:   toprated.Results[i].VoteAverage,
+			Overview: toprated.Results[i].Overview,
+		})
+	}
+
+	resp := MovieList{
+		Page:       toprated.Page,
+		TotalPages: toprated.TotalPages,
+		Results:    results,
+	}
+
+	return GetTopRatedJSON200Response(resp)
+}
+
+func (a *App) GetUpcoming(w http.ResponseWriter, r *http.Request, params GetUpcomingParams) *Response {
+	upcoming := tmdb.MovieList{}
+
+	url := "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=" + params.Page
+	err := a.GetTMDB("GET", url, &upcoming)
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed tmdb upcoming request")
+		return GetUpcomingJSON502Response(Error{Message: "failed tmdb request"})
+	}
+
+	results := []MoviePreview{}
+	for i := range upcoming.Results {
+		results = append(results, MoviePreview{
+			Date:     upcoming.Results[i].ReleaseDate,
+			ID:       upcoming.Results[i].ID,
+			Name:     upcoming.Results[i].Title,
+			Poster:   tmdb.ImagePath + upcoming.Results[i].PosterPath,
+			Rating:   upcoming.Results[i].VoteAverage,
+			Overview: upcoming.Results[i].Overview,
+		})
+	}
+
+	resp := MovieList{
+		Page:       upcoming.Page,
+		TotalPages: upcoming.TotalPages,
+		Results:    results,
+	}
+
+	return GetUpcomingJSON200Response(resp)
+}
+
 func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response {
 	search := tmdb.MovieList{}
 
