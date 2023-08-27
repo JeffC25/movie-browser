@@ -1,11 +1,16 @@
+import { useLocation } from "react-router-dom";
 import Layout from "../components/Layout";
-import MovieResults from "../components/movies/MovieResults";
+import SearchResults from "../components/movies/SearchResults";
+import CategoryResults from "../components/movies/CategoryResults";
 
 const Results = () => {
-    
+    const location = useLocation();
+    const path = location.pathname;
+    const params = new URLSearchParams(location.search);
+
     return (
         <Layout>
-            <MovieResults/>
+            {path == "/search" ? <SearchResults query={params.get("query")!} page={params.get("page")!} /> : <CategoryResults/>}
         </Layout>
     )
 }

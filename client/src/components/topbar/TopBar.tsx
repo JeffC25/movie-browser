@@ -2,7 +2,7 @@
 // import SearchButton from "./SearchButton";
 import SearchBar from "./SearchBar";
 
-const NavBar = () => {
+const TopBar = () => {
     return (
         <nav className="flex bg-transparent w-full h-20 items-center">
             <div className="flex items-center justify-center align-middle h-full w-full ">
@@ -12,4 +12,4 @@ const NavBar = () => {
       );
 };
 
-export default NavBar;
+export default TopBar;

@@ -15,7 +15,7 @@ const Carousel = ( {title, category, method }: Props) => {
     const [movieList, setMovieList] = useState<MovieList>({
         page: 0,
         totalPages: 0,
-        results: Array(8).fill({id: 0, poster: "", name: "loading", rating: 0, date: ""}),
+        results: [],
     });
 
     useEffect(() => {
