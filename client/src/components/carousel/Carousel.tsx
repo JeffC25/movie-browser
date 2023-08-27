@@ -1,14 +1,33 @@
-// import { type ReactNode } from "react";
-import { MoviePreview } from "../../api";
+import { useState } from "react";
+import { useEffect } from "react";
+import { CancelablePromise } from "../../api";
+import { MovieList } from "../../api";
 import MovieWidget from "../movies/MovieWidget";
+
 interface Props {
     title: string
-    movieList: MoviePreview[];
+    method: (page: string) => CancelablePromise<MovieList>;
 }
 
-const Carousel = ( {title, movieList }: Props) => {
+const Carousel = ( {title, method }: Props) => {
     
-    const movies = (movieList.map(MovieWidget));
+    const [movieList, setMovieList] = useState<MovieList>({
+        page: 0,
+        totalPages: 0,
+        results: Array(8).fill({id: 0, poster: "", name: "loading", rating: 0, date: ""}),
+    });
+
+    useEffect(() => {
+        method("1")
+        .then((result) => {
+            setMovieList(result);
+        })
+        .catch((error) => {
+            console.error('Error: ', error);
+        })
+    }, );
+
+    const movies = (movieList.results.map(MovieWidget));
 
     return (
         <div className="block w-4/5 mx-auto my-8">
