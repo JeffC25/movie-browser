@@ -195,7 +195,7 @@ func (a *App) GetUpcoming(w http.ResponseWriter, r *http.Request, params GetUpco
 func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response {
 	search := tmdb.MovieList{}
 
-	url := "https://api.themoviedb.org/3/search/movie?query=" + params.QueryString + "&include_adult=false&language=en-US&page=" + params.Page
+	url := "https://api.themoviedb.org/3/search/movie?query=" + strings.ReplaceAll(params.QueryString, " ", "%20") + "&include_adult=false&language=en-US&page=" + params.Page
 	err := a.GetTMDB("GET", url, &search)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb search request")
@@ -205,11 +205,12 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 	results := []MoviePreview{}
 	for i := range search.Results {
 		results = append(results, MoviePreview{
-			Date:   search.Results[i].ReleaseDate,
-			ID:     search.Results[i].ID,
-			Name:   search.Results[i].Title,
-			Poster: tmdb.ImagePath + search.Results[i].PosterPath,
-			Rating: search.Results[i].VoteAverage,
+			Date:     search.Results[i].ReleaseDate,
+			ID:       search.Results[i].ID,
+			Name:     search.Results[i].Title,
+			Overview: search.Results[i].Overview,
+			Poster:   tmdb.ImagePath + search.Results[i].PosterPath,
+			Rating:   search.Results[i].VoteAverage,
 		})
 	}
 

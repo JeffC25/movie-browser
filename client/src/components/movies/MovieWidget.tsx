@@ -3,7 +3,7 @@ import type { MoviePreview } from "../../api";
 
 const MovieWidget = (movie: MoviePreview) => {    
     return (
-        <div className="w-52 h-full my-auto shrink-0 text-gray-400 overflow-y-clip snap-start">
+        <div className="w-52 h-full my-auto shrink-0 text-gray-400">
             <div className="aspect-[2/3] bg-gray-400 flex relative ">
                 <div className="absolute h-full w-full
                     text-white whitespace-pre-line p-2
