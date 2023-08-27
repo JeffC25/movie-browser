@@ -29,7 +29,7 @@ const SideBar = () => {
 
     return (
         <div className="flex bg-gray-900 shadow fixed top-0 h-screen px-2 pt-4">
-            <div className={` ${open ? "w-40" : "w-8"} duration-100`}>
+            <div className={` ${open ? "w-40" : "w-10"} duration-100`}>
                 <img onClick={handleClick} src={menuIcon} className="h-8"/>
                 <ul>
                     {Menus.map((menu, index) => (

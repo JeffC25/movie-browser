@@ -4,23 +4,23 @@ import searchIcon from "../../assets/search.svg"
 import { useLocation } from "react-router-dom";
 
 const SearchBar = () => {
-    const navigate = useNavigate();
-    const [query, setQuery] = useState("");
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-        e.preventDefault();
-        if (query) {
-            navigate("/search?query=" + query.replace(" ", "%20") + "&page=1", { state: {query: query, page: "1"}, replace: true });
-        }
-    }
-
     const location = useLocation();
     const params = new URLSearchParams(location.search);
+
+    const navigate = useNavigate();
+    const [search, setSearch] = useState(params.get("query") ?? "");
+    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+        e.preventDefault();
+        if (search) {
+            navigate("/search?query=" + search.replace(" ", "%20") + "&page=1", { state: {query: search, page: "1"}, replace: true });
+        }
+    }
 
     return (
         <form onSubmit={handleSubmit} className="flex items-center justify-center align-middle h-full w-full ">
             <input 
-                value={params.get(query)! || query}
-                onChange={(e) => setQuery(e.target.value)}
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
                 type="text" 
                 placeholder="Search" 
                 className="
