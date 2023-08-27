@@ -37,7 +37,7 @@ const Results = () => {
     const movies = (searchResults.results.map(MovieWidget))
 
     return (
-        <div>{...movies}</div>
+        <div className="flex">{...movies}</div>
     )
 }
 

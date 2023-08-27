@@ -25,7 +25,9 @@ const Carousel = ( {title, method }: Props) => {
         .catch((error) => {
             console.error('Error: ', error);
         })
-    }, );
+        
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
 
     const movies = (movieList.results.map(MovieWidget));
 
