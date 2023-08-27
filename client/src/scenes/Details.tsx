@@ -3,6 +3,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import type { MovieDetails } from "../api";
 import { DefaultService } from "../api";
+import Layout from "../components/Layout";
 
 const Details = () => {
     const [details, setDetails] = useState<MovieDetails>({} as MovieDetails);
@@ -20,9 +21,9 @@ const Details = () => {
     }, []);
 
     return (
-    <div>
-        <div> {details.name} </div>
-    </div>
+        <Layout>
+            <div> {details.name} </div>
+        </Layout>
     );
 };
 

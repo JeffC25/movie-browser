@@ -35,7 +35,7 @@ const Carousel = ( {title, method }: Props) => {
         <div className="block w-4/5 mx-auto my-8">
             <div className="text-left text-white my-2">{title}</div>
 
-            <div className="overflow-x-scroll w-full h-96 mx-auto flex space-x-2 snap-x-proximity">
+            <div className="overflow-x-scroll w-full h-96 mx-auto flex space-x-2">
                 {...movies}
             </div>
         </div>
