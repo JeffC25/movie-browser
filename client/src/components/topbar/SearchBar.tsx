@@ -1,6 +1,7 @@
 import { useNavigate } from "react-router-dom";
 import { useState } from "react";
 import searchIcon from "../../assets/search.svg"
+import { useLocation } from "react-router-dom";
 
 const SearchBar = () => {
     const navigate = useNavigate();
@@ -12,10 +13,13 @@ const SearchBar = () => {
         }
     }
 
+    const location = useLocation();
+    const params = new URLSearchParams(location.search);
+
     return (
         <form onSubmit={handleSubmit} className="flex items-center justify-center align-middle h-full w-full ">
             <input 
-                value={query}
+                value={params.get(query)! || query}
                 onChange={(e) => setQuery(e.target.value)}
                 type="text" 
                 placeholder="Search" 
@@ -26,7 +30,7 @@ const SearchBar = () => {
                     focus:outline-none" 
             />
             <button className="h-12 w-16 rounded-r-full bg-gray-900 ">
-                <img src={searchIcon} className="w-12 h-6 fill-gray-400"/>
+                <img src={searchIcon} className="w-12 h-6"/>
             </button>          
         </form>
     )
