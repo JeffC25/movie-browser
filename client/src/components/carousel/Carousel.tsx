@@ -6,10 +6,11 @@ import MovieWidget from "../movies/MovieWidget";
 
 interface Props {
     title: string
-    method: (page: string) => CancelablePromise<MovieList>;
+    category: string
+    method: (tmdbCategory: string, page: string) => CancelablePromise<MovieList>;
 }
 
-const Carousel = ( {title, method }: Props) => {
+const Carousel = ( {title, category, method }: Props) => {
     
     const [movieList, setMovieList] = useState<MovieList>({
         page: 0,
@@ -18,7 +19,7 @@ const Carousel = ( {title, method }: Props) => {
     });
 
     useEffect(() => {
-        method("1")
+        method(category, "1")
         .then((result) => {
             setMovieList(result);
         })

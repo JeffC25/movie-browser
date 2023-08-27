@@ -68,128 +68,35 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 	return err
 }
 
-func (a *App) GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response {
-	nowPlaying := tmdb.MovieList{}
+func (a *App) GetCategory(w http.ResponseWriter, r *http.Request, category string, params GetCategoryParams) *Response {
+	movieList := tmdb.MovieList{}
 
-	url := "https://api.themoviedb.org/3/movie/now_playing?language=en-US&page=" + params.Page
-	err := a.GetTMDB("GET", url, &nowPlaying)
+	url := "https://api.themoviedb.org/3/movie/" + category + "?language=en-US&page=" + params.Page
+	err := a.GetTMDB("GET", url, &movieList)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb now-playing request")
-		return GetNowPlayingJSON502Response(Error{Message: "failed tmdb request"})
+		return GetCategoryJSON500Response(Error{Message: "failed tmdb request"})
 	}
 
 	results := []MoviePreview{}
-	for i := range nowPlaying.Results {
+	for i := range movieList.Results {
 		results = append(results, MoviePreview{
-			Date:     nowPlaying.Results[i].ReleaseDate,
-			ID:       nowPlaying.Results[i].ID,
-			Name:     nowPlaying.Results[i].Title,
-			Poster:   tmdb.ImagePath + nowPlaying.Results[i].PosterPath,
-			Rating:   nowPlaying.Results[i].VoteAverage,
-			Overview: nowPlaying.Results[i].Overview,
+			Date:     movieList.Results[i].ReleaseDate,
+			ID:       movieList.Results[i].ID,
+			Name:     movieList.Results[i].Title,
+			Poster:   tmdb.ImagePath + movieList.Results[i].PosterPath,
+			Rating:   movieList.Results[i].VoteAverage,
+			Overview: movieList.Results[i].Overview,
 		})
 	}
 
 	resp := MovieList{
-		Page:       nowPlaying.Page,
-		TotalPages: nowPlaying.TotalPages,
+		Page:       movieList.Page,
+		TotalPages: movieList.TotalPages,
 		Results:    results,
 	}
 
-	return GetNowPlayingJSON200Response(resp)
-}
-
-func (a *App) GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response {
-	popular := tmdb.MovieList{}
-
-	url := "https://api.themoviedb.org/3/movie/popular?language=en-US&page=" + params.Page
-	err := a.GetTMDB("GET", url, &popular)
-	if err != nil {
-		a.log.Warn().Err(err).Msg("failed tmdb popular request")
-		return GetPopularJSON502Response(Error{Message: "failed tmdb request"})
-	}
-
-	results := []MoviePreview{}
-	for i := range popular.Results {
-		results = append(results, MoviePreview{
-			Date:     popular.Results[i].ReleaseDate,
-			ID:       popular.Results[i].ID,
-			Name:     popular.Results[i].Title,
-			Poster:   tmdb.ImagePath + popular.Results[i].PosterPath,
-			Rating:   popular.Results[i].VoteAverage,
-			Overview: popular.Results[i].Overview,
-		})
-	}
-
-	resp := MovieList{
-		Page:       popular.Page,
-		TotalPages: popular.TotalPages,
-		Results:    results,
-	}
-
-	return GetPopularJSON200Response(resp)
-}
-
-func (a *App) GetTopRated(w http.ResponseWriter, r *http.Request, params GetTopRatedParams) *Response {
-	toprated := tmdb.MovieList{}
-
-	url := "https://api.themoviedb.org/3/movie/top_rated?language=en-US&page=" + params.Page
-	err := a.GetTMDB("GET", url, &toprated)
-	if err != nil {
-		a.log.Warn().Err(err).Msg("failed tmdb toprated request")
-		return GetTopRatedJSON502Response(Error{Message: "failed tmdb request"})
-	}
-
-	results := []MoviePreview{}
-	for i := range toprated.Results {
-		results = append(results, MoviePreview{
-			Date:     toprated.Results[i].ReleaseDate,
-			ID:       toprated.Results[i].ID,
-			Name:     toprated.Results[i].Title,
-			Poster:   tmdb.ImagePath + toprated.Results[i].PosterPath,
-			Rating:   toprated.Results[i].VoteAverage,
-			Overview: toprated.Results[i].Overview,
-		})
-	}
-
-	resp := MovieList{
-		Page:       toprated.Page,
-		TotalPages: toprated.TotalPages,
-		Results:    results,
-	}
-
-	return GetTopRatedJSON200Response(resp)
-}
-
-func (a *App) GetUpcoming(w http.ResponseWriter, r *http.Request, params GetUpcomingParams) *Response {
-	upcoming := tmdb.MovieList{}
-
-	url := "https://api.themoviedb.org/3/movie/upcoming?language=en-US&page=" + params.Page
-	err := a.GetTMDB("GET", url, &upcoming)
-	if err != nil {
-		a.log.Warn().Err(err).Msg("failed tmdb upcoming request")
-		return GetUpcomingJSON502Response(Error{Message: "failed tmdb request"})
-	}
-
-	results := []MoviePreview{}
-	for i := range upcoming.Results {
-		results = append(results, MoviePreview{
-			Date:     upcoming.Results[i].ReleaseDate,
-			ID:       upcoming.Results[i].ID,
-			Name:     upcoming.Results[i].Title,
-			Poster:   tmdb.ImagePath + upcoming.Results[i].PosterPath,
-			Rating:   upcoming.Results[i].VoteAverage,
-			Overview: upcoming.Results[i].Overview,
-		})
-	}
-
-	resp := MovieList{
-		Page:       upcoming.Page,
-		TotalPages: upcoming.TotalPages,
-		Results:    results,
-	}
-
-	return GetUpcomingJSON200Response(resp)
+	return GetCategoryJSON200Response(resp)
 }
 
 func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response {

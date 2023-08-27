@@ -6,125 +6,17 @@ info:
 servers:
   - url: http://localhost:8080/api
 paths:
-  /nowplaying:
+  /{category}:
     get:
       summary: Get currently playing movies
-      operationId: getNowPlaying
+      operationId: getCategory
       parameters:
-        - in: query
-          name: page
+        - in: path
+          name: category
           schema:
             type: string
           required: true
-          description: page number
-      responses:
-          "200":
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/MovieList"
-          "400":
-            description: Bad Request
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "418":
-            description: I'm a teapot
-          "500":
-            description: Internal Server Error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "502":
-            description: Bad Gateway
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-  /toprated:
-    get:
-      summary: Get top rated movies
-      operationId: getTopRated
-      parameters:
-        - in: query
-          name: page
-          schema:
-            type: string
-          required: true
-          description: page number
-      responses:
-          "200":
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/MovieList"
-          "400":
-            description: Bad Request
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "418":
-            description: I'm a teapot
-          "500":
-            description: Internal Server Error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "502":
-            description: Bad Gateway
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-  /popular:
-    get:
-      summary: Get popular movies
-      operationId: getPopular
-      parameters:
-        - in: query
-          name: page
-          schema:
-            type: string
-          required: true
-          description: page number
-      responses:
-          "200":
-            description: OK
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/MovieList"
-          "400":
-            description: Bad Request
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "418":
-            description: I'm a teapot
-          "500":
-            description: Internal Server Error
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-          "502":
-            description: Bad Gateway
-            content:
-              application/json:
-                schema:
-                  $ref: "#/components/schemas/Error"
-  /upcoming:
-    get:
-      summary: Get upcoming movies
-      operationId: getUpcoming
-      parameters:
+          description: Category of movies to get
         - in: query
           name: page
           schema:

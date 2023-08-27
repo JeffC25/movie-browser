@@ -16,88 +16,21 @@ export class DefaultService {
 
     /**
      * Get currently playing movies
+     * @param category Category of movies to get
      * @param page page number
      * @returns MovieList OK
      * @throws ApiError
      */
-    public static getNowPlaying(
+    public static getCategory(
+        category: string,
         page: string,
     ): CancelablePromise<MovieList> {
         return __request(OpenAPI, {
             method: 'GET',
-            url: '/nowplaying',
-            query: {
-                'page': page,
+            url: '/{category}',
+            path: {
+                'category': category,
             },
-            errors: {
-                400: `Bad Request`,
-                418: `I'm a teapot`,
-                500: `Internal Server Error`,
-                502: `Bad Gateway`,
-            },
-        });
-    }
-
-    /**
-     * Get top rated movies
-     * @param page page number
-     * @returns MovieList OK
-     * @throws ApiError
-     */
-    public static getTopRated(
-        page: string,
-    ): CancelablePromise<MovieList> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/toprated',
-            query: {
-                'page': page,
-            },
-            errors: {
-                400: `Bad Request`,
-                418: `I'm a teapot`,
-                500: `Internal Server Error`,
-                502: `Bad Gateway`,
-            },
-        });
-    }
-
-    /**
-     * Get popular movies
-     * @param page page number
-     * @returns MovieList OK
-     * @throws ApiError
-     */
-    public static getPopular(
-        page: string,
-    ): CancelablePromise<MovieList> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/popular',
-            query: {
-                'page': page,
-            },
-            errors: {
-                400: `Bad Request`,
-                418: `I'm a teapot`,
-                500: `Internal Server Error`,
-                502: `Bad Gateway`,
-            },
-        });
-    }
-
-    /**
-     * Get upcoming movies
-     * @param page page number
-     * @returns MovieList OK
-     * @throws ApiError
-     */
-    public static getUpcoming(
-        page: string,
-    ): CancelablePromise<MovieList> {
-        return __request(OpenAPI, {
-            method: 'GET',
-            url: '/upcoming',
             query: {
                 'page': page,
             },

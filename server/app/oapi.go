@@ -89,18 +89,6 @@ type Video struct {
 // VideoList defines model for VideoList.
 type VideoList []Video
 
-// GetNowPlayingParams defines parameters for GetNowPlaying.
-type GetNowPlayingParams struct {
-	// page number
-	Page string `json:"page"`
-}
-
-// GetPopularParams defines parameters for GetPopular.
-type GetPopularParams struct {
-	// page number
-	Page string `json:"page"`
-}
-
 // GetMovieReviewsParams defines parameters for GetMovieReviews.
 type GetMovieReviewsParams struct {
 	// page number
@@ -116,14 +104,8 @@ type SearchMovieParams struct {
 	Page string `json:"page"`
 }
 
-// GetTopRatedParams defines parameters for GetTopRated.
-type GetTopRatedParams struct {
-	// page number
-	Page string `json:"page"`
-}
-
-// GetUpcomingParams defines parameters for GetUpcoming.
-type GetUpcomingParams struct {
+// GetCategoryParams defines parameters for GetCategory.
+type GetCategoryParams struct {
 	// page number
 	Page string `json:"page"`
 }
@@ -249,86 +231,6 @@ func GetMovieDetailsJSON502Response(body Error) *Response {
 	}
 }
 
-// GetNowPlayingJSON200Response is a constructor method for a GetNowPlaying response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetNowPlayingJSON200Response(body MovieList) *Response {
-	return &Response{
-		body:        body,
-		Code:        200,
-		contentType: "application/json",
-	}
-}
-
-// GetNowPlayingJSON400Response is a constructor method for a GetNowPlaying response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetNowPlayingJSON400Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        400,
-		contentType: "application/json",
-	}
-}
-
-// GetNowPlayingJSON500Response is a constructor method for a GetNowPlaying response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetNowPlayingJSON500Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        500,
-		contentType: "application/json",
-	}
-}
-
-// GetNowPlayingJSON502Response is a constructor method for a GetNowPlaying response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetNowPlayingJSON502Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        502,
-		contentType: "application/json",
-	}
-}
-
-// GetPopularJSON200Response is a constructor method for a GetPopular response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetPopularJSON200Response(body MovieList) *Response {
-	return &Response{
-		body:        body,
-		Code:        200,
-		contentType: "application/json",
-	}
-}
-
-// GetPopularJSON400Response is a constructor method for a GetPopular response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetPopularJSON400Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        400,
-		contentType: "application/json",
-	}
-}
-
-// GetPopularJSON500Response is a constructor method for a GetPopular response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetPopularJSON500Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        500,
-		contentType: "application/json",
-	}
-}
-
-// GetPopularJSON502Response is a constructor method for a GetPopular response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetPopularJSON502Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        502,
-		contentType: "application/json",
-	}
-}
-
 // GetMovieReviewsJSON200Response is a constructor method for a GetMovieReviews response.
 // A *Response is returned with the configured status code and content type from the spec.
 func GetMovieReviewsJSON200Response(body ReviewList) *Response {
@@ -409,86 +311,6 @@ func SearchMovieJSON502Response(body Error) *Response {
 	}
 }
 
-// GetTopRatedJSON200Response is a constructor method for a GetTopRated response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetTopRatedJSON200Response(body MovieList) *Response {
-	return &Response{
-		body:        body,
-		Code:        200,
-		contentType: "application/json",
-	}
-}
-
-// GetTopRatedJSON400Response is a constructor method for a GetTopRated response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetTopRatedJSON400Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        400,
-		contentType: "application/json",
-	}
-}
-
-// GetTopRatedJSON500Response is a constructor method for a GetTopRated response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetTopRatedJSON500Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        500,
-		contentType: "application/json",
-	}
-}
-
-// GetTopRatedJSON502Response is a constructor method for a GetTopRated response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetTopRatedJSON502Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        502,
-		contentType: "application/json",
-	}
-}
-
-// GetUpcomingJSON200Response is a constructor method for a GetUpcoming response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetUpcomingJSON200Response(body MovieList) *Response {
-	return &Response{
-		body:        body,
-		Code:        200,
-		contentType: "application/json",
-	}
-}
-
-// GetUpcomingJSON400Response is a constructor method for a GetUpcoming response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetUpcomingJSON400Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        400,
-		contentType: "application/json",
-	}
-}
-
-// GetUpcomingJSON500Response is a constructor method for a GetUpcoming response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetUpcomingJSON500Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        500,
-		contentType: "application/json",
-	}
-}
-
-// GetUpcomingJSON502Response is a constructor method for a GetUpcoming response.
-// A *Response is returned with the configured status code and content type from the spec.
-func GetUpcomingJSON502Response(body Error) *Response {
-	return &Response{
-		body:        body,
-		Code:        502,
-		contentType: "application/json",
-	}
-}
-
 // GetMovieVideosJSON200Response is a constructor method for a GetMovieVideos response.
 // A *Response is returned with the configured status code and content type from the spec.
 func GetMovieVideosJSON200Response(body VideoList) *Response {
@@ -529,6 +351,46 @@ func GetMovieVideosJSON502Response(body Error) *Response {
 	}
 }
 
+// GetCategoryJSON200Response is a constructor method for a GetCategory response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetCategoryJSON200Response(body MovieList) *Response {
+	return &Response{
+		body:        body,
+		Code:        200,
+		contentType: "application/json",
+	}
+}
+
+// GetCategoryJSON400Response is a constructor method for a GetCategory response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetCategoryJSON400Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        400,
+		contentType: "application/json",
+	}
+}
+
+// GetCategoryJSON500Response is a constructor method for a GetCategory response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetCategoryJSON500Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        500,
+		contentType: "application/json",
+	}
+}
+
+// GetCategoryJSON502Response is a constructor method for a GetCategory response.
+// A *Response is returned with the configured status code and content type from the spec.
+func GetCategoryJSON502Response(body Error) *Response {
+	return &Response{
+		body:        body,
+		Code:        502,
+		contentType: "application/json",
+	}
+}
+
 // ServerInterface represents all server handlers.
 type ServerInterface interface {
 	// Get movie cast by ID
@@ -537,27 +399,18 @@ type ServerInterface interface {
 	// Get movie details by ID
 	// (GET /details/{movieId})
 	GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID string) *Response
-	// Get currently playing movies
-	// (GET /nowplaying)
-	GetNowPlaying(w http.ResponseWriter, r *http.Request, params GetNowPlayingParams) *Response
-	// Get popular movies
-	// (GET /popular)
-	GetPopular(w http.ResponseWriter, r *http.Request, params GetPopularParams) *Response
 	// Get movie reviews by ID
 	// (GET /reviews/{movieId})
 	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string, params GetMovieReviewsParams) *Response
 	// Search for movie
 	// (GET /search)
 	SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response
-	// Get top rated movies
-	// (GET /toprated)
-	GetTopRated(w http.ResponseWriter, r *http.Request, params GetTopRatedParams) *Response
-	// Get upcoming movies
-	// (GET /upcoming)
-	GetUpcoming(w http.ResponseWriter, r *http.Request, params GetUpcomingParams) *Response
 	// Get movie videos by ID
 	// (GET /videos/{movieId})
 	GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID string) *Response
+	// Get currently playing movies
+	// (GET /{category})
+	GetCategory(w http.ResponseWriter, r *http.Request, category string, params GetCategoryParams) *Response
 }
 
 // ServerInterfaceWrapper converts contexts to parameters.
@@ -606,64 +459,6 @@ func (siw *ServerInterfaceWrapper) GetMovieDetails(w http.ResponseWriter, r *htt
 
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		resp := siw.Handler.GetMovieDetails(w, r, movieID)
-		if resp != nil {
-			if resp.body != nil {
-				render.Render(w, r, resp)
-			} else {
-				w.WriteHeader(resp.Code)
-			}
-		}
-	})
-
-	handler(w, r.WithContext(ctx))
-}
-
-// GetNowPlaying operation middleware
-func (siw *ServerInterfaceWrapper) GetNowPlaying(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetNowPlayingParams
-
-	// ------------- Required query parameter "page" -------------
-
-	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
-		err = fmt.Errorf("invalid format for parameter page: %w", err)
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
-		return
-	}
-
-	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := siw.Handler.GetNowPlaying(w, r, params)
-		if resp != nil {
-			if resp.body != nil {
-				render.Render(w, r, resp)
-			} else {
-				w.WriteHeader(resp.Code)
-			}
-		}
-	})
-
-	handler(w, r.WithContext(ctx))
-}
-
-// GetPopular operation middleware
-func (siw *ServerInterfaceWrapper) GetPopular(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetPopularParams
-
-	// ------------- Required query parameter "page" -------------
-
-	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
-		err = fmt.Errorf("invalid format for parameter page: %w", err)
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
-		return
-	}
-
-	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := siw.Handler.GetPopular(w, r, params)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -750,64 +545,6 @@ func (siw *ServerInterfaceWrapper) SearchMovie(w http.ResponseWriter, r *http.Re
 	handler(w, r.WithContext(ctx))
 }
 
-// GetTopRated operation middleware
-func (siw *ServerInterfaceWrapper) GetTopRated(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetTopRatedParams
-
-	// ------------- Required query parameter "page" -------------
-
-	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
-		err = fmt.Errorf("invalid format for parameter page: %w", err)
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
-		return
-	}
-
-	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := siw.Handler.GetTopRated(w, r, params)
-		if resp != nil {
-			if resp.body != nil {
-				render.Render(w, r, resp)
-			} else {
-				w.WriteHeader(resp.Code)
-			}
-		}
-	})
-
-	handler(w, r.WithContext(ctx))
-}
-
-// GetUpcoming operation middleware
-func (siw *ServerInterfaceWrapper) GetUpcoming(w http.ResponseWriter, r *http.Request) {
-	ctx := r.Context()
-
-	// Parameter object where we will unmarshal all parameters from the context
-	var params GetUpcomingParams
-
-	// ------------- Required query parameter "page" -------------
-
-	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
-		err = fmt.Errorf("invalid format for parameter page: %w", err)
-		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
-		return
-	}
-
-	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
-		resp := siw.Handler.GetUpcoming(w, r, params)
-		if resp != nil {
-			if resp.body != nil {
-				render.Render(w, r, resp)
-			} else {
-				w.WriteHeader(resp.Code)
-			}
-		}
-	})
-
-	handler(w, r.WithContext(ctx))
-}
-
 // GetMovieVideos operation middleware
 func (siw *ServerInterfaceWrapper) GetMovieVideos(w http.ResponseWriter, r *http.Request) {
 	ctx := r.Context()
@@ -822,6 +559,43 @@ func (siw *ServerInterfaceWrapper) GetMovieVideos(w http.ResponseWriter, r *http
 
 	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		resp := siw.Handler.GetMovieVideos(w, r, movieID)
+		if resp != nil {
+			if resp.body != nil {
+				render.Render(w, r, resp)
+			} else {
+				w.WriteHeader(resp.Code)
+			}
+		}
+	})
+
+	handler(w, r.WithContext(ctx))
+}
+
+// GetCategory operation middleware
+func (siw *ServerInterfaceWrapper) GetCategory(w http.ResponseWriter, r *http.Request) {
+	ctx := r.Context()
+
+	// ------------- Path parameter "category" -------------
+	var category string
+
+	if err := runtime.BindStyledParameter("simple", false, "category", chi.URLParam(r, "category"), &category); err != nil {
+		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "category"})
+		return
+	}
+
+	// Parameter object where we will unmarshal all parameters from the context
+	var params GetCategoryParams
+
+	// ------------- Required query parameter "page" -------------
+
+	if err := runtime.BindQueryParameter("form", true, true, "page", r.URL.Query(), &params.Page); err != nil {
+		err = fmt.Errorf("invalid format for parameter page: %w", err)
+		siw.ErrorHandlerFunc(w, r, &RequiredParamError{err, "page"})
+		return
+	}
+
+	var handler = http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		resp := siw.Handler.GetCategory(w, r, category, params)
 		if resp != nil {
 			if resp.body != nil {
 				render.Render(w, r, resp)
@@ -951,13 +725,10 @@ func Handler(si ServerInterface, opts ...ServerOption) http.Handler {
 	r.Route(options.BaseURL, func(r chi.Router) {
 		r.Get("/cast/{movieId}", wrapper.GetMovieCast)
 		r.Get("/details/{movieId}", wrapper.GetMovieDetails)
-		r.Get("/nowplaying", wrapper.GetNowPlaying)
-		r.Get("/popular", wrapper.GetPopular)
 		r.Get("/reviews/{movieId}", wrapper.GetMovieReviews)
 		r.Get("/search", wrapper.SearchMovie)
-		r.Get("/toprated", wrapper.GetTopRated)
-		r.Get("/upcoming", wrapper.GetUpcoming)
 		r.Get("/videos/{movieId}", wrapper.GetMovieVideos)
+		r.Get("/{category}", wrapper.GetCategory)
 	})
 	return r
 }
@@ -983,23 +754,22 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"H4sIAAAAAAAC/+yZTW/jNhPHvwrB5wF6ESJndwsEOrYpFkbbrZu0vSxyoKWxzV2JZIYjG0bg717wRbZl",
-	"S4kDtLv2VqfI5pDzn+FvyFH8xHNdGa1AkeXZE7f5AirhH38UltxfSVD5L/6PMOMZ/1+6m5JG+3QCaLXi",
-	"m4TT2gDPuEAUa/f5J0SNbrpBbQBJgl+sAmvFHNxjnGEJpZrzzSbhCI+1RCh49nFr+LBJ+K96KeEWSMjS",
-	"Hi85FfnnArXpWDPhhSDoHJiDwjB/G+iRzWFMC12B6VafcCWq7gG9BFxKWHUOGm0JsHMIBbmn7InPNFaC",
-	"eMYLXU9L4Ftlqq6mgN64ViRbAqQimLvBg8RGj1Hw1k1M1Z7cvXiTXZJ3rrY5fNjq0dNPkBNvtuwXGVBq",
-	"79dBBrc6nUxbl2RPps87mSB4uR37RZpEORFzsKfkJQS6N2cnqDfCxvlRkL3cyaI79q+Jz0EmZMGT0zHp",
-	"yk08Fo6yki8EirxPcW8KjMypxhMOjai1sU/2HHbJvOvZvFwrAkUvpPV5Kdt8NYv1C/i3y+Tu6xTIX7IA",
-	"fRxXKdXn7tNWUtm9/4RCli1oplqXINSRxrBGEpzsJvbKa1J/Uh5DQEdpdBqkmvlQC7A5SkPS0c+FkYw0",
-	"q9xJwaaoVxaQuZMUlCuxGDBvjfOELwFtWGB0Nbq69oeAASWM5Bl/e3V99dYxLmjhFae5sJQ++UXGxcZ9",
-	"NQcflMu6cFLGBc/4eyB/ZPn73c1HUQEBWp59PBT+oa4AZc7Gt0zPon7SzK3rYuWZd98cDjGCccH3N4Ow",
-	"hiQ2Fl3l8uDpMVrZwMWb0eig9oQxpcx9BOmneJ7s1ntup3yMfmPacf32s0vmu3/QU2hzOlz9IAp2B481",
-	"WE/bu+ubYz7G31VMMAJhtDf6/ksIGysCVKJk94BLQBYNnfc3XyYt7wXByldOwm1dVQLXgc9ImgOaTdds",
-	"fOtN0iJ0fq9gvOkVv3HMW7EOuF8o7hHvfeKVXplSrGOj0Yf6B72aRKsXQHdXN4vdXiT7sQZc79COl/sZ",
-	"ce2v5gHqi4M6rxFBUblmEeGAuQ1kG23qUuBzWE+iycD0wPSZMB2pbZEc3vxf05WE97Cz6EqSC6+mvRfn",
-	"oZwutO+JBbTf91gQmC96C+neD/taeqmIfnfwsshiN9D+431j8d+pneEmutDSCfizmY4XUagZ0gYFQfHc",
-	"9fOHNnfeZuipBpLP5BIgbZgHt9VV1SbX1QvvvX82NgPNA81nQnPDbQvmpSxAv+YNwf/C8M3/23L3y8sA",
-	"+oX27oHsbevurLzUgGuNJc/4gshkaVrqXJQLbSm7Gd2MUmEk3zxs/g4AAP//dm0Q94EiAAA=",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

@@ -7,19 +7,23 @@ const HomePage = () => {
         <Layout>
             <Carousel
                 title="Now Playing"
-                method={DefaultService.getNowPlaying}
+                category="now_playing"
+                method={DefaultService.getCategory}
             />
             <Carousel
                 title="Trending"
-                method={DefaultService.getPopular}
+                category="popular"
+                method={DefaultService.getCategory}
             />
             <Carousel
                 title="Upcoming"
-                method={DefaultService.getUpcoming}
+                category="upcoming"
+                method={DefaultService.getCategory}
             />
             <Carousel
                 title="Top Rated"
-                method={DefaultService.getTopRated}
+                category="top_rated"
+                method={DefaultService.getCategory}
             />
         </Layout>
     )
