@@ -5,12 +5,12 @@ import CategoryResults from "../components/movies/CategoryResults";
 
 const Results = () => {
     const location = useLocation();
-    const path = location.pathname;
+    const path = location.pathname
     const params = new URLSearchParams(location.search);
-
+    // console.log(path)
     return (
         <Layout>
-            {path == "/search" ? <SearchResults query={params.get("query")!} page={params.get("page")!} /> : <CategoryResults/>}
+            {path == "/search" ? <SearchResults query={params.get("query")!} page={params.get("page")!} /> : <CategoryResults category={params.get("category")!} page={params.get("page")!}/>}
         </Layout>
     )
 }

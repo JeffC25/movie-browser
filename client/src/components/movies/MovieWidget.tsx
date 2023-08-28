@@ -7,7 +7,8 @@ const MovieWidget = (movie: MoviePreview) => {
             <div className="aspect-[2/3] bg-gray-400 flex relative ">
                 <div className="absolute h-full w-full
                     text-white whitespace-pre-line p-2
-                    opacity-0 hover:backdrop-blur-lg hover:opacity-100 hover:backdrop-brightness-50 hover:backdrop-saturate-150"
+                    opacity-0 hover:backdrop-blur-lg hover:opacity-100 hover:backdrop-brightness-50 hover:backdrop-saturate-150
+                    shadow-lg"
                 >
                     <div className="block">Rating: {movie.rating}</div>
                     
@@ -19,7 +20,7 @@ const MovieWidget = (movie: MoviePreview) => {
 
                     <Link to={"/details/" + movie.id} className="absolute bottom-2 block mt-2" >{"Details >>"}</Link>
                 </div>
-                <img src= {movie.poster} alt="poster" className="object-fill shadow-md"/>
+                <img src= {movie.poster} alt="poster" className="object-fill "/>
             </div>    
             <div className="block">{movie.name}</div>
         </div>

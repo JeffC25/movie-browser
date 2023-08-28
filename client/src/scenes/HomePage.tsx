@@ -15,7 +15,7 @@ const HomePage = () => {
                 category="popular"
                 method={DefaultService.getCategory}
             />
-            <Carousel
+            {/* <Carousel
                 title="Upcoming"
                 category="upcoming"
                 method={DefaultService.getCategory}
@@ -24,7 +24,7 @@ const HomePage = () => {
                 title="Top Rated"
                 category="top_rated"
                 method={DefaultService.getCategory}
-            />
+            /> */}
         </Layout>
     )
 }

@@ -29,7 +29,7 @@ const SearchBar = () => {
                     text-left text-gray-400 pl-6 
                     focus:outline-none" 
             />
-            <button className="h-12 w-16 rounded-r-full bg-gray-900 ">
+            <button type="submit" className="h-12 w-16 rounded-r-full bg-gray-900 ">
                 <img src={searchIcon} className="w-12 h-6"/>
             </button>          
         </form>
