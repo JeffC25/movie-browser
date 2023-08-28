@@ -1,8 +1,6 @@
-import { useState } from "react";
-import { useEffect } from "react";
+import { useState, useEffect} from "react";
 import { useParams } from "react-router-dom";
-import type { MovieDetails } from "../api";
-import { DefaultService } from "../api";
+import { MovieDetails, DefaultService } from "../api";
 import Layout from "../components/Layout";
 
 const Details = () => {

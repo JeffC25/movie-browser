@@ -1,5 +1,3 @@
-// import SearchBox from "./SearchBox";
-// import SearchButton from "./SearchButton";
 import SearchBar from "./SearchBar";
 
 const TopBar = () => {

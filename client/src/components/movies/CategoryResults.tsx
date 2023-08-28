@@ -1,27 +1,22 @@
-import { useLocation, useNavigate } from "react-router-dom"
-import { useState, useEffect } from "react"
-import { MovieList } from "../../api"
-import { DefaultService } from "../../api"
-
-import MovieWidget from "./MovieWidget"
-import leftIcon from "../../assets/leftbutton.svg"
-import rightIcon from "../../assets/rightbutton.svg"
+import { useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { MovieList, DefaultService } from "../../api";
+import MovieWidget from "./MovieWidget";
+import leftIcon from "../../assets/leftbutton.svg";
+import rightIcon from "../../assets/rightbutton.svg";
 
 interface Props {
     category: string, 
     page: string,
 }
 
-const SearchResults = ({category, page}: Props) => {
-    
+const SearchResults = ({category, page}: Props) => {  
     const currentPage = Number(page);
-
     const [searchResults, setSearchResults] = useState<MovieList>({page: 0,
         totalPages: 0,
         results: []});
     
     const [loading, setLoading] = useState<boolean>(true);
-
     const navigate = useNavigate();
 
     function prevPage() {
@@ -47,7 +42,6 @@ const SearchResults = ({category, page}: Props) => {
     }, [useLocation()]);
 
     const movies = (searchResults.results.map(MovieWidget))
-
     return (
         <div>
             {loading ? <div className="w-screen h-screen bg-gray-800"></div> : 
@@ -70,7 +64,7 @@ const SearchResults = ({category, page}: Props) => {
                 </div>
             </div>}
         </div>
-    )
-}
+    );
+};
 
 export default SearchResults;

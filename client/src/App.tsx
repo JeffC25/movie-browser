@@ -1,7 +1,7 @@
-import { BrowserRouter, Routes, Route} from 'react-router-dom'
-import Details from './scenes/Details'
-import HomePage from './scenes/HomePage'
-import Results from './scenes/Results'
+import { BrowserRouter, Routes, Route} from "react-router-dom";
+import Details from "./scenes/Details";
+import HomePage from "./scenes/HomePage";
+import Results from "./scenes/Results";
 
 function App() {
   return (

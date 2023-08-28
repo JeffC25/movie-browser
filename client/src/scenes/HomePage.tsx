@@ -1,5 +1,5 @@
-import Carousel from "../components/carousel/Carousel";
 import { DefaultService } from "../api";
+import Carousel from "../components/carousel/Carousel";
 import Layout from "../components/Layout";
 
 const HomePage = () => {
@@ -15,7 +15,7 @@ const HomePage = () => {
                 category="popular"
                 method={DefaultService.getCategory}
             />
-            {/* <Carousel
+            <Carousel
                 title="Upcoming"
                 category="upcoming"
                 method={DefaultService.getCategory}
@@ -24,9 +24,9 @@ const HomePage = () => {
                 title="Top Rated"
                 category="top_rated"
                 method={DefaultService.getCategory}
-            /> */}
+            />
         </Layout>
-    )
-}
+    );
+};
 
 export default HomePage;

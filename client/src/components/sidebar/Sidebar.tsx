@@ -1,12 +1,11 @@
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 import menuIcon from "../../assets/menu.svg";
 import homeIcon from "../../assets/home.svg";
 import trendingIcon from "../../assets/trending.svg";
 import nowPlayingIcon from "../../assets/nowplaying.svg";
 import upcomingIcon from "../../assets/upcoming.svg";
 import topRatedIcon from "../../assets/toprated.svg";
-import { Link } from "react-router-dom";
 interface Menu {
     title: string
     icon: string

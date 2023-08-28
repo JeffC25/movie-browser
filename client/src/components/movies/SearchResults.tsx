@@ -2,7 +2,6 @@ import { useLocation, useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
 import { MovieList } from "../../api"
 import { DefaultService } from "../../api"
-
 import MovieWidget from "./MovieWidget"
 import leftIcon from "../../assets/leftbutton.svg"
 import rightIcon from "../../assets/rightbutton.svg"
@@ -13,15 +12,12 @@ interface Props {
 }
 
 const MovieResults = ({query, page}: Props) => {
-    
     const currentPage = Number(page)
-
     const [searchResults, setSearchResults] = useState<MovieList>({page: 0,
         totalPages: 0,
         results: []});
 
     const [loading, setLoading] = useState<boolean>(true);
-
     const navigate = useNavigate();
 
     function prevPage() {
@@ -34,13 +30,11 @@ const MovieResults = ({query, page}: Props) => {
         navigate(`/search?query=${query}&page=${currentPage + 1}`);
     }
 
-
     useEffect(() => {
         DefaultService.searchMovie(query, page )
         .then((result) => {
             setSearchResults(result)
             setLoading(false)
-            // setMovies(result.results.map(MovieWidget))
         })
         .catch((error) => {
             console.error('Error: ', error)
@@ -71,6 +65,6 @@ const MovieResults = ({query, page}: Props) => {
             </div>}
         </div>
     )
-}
+};
 
 export default MovieResults;

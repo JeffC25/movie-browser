@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import type { MoviePreview } from "../../api";
+import { MoviePreview } from "../../api";
 
 const MovieWidget = (movie: MoviePreview) => {    
     return (
@@ -11,13 +11,9 @@ const MovieWidget = (movie: MoviePreview) => {
                     shadow-lg"
                 >
                     <div className="block">Rating: {movie.rating}</div>
-                    
                     <div className="block">Released: {movie.date}</div>
-
                     <div className="bg-white h-px w-full my-2"></div>
-
                     <div className="block h-48 overflow-y-auto pr-1 text-sm">{movie.overview}</div>
-
                     <Link to={"/details/" + movie.id} className="absolute bottom-2 block mt-2" >{"Details >>"}</Link>
                 </div>
                 <img src= {movie.poster} alt="poster" className="object-fill text-transparent"/>

@@ -12,7 +12,6 @@ const Layout = ({children}: Props) => {
             <div className="fixed h-20 w-full z-50">
                 <SideBar />
                 <TopBar />
-                {/* <div className="absolute inset-x-0 top-4 w-[calc(33%)] h-12 rounded-full mx-auto bg-red-500 z-40"></div> */}
             </div>
             <div className="mt-20">
                 {children}
