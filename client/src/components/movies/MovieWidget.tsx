@@ -4,7 +4,7 @@ import type { MoviePreview } from "../../api";
 const MovieWidget = (movie: MoviePreview) => {    
     return (
         <div className="w-52 h-full my-auto shrink-0 text-gray-400">
-            <div className="aspect-[2/3] bg-gray-400 flex relative ">
+            <div className="aspect-[2/3] bg-gradient-to-b from-gray-500 to-gray-700 flex relative ">
                 <div className="absolute h-full w-full
                     text-white whitespace-pre-line p-2
                     opacity-0 hover:backdrop-blur-lg hover:opacity-100 hover:backdrop-brightness-50 hover:backdrop-saturate-150
@@ -20,7 +20,7 @@ const MovieWidget = (movie: MoviePreview) => {
 
                     <Link to={"/details/" + movie.id} className="absolute bottom-2 block mt-2" >{"Details >>"}</Link>
                 </div>
-                <img src= {movie.poster} alt="poster" className="object-fill "/>
+                <img src= {movie.poster} alt="poster" className="object-fill text-transparent"/>
             </div>    
             <div className="block">{movie.name}</div>
         </div>
