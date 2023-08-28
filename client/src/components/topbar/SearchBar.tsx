@@ -12,7 +12,7 @@ const SearchBar = () => {
     function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
         e.preventDefault();
         if (search) {
-            navigate("/search?query=" + search.replace(" ", "%20") + "&page=1", { state: {query: search, page: "1"}, replace: true });
+            navigate(`/search?query=${search.replace(" ", "%20")}&page=1`, { state: {query: search, page: "1"}, replace: true });
         }
     }
 
