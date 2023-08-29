@@ -3,7 +3,7 @@ import { MoviePreview } from "../../api";
 
 const MovieWidget = (movie: MoviePreview) => {    
     return (
-        <div className="w-52 h-full my-auto shrink-0 text-gray-100">
+        <div className="w-52 shrink-0 text-gray-400">
             <div className="aspect-[2/3] bg-gradient-to-b from-gray-500 to-gray-700 flex relative ">
                 <div className="absolute h-full w-full
                     text-gray-100 whitespace-pre-line p-2
