@@ -1,5 +1,7 @@
 version: '1'
 services:
+  redis:
+    image: 'redis:latest'
   server:
     build:
       dockerfile: server.Dockerfile

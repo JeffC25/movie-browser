@@ -5,7 +5,7 @@ const About = () => {
         <Layout>
             <div className="w-screen text-gray-400">
                 <span className="w-96 block m-auto text-center">
-                    Hello there, 
+                    Hello, 
                     <br/><br/>
                     This site leverages the TMDB API to fetch movie information including their rating, genres, overview, cast, reviews, and trailers. 
                     <br/><br/>
