@@ -10,7 +10,7 @@ const Results = () => {
 
     return (
         <Layout>
-            {path == "/search" ? <SearchResults query={params.get("query")!} page={params.get("page")!} /> : <CategoryResults category={params.get("category")!} page={params.get("page")!}/>}
+            {path == "/search" ? <SearchResults query={params.get("query")!} page={Number(params.get("page"))} /> : <CategoryResults category={params.get("category")!} page={params.get("page")!}/>}
         </Layout>
     );
 };

@@ -72,7 +72,7 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 func (a *App) GetCategory(w http.ResponseWriter, r *http.Request, category string, params GetCategoryParams) *Response {
 	movieList := tmdb.MovieList{}
 
-	url := "https://api.themoviedb.org/3/movie/" + category + "?language=en-US&page=" + params.Page
+	url := "https://api.themoviedb.org/3/movie/" + category + "?language=en-US&page=" + strconv.Itoa(params.Page)
 	err := a.GetTMDB("GET", url, &movieList)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb now-playing request")

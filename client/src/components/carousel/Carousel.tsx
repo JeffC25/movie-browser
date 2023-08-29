@@ -1,18 +1,17 @@
 import { useState, useEffect, ReactNode } from "react";
-import { CancelablePromise, MovieList } from "../../api";
+import { DefaultService } from "../../api";
 import MovieWidget from "../movies/MovieWidget";
 
 interface Props {
     title: string
     category: string
-    method: (tmdbCategory: string, page: number) => CancelablePromise<MovieList>;
 }
 
-const Carousel = ( {title, category, method }: Props) => {
+const Carousel = ( {title, category }: Props) => {
     const [movieList, setMovieList] = useState<ReactNode[]>([]);
 
     useEffect(() => {
-        method(category, 1)
+        DefaultService.getCategory(category, 1)
         .then((result) => {
             setMovieList(result.results.map(MovieWidget));
         })

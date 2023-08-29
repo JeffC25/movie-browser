@@ -23,7 +23,7 @@ export class DefaultService {
      */
     public static getCategory(
         category: string,
-        page: string,
+        page: number,
     ): CancelablePromise<MovieList> {
         return __request(OpenAPI, {
             method: 'GET',

@@ -6,6 +6,7 @@ import trendingIcon from "../../assets/trending.svg";
 import nowPlayingIcon from "../../assets/nowplaying.svg";
 import upcomingIcon from "../../assets/upcoming.svg";
 import topRatedIcon from "../../assets/toprated.svg";
+import infoIcon from "../../assets/info.svg";
 interface Menu {
     title: string
     icon: string
@@ -20,6 +21,7 @@ const SideBar = () => {
         { title: "Now Playing", icon: nowPlayingIcon, path: "/list?category=now_playing&page=1"},
         { title: "Upcoming", icon: upcomingIcon, path: "/list?category=upcoming&page=1"},
         { title: "Top Rated", icon: topRatedIcon, path: "/list?category=top_rated&page=1"},
+        { title: "About", icon: infoIcon, path: "/about"},
     ]
 
     function handleClick() {
@@ -30,7 +32,7 @@ const SideBar = () => {
         <div className="flex bg-gray-900 shadow fixed top-0 h-screen pt-4">
             <div className={` ${open ? "w-40" : "w-16"} duration-100 px-4`}>
                 <button type="button" className={`${open && 'rotate-180'} duration-100`}>
-                    <img onClick={handleClick} src={menuIcon} className="h-8 w-8"/>
+                    <img onClick={handleClick} src={menuIcon} className="h-6 w-6"/>
                 </button>
                 <ul>
                     {Menus.map((menu, index) => (

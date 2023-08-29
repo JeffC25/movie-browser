@@ -108,7 +108,7 @@ type SearchMovieParams struct {
 // GetCategoryParams defines parameters for GetCategory.
 type GetCategoryParams struct {
 	// page number
-	Page string `json:"page"`
+	Page int `json:"page"`
 }
 
 // Response is a common response struct for all the API calls.
@@ -769,8 +769,8 @@ var swaggerSpec = []string{
 	"6Q91IhJGYbQ3+vFrAJsqRlKiSm6RVkhJNHTR336dsnwUjA9eOinYpq4FrQNBI9Uco5PZOpleeZOsDHPh",
 	"C0jeTpLfOs93kj3z/UT5Hvk9pHyYK19C+XDKvw7Kp/tR3eyQxHEzhrlvkNZ9nDhdvBJdDQazs6pOVFVR",
 	"QkNVWRRULI9K6dZ/9mp6SkZ/OvYmcUQdZ7T/e9taPEns/h5x6uLp7/5n7ZyUdgL/k7mmIKEgmpW79rzk",
-	"JPL3pG9/9uovkGean+gREag9PCE2hWBcaFo/SvMP0egpjrd2HcPtoxQverev4rjoYpxPi7OMRmVUNESo",
-	"uFonphJrqRaR5sGT9YCDMBqqIIcls8mzrNKFqJbacn45uZxkwkjY3m3/DgAA//8p1MfnshoAAA==",
+	"JPL3pG9/9uovkGean+gREag9PCE2hWBcaFo/SvMP0egpjrd2HcPtoxQverfn4+Kso1PQUdEQoeJqnZhK",
+	"rKVaRJ4HT9YDDspoqIIclswmz7JKF6Jaasv55eRykgkjYXu3/TsAAP//56oFSbMaAAA=",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

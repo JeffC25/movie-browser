@@ -20,7 +20,7 @@ paths:
         - in: query
           name: page
           schema:
-            type: string
+            type: integer
           required: true
           description: page number
       responses:

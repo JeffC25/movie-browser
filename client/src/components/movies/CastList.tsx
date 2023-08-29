@@ -3,12 +3,14 @@ import { DefaultService, Person } from "../../api";
 
 const personCard = (person: Person) => {
     return (
-        <div className="block w-full h-24 border-black border">
-            <img src={person.picture} className="block aspect-square w-20 object-contain"/>
-            <span className="block">{person.name}</span>
-            <span className="block">{person.character}</span>
+        <div className="block w-full h-24 bg-[rgba(32,32,32,0.25)] rounded-lg p-2">
+            <img src={person.picture} alt="" className="inline aspect-square w-20 h-20 object-fill rounded-lg"/>
+            <div className="inline-block ml-2 w-2/3  whitespace-nowrap overflow-clip text-ellipsis">
+                <span className="block font-semibold">{person.name}</span>
+                <span className="block">{person.character}</span>
+            </div>
         </div>
-    )
+    );
 };
 
 const CastList = (id: number) => {
@@ -18,18 +20,18 @@ const CastList = (id: number) => {
         DefaultService.getMovieCast(id)
         .then((result) => {
             setCast(result.map(personCard));
-            console.log(result)
         })
         .catch((error) => {
             console.error('Error: ', error);
         });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     return (
-        <div className="block overflow-y-scroll">
+        <div className="overflow-y-scroll w-full h-full space-y-2">
             {cast}
         </div>
-    )
+    );
 };
 
 export default CastList;
