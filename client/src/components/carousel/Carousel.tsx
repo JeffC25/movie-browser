@@ -1,24 +1,20 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, ReactNode } from "react";
 import { CancelablePromise, MovieList } from "../../api";
 import MovieWidget from "../movies/MovieWidget";
 
 interface Props {
     title: string
     category: string
-    method: (tmdbCategory: string, page: string) => CancelablePromise<MovieList>;
+    method: (tmdbCategory: string, page: number) => CancelablePromise<MovieList>;
 }
 
 const Carousel = ( {title, category, method }: Props) => {
-    const [movieList, setMovieList] = useState<MovieList>({
-        page: 0,
-        totalPages: 0,
-        results: [],
-    });
+    const [movieList, setMovieList] = useState<ReactNode[]>([]);
 
     useEffect(() => {
-        method(category, "1")
+        method(category, 1)
         .then((result) => {
-            setMovieList(result);
+            setMovieList(result.results.map(MovieWidget));
         })
         .catch((error) => {
             console.error('Error: ', error);
@@ -26,12 +22,11 @@ const Carousel = ( {title, category, method }: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    const movies = (movieList.results.map(MovieWidget));
     return (
         <div className="block w-4/5 mx-auto my-8">
             <div className="text-left text-white my-2">{title}</div>
             <div className="overflow-x-scroll w-full h-96 mx-auto flex space-x-2">
-                {...movies}
+                {...movieList}
             </div>
         </div>
     );

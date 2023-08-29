@@ -64,7 +64,7 @@ paths:
         - in: query
           name: page
           schema:
-            type: string
+            type: integer
           required: true
           description: page number
       responses:
@@ -102,7 +102,7 @@ paths:
         - in: path
           name: movieId
           schema:
-            type: string
+            type: integer
           required: true
           description: Numeric ID of movie to get
       responses:
@@ -140,13 +140,13 @@ paths:
         - in: path
           name: movieId
           schema:
-            type: string
+            type: integer
           required: true
           description: Numeric ID of movie to get
         - in: query
           name: page
           schema:
-            type: string
+            type: integer
           required: true
           description: page number
       responses:
@@ -184,7 +184,7 @@ paths:
         - in: path
           name: movieId
           schema:
-            type: string
+            type: integer
           required: true
           description: Numeric ID of movie to get
       responses:
@@ -222,7 +222,7 @@ paths:
         - in: path
           name: movieId
           schema:
-            type: string
+            type: integer
           required: true
           description: Numeric ID of movie to get
       responses:
@@ -286,6 +286,8 @@ components:
     MovieDetails:
       type: object
       properties:
+        id:
+          type: integer
         poster: 
           type: string
         name:
@@ -308,6 +310,7 @@ components:
           items:
             type: string
       required:
+        - id
         - poster
         - name
         - rating

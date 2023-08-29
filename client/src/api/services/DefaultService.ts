@@ -52,7 +52,7 @@ export class DefaultService {
      */
     public static searchMovie(
         queryString: string,
-        page: string,
+        page: number,
     ): CancelablePromise<MovieList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -77,7 +77,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static getMovieDetails(
-        movieId: string,
+        movieId: number,
     ): CancelablePromise<MovieDetails> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -102,8 +102,8 @@ export class DefaultService {
      * @throws ApiError
      */
     public static getMovieReviews(
-        movieId: string,
-        page: string,
+        movieId: number,
+        page: number,
     ): CancelablePromise<ReviewList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -130,7 +130,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static getMovieVideos(
-        movieId: string,
+        movieId: number,
     ): CancelablePromise<VideoList> {
         return __request(OpenAPI, {
             method: 'GET',
@@ -154,7 +154,7 @@ export class DefaultService {
      * @throws ApiError
      */
     public static getMovieCast(
-        movieId: string,
+        movieId: number,
     ): CancelablePromise<Cast> {
         return __request(OpenAPI, {
             method: 'GET',

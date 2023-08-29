@@ -35,6 +35,7 @@ type MovieDetails struct {
 	Date     string   `json:"date"`
 	Genres   []string `json:"genres"`
 	Homepage string   `json:"homepage"`
+	ID       int      `json:"id"`
 	Name     string   `json:"name"`
 	Overview string   `json:"overview"`
 	Poster   string   `json:"poster"`
@@ -92,7 +93,7 @@ type VideoList []Video
 // GetMovieReviewsParams defines parameters for GetMovieReviews.
 type GetMovieReviewsParams struct {
 	// page number
-	Page string `json:"page"`
+	Page int `json:"page"`
 }
 
 // SearchMovieParams defines parameters for SearchMovie.
@@ -101,7 +102,7 @@ type SearchMovieParams struct {
 	QueryString string `json:"queryString"`
 
 	// page number
-	Page string `json:"page"`
+	Page int `json:"page"`
 }
 
 // GetCategoryParams defines parameters for GetCategory.
@@ -395,19 +396,19 @@ func GetCategoryJSON502Response(body Error) *Response {
 type ServerInterface interface {
 	// Get movie cast by ID
 	// (GET /cast/{movieId})
-	GetMovieCast(w http.ResponseWriter, r *http.Request, movieID string) *Response
+	GetMovieCast(w http.ResponseWriter, r *http.Request, movieID int) *Response
 	// Get movie details by ID
 	// (GET /details/{movieId})
-	GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID string) *Response
+	GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID int) *Response
 	// Get movie reviews by ID
 	// (GET /reviews/{movieId})
-	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string, params GetMovieReviewsParams) *Response
+	GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID int, params GetMovieReviewsParams) *Response
 	// Search for movie
 	// (GET /search)
 	SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response
 	// Get movie videos by ID
 	// (GET /videos/{movieId})
-	GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID string) *Response
+	GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID int) *Response
 	// Get currently playing movies
 	// (GET /{category})
 	GetCategory(w http.ResponseWriter, r *http.Request, category string, params GetCategoryParams) *Response
@@ -424,7 +425,7 @@ func (siw *ServerInterfaceWrapper) GetMovieCast(w http.ResponseWriter, r *http.R
 	ctx := r.Context()
 
 	// ------------- Path parameter "movieId" -------------
-	var movieID string
+	var movieID int
 
 	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
@@ -450,7 +451,7 @@ func (siw *ServerInterfaceWrapper) GetMovieDetails(w http.ResponseWriter, r *htt
 	ctx := r.Context()
 
 	// ------------- Path parameter "movieId" -------------
-	var movieID string
+	var movieID int
 
 	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
@@ -476,7 +477,7 @@ func (siw *ServerInterfaceWrapper) GetMovieReviews(w http.ResponseWriter, r *htt
 	ctx := r.Context()
 
 	// ------------- Path parameter "movieId" -------------
-	var movieID string
+	var movieID int
 
 	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
@@ -550,7 +551,7 @@ func (siw *ServerInterfaceWrapper) GetMovieVideos(w http.ResponseWriter, r *http
 	ctx := r.Context()
 
 	// ------------- Path parameter "movieId" -------------
-	var movieID string
+	var movieID int
 
 	if err := runtime.BindStyledParameter("simple", false, "movieId", chi.URLParam(r, "movieId"), &movieID); err != nil {
 		siw.ErrorHandlerFunc(w, r, &InvalidParamFormatError{err, "movieId"})
@@ -754,22 +755,22 @@ func WithErrorHandler(handler func(w http.ResponseWriter, r *http.Request, err e
 // Base64 encoded, gzipped, json marshaled Swagger object
 var swaggerSpec = []string{
 
-	"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",
+	"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",
 }
 
 // GetSwagger returns the content of the embedded swagger specification file

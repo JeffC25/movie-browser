@@ -1,21 +1,19 @@
-import { useLocation, useNavigate } from "react-router-dom"
-import { useEffect, useState } from "react"
-import { MovieList } from "../../api"
-import { DefaultService } from "../../api"
-import MovieWidget from "./MovieWidget"
-import leftIcon from "../../assets/leftbutton.svg"
-import rightIcon from "../../assets/rightbutton.svg"
+import { useLocation, useNavigate } from "react-router-dom";
+import { useEffect, useState, ReactNode } from "react";
+import { DefaultService } from "../../api";
+import MovieWidget from "./MovieWidget";
+import leftIcon from "../../assets/leftbutton.svg";
+import rightIcon from "../../assets/rightbutton.svg";
 
 interface Props {
     query: string, 
-    page: string,
+    page: number,
 }
 
 const MovieResults = ({query, page}: Props) => {
-    const currentPage = Number(page)
-    const [searchResults, setSearchResults] = useState<MovieList>({page: 0,
-        totalPages: 0,
-        results: []});
+    const currentPage = Number(page);
+    const [searchResults, setSearchResults] = useState<ReactNode[]>([]);
+    const [totalPages, setTotalPages] = useState<number>(0);
 
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
@@ -33,16 +31,16 @@ const MovieResults = ({query, page}: Props) => {
     useEffect(() => {
         DefaultService.searchMovie(query, page )
         .then((result) => {
-            setSearchResults(result)
+            setSearchResults(result.results.map(MovieWidget));
+            setTotalPages(result.totalPages)
             setLoading(false)
         })
         .catch((error) => {
             console.error('Error: ', error)
         })
     // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, [useLocation()])
+    }, [useLocation()]);
 
-    const movies = (searchResults.results.map(MovieWidget))
     return (
         <div>
             {loading ? <div className="w-screen h-screen bg-gray-800"></div> :
@@ -54,11 +52,11 @@ const MovieResults = ({query, page}: Props) => {
                 </div>
                 <div className="static">
                     <div className="grid 2xl:grid-cols-5 lg:grid-cols-3 grid-cols-1 gap-x-2 gap-y-12 pb-12">
-                        {...movies}
+                        {...searchResults}
                     </div>
                 </div>
                 <div className="w-12 m-8">
-                    <button onClick={nextPage} className={`fixed h-12 w-12 top-1/2 ${currentPage >= searchResults.totalPages ? "hidden" : ""}`}>
+                    <button onClick={nextPage} className={`fixed h-12 w-12 top-1/2 ${currentPage >= totalPages ? "hidden" : ""}`}>
                         <img src={rightIcon} />
                     </button> 
                 </div>

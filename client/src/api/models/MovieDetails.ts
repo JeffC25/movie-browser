@@ -4,6 +4,7 @@
 /* eslint-disable */
 
 export type MovieDetails = {
+    id: number;
     poster: string;
     name: string;
     rating: number;

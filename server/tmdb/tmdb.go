@@ -3,7 +3,7 @@ package tmdb
 import "time"
 
 var VideoPath string = "https://www.youtube.com/embed/"
-var ImagePath string = "https://image.tmdb.org/t/p/original"
+var ImagePath string = "https://image.tmdb.org/t/p/w500"
 
 type Struct interface{}
 

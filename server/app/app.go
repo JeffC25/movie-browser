@@ -8,6 +8,7 @@ import (
 	"main/config"
 	"main/tmdb"
 	"net/http"
+	"strconv"
 	"strings"
 
 	"github.com/go-chi/chi/middleware"
@@ -102,7 +103,7 @@ func (a *App) GetCategory(w http.ResponseWriter, r *http.Request, category strin
 func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchMovieParams) *Response {
 	search := tmdb.MovieList{}
 
-	url := "https://api.themoviedb.org/3/search/movie?query=" + strings.ReplaceAll(params.QueryString, " ", "%20") + "&include_adult=false&language=en-US&page=" + params.Page
+	url := "https://api.themoviedb.org/3/search/movie?query=" + strings.ReplaceAll(params.QueryString, " ", "%20") + "&include_adult=false&language=en-US&page=" + strconv.Itoa(params.Page)
 	err := a.GetTMDB("GET", url, &search)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb search request")
@@ -130,10 +131,10 @@ func (a *App) SearchMovie(w http.ResponseWriter, r *http.Request, params SearchM
 	return SearchMovieJSON200Response(resp)
 }
 
-func (a *App) GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+func (a *App) GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID int) *Response {
 	details := tmdb.MovieDetails{}
 
-	url := "https://api.themoviedb.org/3/movie/" + movieID + "?language=en-US"
+	url := "https://api.themoviedb.org/3/movie/" + strconv.Itoa(movieID) + "?language=en-US"
 	err := a.GetTMDB("GET", url, &details)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb details request")
@@ -160,10 +161,10 @@ func (a *App) GetMovieDetails(w http.ResponseWriter, r *http.Request, movieID st
 	return GetMovieDetailsJSON200Response(resp)
 }
 
-func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID string, params GetMovieReviewsParams) *Response {
+func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID int, params GetMovieReviewsParams) *Response {
 	reviews := tmdb.ReviewList{}
 
-	url := "https://api.themoviedb.org/3/movie/" + movieID + "/reviews?language=en-US&page=" + params.Page
+	url := "https://api.themoviedb.org/3/movie/" + strconv.Itoa(movieID) + "/reviews?language=en-US&page=" + strconv.Itoa(params.Page)
 	err := a.GetTMDB("GET", url, &reviews)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb reviews request")
@@ -194,10 +195,10 @@ func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID st
 	return GetMovieReviewsJSON200Response(resp)
 }
 
-func (a *App) GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+func (a *App) GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID int) *Response {
 	videos := tmdb.VideoList{}
 
-	url := "https://api.themoviedb.org/3/movie/" + movieID + "/videos?language=en-US"
+	url := "https://api.themoviedb.org/3/movie/" + strconv.Itoa(movieID) + "/videos?language=en-US"
 	err := a.GetTMDB("GET", url, &videos)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb videos request")
@@ -220,10 +221,10 @@ func (a *App) GetMovieVideos(w http.ResponseWriter, r *http.Request, movieID str
 	return GetMovieVideosJSON200Response(results)
 }
 
-func (a *App) GetMovieCast(w http.ResponseWriter, r *http.Request, movieID string) *Response {
+func (a *App) GetMovieCast(w http.ResponseWriter, r *http.Request, movieID int) *Response {
 	credits := tmdb.MovieCredits{}
 
-	url := "https://api.themoviedb.org/3/movie/" + string(movieID) + "/credits?language=en-US"
+	url := "https://api.themoviedb.org/3/movie/" + strconv.Itoa(movieID) + "/credits?language=en-US"
 	err := a.GetTMDB("GET", url, &credits)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed tmdb credits request")
