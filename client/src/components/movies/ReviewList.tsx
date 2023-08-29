@@ -3,7 +3,7 @@ import { DefaultService, Review } from "../../api";
 
 const reviewCard = (review: Review) => {
     return (
-        <div className="block w-full bg-[rgba(32,32,32,0.25)] rounded-lg p-2">
+        <div className="block w-full bg-[rgba(32,32,32,0.25)] p-2">
             <span className="block font-semibold">{`Rating: ${review.rating}`}</span>
             <span className="block">{review.content}</span>
         </div>

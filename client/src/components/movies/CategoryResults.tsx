@@ -29,7 +29,7 @@ const SearchResults = ({category, page}: Props) => {
     }
 
     useEffect(() => {
-        DefaultService.getCategory(category, page)
+        DefaultService.getCategory(category, Number(page))
         .then((result) => {
             setSearchResults(result.results.map(MovieWidget));
             setTotalPages(result.totalPages)

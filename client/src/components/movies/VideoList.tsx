@@ -4,7 +4,7 @@ import { DefaultService, Video } from "../../api";
 const videoCard = (video: Video) => {
     return (
         <div>
-            <div className="block w-full bg-[rgba(32,32,32,0.25)] rounded-lg p-2">
+            <div className="block w-full bg-[rgba(32,32,32,0.25)] p-2">
                 <iframe
                     className="w-full h-40"
                     allow="fullscreen"

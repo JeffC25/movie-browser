@@ -1,3 +1,6 @@
 apikey:
 apitoken:
 loglevel:
+rediskey:
+redishost:
+redisport:
