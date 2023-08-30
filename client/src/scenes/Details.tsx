@@ -9,7 +9,6 @@ import VideosList from "../components/movies/VideoList";
 const Details = () => {
     const [details, setDetails] = useState<MovieDetails>({} as MovieDetails);
     const [genres, setGenres] = useState<string[]>([])
-    // const [cast, setCast] = useState<Cast>({} as Cast);
     const { id } = useParams();
 
     useEffect(() => {
@@ -28,7 +27,7 @@ const Details = () => {
         <Layout>
             <div className="absolute flex flex-wrap flex-row justify-center
                 min-w-screen min-h-screen pt-24 p-24 sm:pd-0 z-10 top-0 w-full
-                backdrop-blur-2xl backdrop-brightness-50 backdrop-saturate-150"
+                backdrop-blur-xl backdrop-brightness-50 backdrop-saturate-150"
             >
                 <div className="">
                     <img src={details.poster} className="object-cover md:mx-12"/>
@@ -47,16 +46,16 @@ const Details = () => {
 
                     <div className="block h-32">{details.overview}</div>
 
-                    <div className="bg-transparent w-full md:h-[27rem] h-1/2 block 2xl:flex ">
-                        <div className="2xl:h-full h-1/3 2xl:w-1/3 w-full block">
+                    <div className="bg-transparent w-full md:h-[27rem] h-1/2 block md:flex ">
+                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
                             <span className="mb-2 font-semibold w-full block">Cast</span>
                             {CastList(Number(id!))}
                         </div>
-                        <div className="2xl:h-full h-1/3 2xl:w-1/3 w-full block">
+                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
                             <span className="mb-2 font-semibold w-full block">Reviews</span>
                             {ReviewList(Number(id!))}
                         </div>
-                        <div className="2xl:h-full h-1/3 2xl:w-1/3 w-full block">
+                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
                             <span className="mb-2 font-semibold w-full block">Videos</span>
                             {VideosList(Number(id!))}
                         </div>
