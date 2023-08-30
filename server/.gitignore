@@ -23,3 +23,5 @@ go.work
 
 # Enviornment variables
 *.env
+
+main.exe

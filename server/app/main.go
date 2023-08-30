@@ -28,7 +28,7 @@ func main() {
 	ctx := context.Background()
 
 	rdb := redis.NewClient(&redis.Options{
-		Addr:     c.RedisHost + ":" + c.RedisPort,
+		Addr:     c.RedisURL,
 		Password: "",
 		DB:       0,
 	})

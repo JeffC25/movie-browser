@@ -2,10 +2,19 @@ version: '1'
 services:
   redis:
     image: 'redis:latest'
+    expose: 
+      - '6397:6397'
   server:
     build:
       dockerfile: server.Dockerfile
       context: ./server
+    environment:
+      - APIKEY=$APIKEY
+      - APITOKEN=$APITOKEN
+      - LOGLEVEL=1
+      - CLIENTPORT=5173
+      - REDISKEY=
+      - REDISURL=redis:6397
     volumes:
       - .:/server
     ports: 
