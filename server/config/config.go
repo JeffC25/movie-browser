@@ -8,9 +8,12 @@ import (
 )
 
 type Config struct {
-	Key      string `yaml:"apikey"`
-	Token    string `yaml:"apitoken"`
-	LogLevel int    `yaml:"loglevel"`
+	Key       string `yaml:"apikey"`
+	Token     string `yaml:"apitoken"`
+	LogLevel  int    `yaml:"loglevel"`
+	Client    string `yaml:"clientport"`
+	RedisHost string `yaml:"redishost"`
+	RedisPort string `yaml:"redisport"`
 }
 
 func GetConfig() (Config, error) {

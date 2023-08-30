@@ -3,7 +3,7 @@ import { DefaultService, Person } from "../../api";
 
 const personCard = (person: Person) => {
     return (
-        <div className="block w-full h-24 bg-[rgba(32,32,32,0.25)] rounded-lg p-2">
+        <div className="block w-full h-24 bg-[rgba(32,32,32,0.25)] p-2">
             <img src={person.picture} alt="" className="inline aspect-square w-20 h-20 object-fill rounded-lg"/>
             <div className="inline-block ml-2 w-2/3  whitespace-nowrap overflow-clip text-ellipsis">
                 <span className="block font-semibold">{person.name}</span>

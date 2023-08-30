@@ -1,12 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"os"
 	"os/signal"
 
 	config "main/config"
 	log "main/log"
+
+	"github.com/redis/go-redis/v9"
 )
 
 func main() {
@@ -22,9 +25,19 @@ func main() {
 
 	log := log.Logger(c.LogLevel)
 
+	ctx := context.Background()
+
+	rdb := redis.NewClient(&redis.Options{
+		Addr:     c.RedisHost + ":" + c.RedisPort,
+		Password: "",
+		DB:       0,
+	})
+
 	a := App{
 		log: log,
 		c:   c,
+		rdb: rdb,
+		ctx: ctx,
 	}
 
 	go func() {

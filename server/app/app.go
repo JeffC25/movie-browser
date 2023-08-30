@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"encoding/json"
 	"errors"
 	"fmt"
@@ -10,10 +11,12 @@ import (
 	"net/http"
 	"strconv"
 	"strings"
+	"time"
 
 	"github.com/go-chi/chi/middleware"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/cors"
+	"github.com/redis/go-redis/v9"
 	"github.com/rs/zerolog"
 )
 
@@ -26,18 +29,38 @@ var (
 type App struct {
 	log zerolog.Logger
 	c   config.Config
+	rdb *redis.Client
+	ctx context.Context
 }
 
 func (a *App) Run(c config.Config, log zerolog.Logger) error {
-	r := chi.NewRouter()
-	r.Use(middleware.RedirectSlashes)
-	r.Use(cors.Handler(cors.Options{AllowedOrigins: []string{"http://localhost:5173"}}))
+	router := chi.NewRouter()
+	router.Use(middleware.RedirectSlashes)
+	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{"http://localhost:" + c.Client}}))
 
-	handler := Handler(a, WithRouter(r), WithServerBaseURL("/api"))
+	handler := Handler(a, WithRouter(router), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)
 }
 
 func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
+	// read from cache
+	cached, err := a.rdb.Get(a.ctx, url).Result()
+	if err == nil {
+		a.log.Info().Msg("reading " + url + " from cache")
+		err = json.Unmarshal([]byte(cached), &tmdbStruct)
+		if err != nil {
+			a.log.Warn().Err(err).Msg("failed to unmarshal tmdb response")
+		}
+		return err
+
+	} else if err == redis.Nil {
+		a.log.Info().Msg(url + " not in cache")
+
+	} else {
+		a.log.Warn().Err(err).Msg("failed to read from cache")
+	}
+
+	// fetch from API if not in cache
 	req, err := http.NewRequest(method, url, nil)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("error creating new request")
@@ -59,6 +82,8 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 		a.log.Warn().Err(err).Msg("failed to read tmdb response")
 		return err
 	}
+
+	a.rdb.SetEx(a.ctx, url, body, time.Minute)
 
 	err = json.Unmarshal(body, &tmdbStruct)
 	if err != nil {
