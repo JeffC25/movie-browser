@@ -1,45 +1,36 @@
 package config
 
 import (
-	"fmt"
 	"os"
-
-	"gopkg.in/yaml.v2"
+	"strconv"
 )
 
 type Config struct {
-	Key       string `yaml:"apikey"`
-	Token     string `yaml:"apitoken"`
-	LogLevel  int    `yaml:"loglevel"`
-	Client    string `yaml:"clientport"`
-	RedisHost string `yaml:"redishost"`
-	RedisPort string `yaml:"redisport"`
+	Key      string
+	Token    string
+	LogLevel int
+	Client   string
+	RedisURL string
 }
 
 func GetConfig() (Config, error) {
-	f, err := os.ReadFile("./config/config.yaml")
-	if err != nil {
-		return Config{}, fmt.Errorf("unable to read config file: %v", err)
-	}
-
-	c := Config{}
-	err = yaml.Unmarshal(f, &c)
-	if err != nil {
-		return Config{}, fmt.Errorf("unable to unmarshal config into struct: %v", err)
-	}
-
-	// CGO_ENABLED=0 go build -o main ./app/
-	// level, err := strconv.Atoi(os.Getenv("LOGLEVEL"))
+	// f, err := os.ReadFile("./config/config.yaml")
 	// if err != nil {
-	// 	fmt.Println("could not get log level")
-	// 	level = 1
+	// 	return Config{}, fmt.Errorf("unable to read config file: %v", err)
 	// }
 
-	// c := Config{
-	// 	Key:      os.Getenv("APIKEY"),
-	// 	Token:    os.Getenv("APITOKEN"),
-	// 	LogLevel: level,
+	// c := Config{}
+	// err = yaml.Unmarshal(f, &c)
+	// if err != nil {
+	// 	return Config{}, fmt.Errorf("unable to unmarshal config into struct: %v", err)
 	// }
+	c := Config{}
+
+	c.Key = os.Getenv("APIKEY")
+	c.Token = os.Getenv("APITOKEN")
+	c.LogLevel, _ = strconv.Atoi(os.Getenv("LOGLEVEL"))
+	c.Client = os.Getenv("CLIENTURL")
+	c.RedisURL = os.Getenv("REDISURL")
 
 	return c, nil
 }

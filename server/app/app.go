@@ -36,7 +36,7 @@ type App struct {
 func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	router := chi.NewRouter()
 	router.Use(middleware.RedirectSlashes)
-	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{"http://localhost:" + c.Client}}))
+	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{c.Client}}))
 
 	handler := Handler(a, WithRouter(router), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)
@@ -57,7 +57,8 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 		a.log.Info().Msg(url + " not in cache")
 
 	} else {
-		a.log.Warn().Err(err).Msg("failed to read from cache")
+		a.log.Warn().Err(err).Msg("failed reading from cache")
+		a.log.Info().Msg(a.c.RedisURL)
 	}
 
 	// fetch from API if not in cache
@@ -83,7 +84,10 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 		return err
 	}
 
-	a.rdb.SetEx(a.ctx, url, body, time.Minute)
+	a.rdb.Set(a.ctx, url, body, time.Minute).Err()
+	if err != nil {
+		a.log.Warn().Err(err).Msg("failed to cache tmdb response")
+	}
 
 	err = json.Unmarshal(body, &tmdbStruct)
 	if err != nil {
