@@ -2,10 +2,19 @@ version: '1'
 services:
   redis:
     image: 'redis:latest'
+    ports: 
+      - '6397:6397'
   server:
     build:
       dockerfile: server.Dockerfile
       context: ./server
+    environment:
+      - APIKEY=$APIKEY
+      - APITOKEN=$APITOKEN
+      - LOGLEVEL=$LOGLEVEL
+      - CLIENTURL=$CLIENTURL
+      - REDISKEY=$REDISKEY
+      - REDISURL=$REDISURL
     volumes:
       - .:/server
     ports: 
@@ -18,3 +27,12 @@ services:
       - .:/client
     ports: 
       - '5173:5173'
+  nginx:
+    restart: always
+    build:
+      dockerfile: nginx.Dockerfile
+      context: ./nginx
+    ports:
+      - '80:80'
+    depends_on:
+      - client
