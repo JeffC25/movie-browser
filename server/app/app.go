@@ -36,7 +36,7 @@ type App struct {
 func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	router := chi.NewRouter()
 	router.Use(middleware.RedirectSlashes)
-	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{"http://localhost:" + c.Client}}))
+	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{c.Client}}))
 
 	handler := Handler(a, WithRouter(router), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)

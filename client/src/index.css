@@ -2,9 +2,9 @@
 @tailwind components;
 @tailwind utilities;
   
-* {
+/* * {
     overscroll-behavior-y: none;
-}
+} */
 
 /* width */
 ::-webkit-scrollbar {
