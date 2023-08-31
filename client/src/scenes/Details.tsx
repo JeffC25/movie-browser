@@ -25,13 +25,12 @@ const Details = () => {
 
     return (
         <Layout>
-            <div className="
-                absolute flex flex-wrap flex-row justify-center
-                min-w-screen min-h-screen pt-24 pr-24 sm:pd-0 z-10 top-0 w-full h-full
+            <div className="absolute flex flex-wrap flex-row justify-center
+                min-w-screen min-h-screen pt-24 p-24 sm:pd-0 z-10 top-0 w-full
                 backdrop-blur-xl backdrop-brightness-50 backdrop-saturate-150"
             >
-                <div className="block xl:w-2/5 w-auto pr-8">
-                    <img src={details.poster} className="block m-auto"/>
+                <div className="">
+                    <img src={details.poster} className="object-cover md:mx-12"/>
                 </div>
                 <div className="block text-gray-300 md:w-3/5 whitespace-pre-line sm:p-0 sm:ml-0 ml-20">
                     <a href={details.homepage} className="block text-xl font-semibold">{details.name}</a>
@@ -47,16 +46,16 @@ const Details = () => {
 
                     <div className="block h-32">{details.overview}</div>
 
-                    <div className="bg-transparent w-full md:h-[27rem] h-1/2 block xl:flex ">
-                        <div className="xl:h-full h-96 xl:w-1/3 w-full block">
+                    <div className="bg-transparent w-full md:h-[27rem] h-1/2 block md:flex ">
+                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
                             <span className="mb-2 font-semibold w-full block">Cast</span>
                             {CastList(Number(id!))}
                         </div>
-                        <div className="xl:h-full h-96 xl:w-1/3 w-full block">
+                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
                             <span className="mb-2 font-semibold w-full block">Reviews</span>
                             {ReviewList(Number(id!))}
                         </div>
-                        <div className="xl:h-full h-96 xl:w-1/3 w-full block">
+                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
                             <span className="mb-2 font-semibold w-full block">Videos</span>
                             {VideosList(Number(id!))}
                         </div>
