@@ -29,7 +29,7 @@ func GetConfig() (Config, error) {
 	c.Key = os.Getenv("APIKEY")
 	c.Token = os.Getenv("APITOKEN")
 	c.LogLevel, _ = strconv.Atoi(os.Getenv("LOGLEVEL"))
-	c.Client = os.Getenv("CLIENTPORT")
+	c.Client = os.Getenv("CLIENTURL")
 	c.RedisURL = os.Getenv("REDISURL")
 
 	return c, nil

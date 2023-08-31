@@ -18,7 +18,7 @@ const MovieWidget = (movie: MoviePreview) => {
                 </div>
                 <img src= {movie.poster} alt="poster" className="object-fill text-transparent"/>
             </div>    
-            <div className="block">{movie.name}</div>
+            <Link to={"/details/" + movie.id} className="block">{movie.name}</Link>
         </div>
     );
 };
