@@ -51,6 +51,14 @@ const SearchResults = ({category, page}: Props) => {
                     </button>
                 </div>
                 <div className="static">
+                    <div className="text-gray-400">
+                        {category=="popular" ? "Trending"
+                        : category=="now_playing" ? "Now Playing"
+                        : category=="upcoming" ? "Upcoming"
+                        : category=="top_rated"? "Top Rated"
+                        : "Results"}
+                    </div>
+                    <div className="mb-2 w-full bg-gray-300 h-px"></div>
                     <div className="grid 2xl:grid-cols-5 lg:grid-cols-3 grid-cols-1 gap-x-2 gap-y-12 pb-12">
                         {...searchResults}
                     </div>
