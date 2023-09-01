@@ -1,4 +1,4 @@
-# movie-searcher
+# Movie Browser
 
 
 ### 🚧 Under construction 🚧
