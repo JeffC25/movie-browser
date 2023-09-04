@@ -36,7 +36,7 @@ type App struct {
 func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	router := chi.NewRouter()
 	router.Use(middleware.RedirectSlashes)
-	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{c.Client, "*"}}))
+	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{c.Client}}))
 
 	// status check
 	testList := tmdb.MovieList{}
@@ -91,6 +91,7 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 	}
 
 	a.rdb.Set(a.ctx, url, body, time.Minute).Err()
+	a.log.Info().Msg("caching " + url)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed to cache tmdb response")
 	}

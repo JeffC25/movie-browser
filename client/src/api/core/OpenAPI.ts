@@ -10,8 +10,8 @@ type Headers = Record<string, string>;
 export type OpenAPIConfig = {
     BASE: string;
     VERSION: string;
-    WITH_CREDENTIALS: false;
-    CREDENTIALS: 'include' | 'omit';
+    WITH_CREDENTIALS: boolean;
+    CREDENTIALS: 'include' | 'omit' | 'same-origin';
     TOKEN?: string | Resolver<string> | undefined;
     USERNAME?: string | Resolver<string> | undefined;
     PASSWORD?: string | Resolver<string> | undefined;
@@ -20,7 +20,7 @@ export type OpenAPIConfig = {
 };
 
 export const OpenAPI: OpenAPIConfig = {
-    BASE: 'api:8080/api',
+    BASE: '/api/api',
     VERSION: '0.0.1',
     WITH_CREDENTIALS: false,
     CREDENTIALS: 'include',
