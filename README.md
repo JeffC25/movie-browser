@@ -1,6 +1,6 @@
 # Movie Browser
 
-This project has been ![deployed on AWS](https://movieapp.yerf.dev/)
+This project has been [deployed on AWS](https://movieapp.yerf.dev/)
 ### 🚧 Under construction 🚧
 
 A web application to browse movies
