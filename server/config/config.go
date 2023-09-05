@@ -14,16 +14,6 @@ type Config struct {
 }
 
 func GetConfig() (Config, error) {
-	// f, err := os.ReadFile("./config/config.yaml")
-	// if err != nil {
-	// 	return Config{}, fmt.Errorf("unable to read config file: %v", err)
-	// }
-
-	// c := Config{}
-	// err = yaml.Unmarshal(f, &c)
-	// if err != nil {
-	// 	return Config{}, fmt.Errorf("unable to unmarshal config into struct: %v", err)
-	// }
 	c := Config{}
 
 	c.Key = os.Getenv("APIKEY")
