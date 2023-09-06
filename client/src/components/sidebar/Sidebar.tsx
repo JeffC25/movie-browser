@@ -25,9 +25,9 @@ const SideBar = () => {
     ]
 
     return (
-        <div onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="flex bg-gray-900 shadow fixed top-0 h-screen pt-4">
-            <div className={` ${open ? "w-40" : "w-16"} px-4`}>
-                {/* <button type="button" className={`${open && 'rotate-180'}`}>
+        <div onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="flex bg-gray-900 shadow fixed top-0 h-screen">
+            <div className={` ${open ? "w-40" : "w-16"} duration-75 px-4`}>
+                {/* <button type="button" className={`${open && 'rotate-180'} duration-75`}>
                     <img onClick={handleClick} src={menuIcon} className="h-6 w-6"/>
                 </button> */}
                 <ul>
@@ -35,7 +35,7 @@ const SideBar = () => {
                         <Link to={menu.path} key={index}>
                             <li className="flex items-center gap-x-4 mt-4">
                                 <img src={menu.icon} className="text-block block float-left shrink-0 h-6 w-6"/>
-                                <div className={`${!open ? "hidden w-0" : "w-auto"} overflow-hidden flex-1 whitespace-nowrap text-gray-300`}>
+                                <div className={`${!open ? "hidden w-0" : "w-auto"} duration-75 overflow-hidden flex-1 whitespace-nowrap text-gray-300`}>
                                     {menu.title}
                                 </div>
                             </li>

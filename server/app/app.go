@@ -228,6 +228,7 @@ func (a *App) GetMovieReviews(w http.ResponseWriter, r *http.Request, movieID in
 		TotalPages: reviews.TotalPages,
 		Results:    results,
 	}
+
 	return GetMovieReviewsJSON200Response(resp)
 }
 
