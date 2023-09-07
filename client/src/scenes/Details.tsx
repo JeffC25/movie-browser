@@ -25,20 +25,21 @@ const Details = () => {
 
     return (
         <Layout>
-            <div className="absolute py-20 px-20 w-full h-full
-                grid grid-cols-5 grid-rows-2 grid-flow-col
-                text-gray-300
+            <img src={details.backdrop} className="absolute h-full w-full top-0 z-0 pointer-events-none bg-gray-800"/>
+            <div className="absolute py-20 px-20 w-full h-full top-0
+                grid grid-cols-6 grid-rows-2 grid-flow-col
+                text-gray-300 
                 backdrop-blur-xl backdrop-brightness-50 backdrop-saturate-150"
             >
-                <div className="col-span-2 row-span-2 content-fill">
-                    <img src={details.poster} className="h-full my-auto mx-auto"/>
+                <div className="col-span-2 row-span-2 content-cover">
+                    <img src={details.poster} className="h-full my-auto float-right mr-10"/>
                 </div>
 
-                <div className="col-span-3 row-span-1 grid grid-rows-2 h-full grid-flow-col overflow-auto">
+                <div className="col-span-4 row-span-1 grid grid-rows-2 h-full grid-flow-col overflow-auto">
                     <div className="row-span-1">
                         <a href={details.homepage} className="block text-xl font-semibold">{details.name}</a>
 
-                        <div className="bg-gray-300 h-px my-2"></div>
+                        <div className="bg-gray-300 h-px mb-2"></div>
 
                         <div className="block"><span className="font-semibold">Rating:</span> {details.rating}</div>
                         <div className="block"><span className="font-semibold">Released:</span> {details.date}</div>
@@ -51,7 +52,7 @@ const Details = () => {
                     </div>
                 </div>
 
-                <div className="col-start-3 col-span-3 row-start-2 row-span-1 grid grid-cols-3 grid-rows-1 space-x-2">
+                <div className="col-start-3 col-span-4 row-start-2 row-span-1 grid grid-cols-3 grid-rows-1 space-x-2">
                     <div className="col-span-1 row-span-1 mb-6">
                         <div className="font-semibold w-full">Cast</div>
                         {CastList(Number(id!))}
@@ -65,11 +66,7 @@ const Details = () => {
                         {VideosList(Number(id!))}
                     </div>
                 </div>
-            </div>
-            <div className="static w-full bg-gray-800 h-screen top-0 z-0 -mt-20">
-                <img src={details.backdrop} className="h-full w-full top-0 z-0 pointer-events-none"/>                
-            </div>
-            
+            </div>            
         </Layout>
     );
 };
