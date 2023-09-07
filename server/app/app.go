@@ -38,12 +38,6 @@ func (a *App) Run(c config.Config, log zerolog.Logger) error {
 	router.Use(middleware.RedirectSlashes)
 	router.Use(cors.Handler(cors.Options{AllowedOrigins: []string{c.Client}}))
 
-	// status check
-	testList := tmdb.MovieList{}
-	a.GetTMDB("GET", "https://api.themoviedb.org/3/movie/popular?language=en-US&page=1", &testList)
-
-	a.log.Info().Msg(fmt.Sprint(testList))
-
 	handler := Handler(a, WithRouter(router), WithServerBaseURL("/api"))
 	return http.ListenAndServe(":8080", handler)
 }
