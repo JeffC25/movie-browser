@@ -11,6 +11,14 @@ This app leaverages is a single-page web application that allows users to browse
 
 ![Demo](https://github.com/JeffC25/movie-browser/blob/661282aa04af845ebdc894e283ca037d55a60081/movie-browser-demo.gif)
 
+## Setup
+
+This application leverages The Movie Database (TMDB) API; to run this application locally, please [request for an API key](https://developer.themoviedb.org/).
+Next, populate your environment variables as shown in server/config/env-template.txt, including the api key and access token retrieved from TMDB.
+
+The project is containerized with Docker and Docker-Compose. Please ensure that Docker is installed and run `docker compose up` in the project directory.
+To view the application, navigate to http://localhost:3050 in your browser.
+
 ## Project Structure
 ```
 ├── LICENSE
