@@ -25,45 +25,50 @@ const Details = () => {
 
     return (
         <Layout>
-            <div className="absolute flex flex-wrap flex-row justify-center
-                min-w-screen min-h-screen pt-24 p-24 sm:pd-0 z-10 top-0 w-full
+            <div className="absolute py-20 px-20 w-full h-full
+                grid grid-cols-5 grid-rows-2 grid-flow-col
+                text-gray-300
                 backdrop-blur-xl backdrop-brightness-50 backdrop-saturate-150"
             >
-                <div className="">
-                    <img src={details.poster} className="object-cover md:mx-12"/>
+                <div className="col-span-2 row-span-2 content-fill">
+                    <img src={details.poster} className="h-full my-auto mx-auto"/>
                 </div>
-                <div className="block text-gray-300 md:w-3/5 whitespace-pre-line sm:p-0 sm:ml-0 ml-20">
-                    <a href={details.homepage} className="block text-xl font-semibold">{details.name}</a>
 
-                    <div className="bg-gray-300 h-px my-2"></div>
+                <div className="col-span-3 row-span-1 grid grid-rows-2 ">
+                    <div className="row-span-1">
+                        <a href={details.homepage} className="text-xl font-semibold">{details.name}</a>
+                    
+                        <div className="bg-gray-300 h-px my-2"></div>
 
-                    <div className="block"><span className="font-semibold">Rating:</span> {details.rating}</div>
-                    <div className="block"><span className="font-semibold">Released:</span> {details.date}</div>
-                    <div className="block"><span className="font-semibold">Runtime:</span> {details.runtime} minutes</div>
-                    <div className="block"><span className="font-semibold">Genres:</span> {genres}</div>
+                        <div className=""><div className="font-semibold inline">Rating:</div> {details.rating}</div>
+                        <div className=""><div className="font-semibold inline">Released:</div> {details.date}</div>
+                        <div className=""><div className="font-semibold inline">Runtime:</div> {details.runtime} minutes</div>
+                        <div className=""><div className="font-semibold inline">Genres:</div> {genres}</div>
+                    </div>
 
-                    <div className="h-px my-2"></div>
+                    <div className="row-span-1 overflow-auto my-2">
+                        <div className="overflow-auto">{details.overview}</div>
+                    </div>
 
-                    <div className="block h-32 overflow-y-auto">{details.overview}</div>
+                </div>
 
-                    <div className="bg-transparent w-full md:h-[27rem] h-1/2 block md:flex ">
-                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
-                            <span className="mb-2 font-semibold w-full block">Cast</span>
-                            {CastList(Number(id!))}
-                        </div>
-                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
-                            <span className="mb-2 font-semibold w-full block">Reviews</span>
-                            {ReviewList(Number(id!))}
-                        </div>
-                        <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
-                            <span className="mb-2 font-semibold w-full block">Videos</span>
-                            {VideosList(Number(id!))}
-                        </div>
+                <div className="col-start-3 col-span-3 row-start-2 row-span-1 grid grid-cols-3 grid-rows-1 space-x-2">
+                    <div className="col-span-1 row-span-1 mb-6">
+                        <div className="font-semibold w-full">Cast</div>
+                        {CastList(Number(id!))}
+                    </div>
+                    <div className="col-span-1 row-span-1 mb-6">
+                        <div className="font-semibold w-full  snap-star">Reviews</div>
+                        {ReviewList(Number(id!))}
+                    </div>
+                    <div className="col-span-1 row-span-1 mb-6">
+                        <div className="sticky font-semibold w-full">Videos</div>
+                        {VideosList(Number(id!))}
                     </div>
                 </div>
             </div>
-            <div className="absolute w-full bg-gray-800 h-full top-0 z-0">
-                <img src={details.backdrop} className="h-screen w-full top-0 z-0 pointer-events-none"/>                
+            <div className="static w-full bg-gray-800 h-screen top-0 z-0 -mt-20">
+                <img src={details.backdrop} className="h-full w-full top-0 z-0 pointer-events-none"/>                
             </div>
             
         </Layout>
