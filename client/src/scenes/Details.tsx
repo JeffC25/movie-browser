@@ -34,22 +34,21 @@ const Details = () => {
                     <img src={details.poster} className="h-full my-auto mx-auto"/>
                 </div>
 
-                <div className="col-span-3 row-span-1 grid grid-rows-2 ">
+                <div className="col-span-3 row-span-1 grid grid-rows-2 h-full grid-flow-col overflow-auto">
                     <div className="row-span-1">
-                        <a href={details.homepage} className="text-xl font-semibold">{details.name}</a>
-                    
+                        <a href={details.homepage} className="block text-xl font-semibold">{details.name}</a>
+
                         <div className="bg-gray-300 h-px my-2"></div>
 
-                        <div className=""><div className="font-semibold inline">Rating:</div> {details.rating}</div>
-                        <div className=""><div className="font-semibold inline">Released:</div> {details.date}</div>
-                        <div className=""><div className="font-semibold inline">Runtime:</div> {details.runtime} minutes</div>
-                        <div className=""><div className="font-semibold inline">Genres:</div> {genres}</div>
-                    </div>
+                        <div className="block"><span className="font-semibold">Rating:</span> {details.rating}</div>
+                        <div className="block"><span className="font-semibold">Released:</span> {details.date}</div>
+                        <div className="block"><span className="font-semibold">Runtime:</span> {details.runtime} minutes</div>
+                        <div className="block"><span className="font-semibold">Genres:</span> {genres}</div>
 
-                    <div className="row-span-1 overflow-auto my-2">
-                        <div className="overflow-auto">{details.overview}</div>
-                    </div>
+                        <div className="h-px my-2"></div>
 
+                        <div className="">{details.overview}</div>
+                    </div>
                 </div>
 
                 <div className="col-start-3 col-span-3 row-start-2 row-span-1 grid grid-cols-3 grid-rows-1 space-x-2">

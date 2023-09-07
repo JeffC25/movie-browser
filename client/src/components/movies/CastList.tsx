@@ -4,7 +4,7 @@ import { DefaultService, Person } from "../../api";
 const personCard = (person: Person) => {
     return (
         <div className="grid grid-cols-3 w-full h-24 bg-[rgba(32,32,32,0.25)] p-2 " >
-            <img src={person.picture} alt="" className="col-span-1 aspect-square w-20 h-20 object-fill rounded-lg"/>
+            <img src={person.picture} alt="" className="col-span-1 aspect-square w-20 h-20 object-fit rounded-sm"/>
             <div className="col-span-2 pl-2 h-20  overflow-clip text-ellipsis">
                 <div className=" font-semibold">{person.name}</div>
 
