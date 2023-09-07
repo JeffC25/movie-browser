@@ -44,7 +44,7 @@ const Details = () => {
 
                     <div className="h-px my-2"></div>
 
-                    <div className="block h-32">{details.overview}</div>
+                    <div className="block h-32 overflow-y-scroll">{details.overview}</div>
 
                     <div className="bg-transparent w-full md:h-[27rem] h-1/2 block md:flex ">
                         <div className="xl:h-full h-1/3 xl:w-1/3 w-full block">
