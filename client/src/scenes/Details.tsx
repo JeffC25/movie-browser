@@ -25,8 +25,8 @@ const Details = () => {
 
     return (
         <Layout>
-            <img src={details.backdrop} className="absolute h-full w-full top-0 z-0 pointer-events-none bg-gray-800"/>
-            <div className="absolute py-20 px-20 w-full h-full top-0
+            <img src={details.backdrop} className="absolute h-full h-min-screen w-full top-0 z-0 pointer-events-none bg-gray-800"/>
+            <div className="absolute py-20 px-20 w-full h-full h-min-screen top-0
                 grid grid-cols-6 grid-rows-2 grid-flow-col
                 text-gray-300 
                 backdrop-blur-xl backdrop-brightness-50 backdrop-saturate-150"
