@@ -2,10 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-* {
-    overscroll-behavior: none;
-}
-
 /* width */
 ::-webkit-scrollbar {
     width: 10px;

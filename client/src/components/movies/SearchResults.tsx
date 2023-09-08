@@ -51,7 +51,7 @@ const MovieResults = ({query, page}: Props) => {
                     </button>
                 </div>
                 <div className="static">
-                    <div className="grid 2xl:grid-cols-5 lg:grid-cols-3 grid-cols-1 gap-x-2 gap-y-12 pb-12">
+                    <div className="grid xl:grid-cols-5 lg:grid-cols-3 grid-cols-1 gap-x-2 gap-y-12 pb-12">
                         {...searchResults}
                     </div>
                 </div>
