@@ -32,7 +32,7 @@ const SideBar = () => {
                 <ul>
                     {Menus.map((menu, index) => (
                         <Link to={menu.path} key={index}>
-                            <li className="flex items-center gap-x-4 mt-4">
+                            <li className="flex items-center gap-x-4 my-6 hover:animate-pulse rounded-lg">
                                 <img src={menu.icon} className="text-block block float-left shrink-0 h-6 w-6"/>
                                 <div className={`${!open ? "hidden w-0" : "w-auto"} duration-75 overflow-hidden flex-1 whitespace-nowrap text-gray-300`}>
                                     {menu.title}
