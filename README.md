@@ -113,4 +113,4 @@ To view the application, navigate to http://localhost:3050 in your browser.
 ```
 
 ## Credits
-This product uses the TMDb API but is not endorsed or certified by TMDb. All data and images regarding to movies come from TMDb
+This product uses the TMDb API but is not endorsed or certified by TMDB. All data and images regarding to movies come from TMDB.
