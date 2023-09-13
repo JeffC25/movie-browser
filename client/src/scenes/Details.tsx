@@ -58,7 +58,7 @@ const Details = () => {
                         {CastList(Number(id!))}
                     </div>
                     <div className="col-span-1 row-span-1 mb-6">
-                        <div className="font-semibold w-full  snap-star">Reviews</div>
+                        <div className="font-semibold w-full">Reviews</div>
                         {ReviewList(Number(id!))}
                     </div>
                     <div className="col-span-1 row-span-1 mb-6">
