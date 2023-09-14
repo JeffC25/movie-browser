@@ -1,9 +1,10 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import { useState, useEffect, ReactNode } from "react";
 import { DefaultService } from "../../api";
 import MovieWidget from "./MovieWidget";
 import leftIcon from "../../assets/leftbutton.svg";
 import rightIcon from "../../assets/rightbutton.svg";
+import Loading from "../Loading";
 
 interface Props {
     category: string, 
@@ -20,12 +21,24 @@ const SearchResults = ({category, page}: Props) => {
 
     function prevPage() {
         setLoading(true)
-        navigate(`/list?category=${category}&page=${currentPage - 1}`);
+        navigate({
+            pathname: "/list",
+            search: createSearchParams({
+                category: category,
+                page: String(currentPage - 1),
+            }).toString()
+        });
     }
 
     function nextPage() {
         setLoading(true)
-        navigate(`/list?category=${category}&page=${currentPage + 1}`);
+        navigate({
+            pathname: "/list",
+            search: createSearchParams({
+                category: category,
+                page: String(currentPage + 1),
+            }).toString()
+        });
     }
 
     useEffect(() => {
@@ -43,7 +56,7 @@ const SearchResults = ({category, page}: Props) => {
 
     return (
         <div>
-            {loading ? <div className="w-screen h-screen bg-gray-800"></div> : 
+            {loading ? <div className="w-full bg-gray-800 flex justify-center"><Loading/></div> : 
             <div className="flex justify-center">
                 <div className="w-12 m-8">
                     <button onClick={prevPage} className={`fixed h-12 w-12 top-1/2 ${currentPage <= 1 ? "hidden" : ""}`}>

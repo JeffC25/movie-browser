@@ -1,9 +1,10 @@
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, createSearchParams } from "react-router-dom";
 import { useEffect, useState, ReactNode } from "react";
 import { DefaultService } from "../../api";
 import MovieWidget from "./MovieWidget";
 import leftIcon from "../../assets/leftbutton.svg";
 import rightIcon from "../../assets/rightbutton.svg";
+// import Loading from "../Loading";
 
 interface Props {
     query: string, 
@@ -20,12 +21,26 @@ const MovieResults = ({query, page}: Props) => {
 
     function prevPage() {
         setLoading(true)
-        navigate(`/search?query=${query}&page=${currentPage - 1}`);
+        // navigate(`/search?query=${query}&page=${currentPage - 1}`);
+        navigate({
+            pathname: "/search",
+            search: createSearchParams({
+                query: query,
+                page: String(currentPage - 1),
+            }).toString()
+        });
     }
 
     function nextPage() {
         setLoading(true)
-        navigate(`/search?query=${query}&page=${currentPage + 1}`);
+        // navigate(`/search?query=${query}&page=${currentPage + 1}`);
+        navigate({
+            pathname: "/search",
+            search: createSearchParams({
+                query: query,
+                page: String(currentPage + 1),
+            }).toString()
+        });
     }
 
     useEffect(() => {
