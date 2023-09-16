@@ -5,7 +5,7 @@ const reviewCard = (review: Review) => {
     return (
         <div className="block w-full bg-[rgba(32,32,32,0.25)] p-2 snap-end">
             <span className="block font-semibold">{`Rating: ${review.rating}`}</span>
-            <span className="block">{review.content}</span>
+            <span className="block break-words">{review.content}</span>
         </div>
     );
 };
