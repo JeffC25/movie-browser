@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { MoviePreview } from "../../api";
 
-const MovieWidget = (movie: MoviePreview) => {    
+const MovieWidget = (movie: MoviePreview) => {
     return (
         <div className="w-52 shrink-0 text-gray-400">
             <div className="aspect-[2/3] bg-gradient-to-b from-gray-500 to-gray-700 flex relative ">
@@ -16,7 +16,14 @@ const MovieWidget = (movie: MoviePreview) => {
                     <div className="block h-48 overflow-y-auto pr-1 text-sm">{movie.overview}</div>
                     <Link to={"/details/" + movie.id} className="absolute bottom-2 block mt-2" >{"Details >>"}</Link>
                 </div>
-                <img src= {movie.poster} alt="poster" className="object-fill text-transparent"/>
+                <img 
+                    src= {movie.poster} 
+                    onError={e => {
+                        // empty svg
+                        e.currentTarget.src="data:image/svg+xml,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"
+                    }} 
+                    alt="poster" 
+                    className="object-fill text-transparent"/>
             </div>    
             <Link to={"/details/" + movie.id} className="block">{movie.name}</Link>
         </div>

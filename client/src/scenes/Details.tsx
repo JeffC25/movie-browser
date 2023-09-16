@@ -31,8 +31,8 @@ const Details = () => {
                 text-gray-300 
                 backdrop-blur-xl backdrop-brightness-50 backdrop-saturate-150"
             >
-                <div className="col-span-2 row-span-2 content-cover">
-                    <img src={details.poster} className="h-full my-auto float-right mr-10"/>
+                <div className="col-span-2 row-span-2 object-cover">
+                    <img src={details.poster} className="h-full my-auto float-right mr-10 object-cover"/>
                 </div>
 
                 <div className="col-span-4 row-span-1 grid grid-rows-2 h-full grid-flow-col overflow-auto">
