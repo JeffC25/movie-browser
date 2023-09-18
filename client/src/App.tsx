@@ -18,7 +18,7 @@ function App() {
           <Route path="*" element={<NotFound />} />
         </Routes>
     </BrowserRouter>
-  )
-}
+  );
+};
 
-export default App
+export default App;

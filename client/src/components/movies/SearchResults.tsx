@@ -4,12 +4,11 @@ import { DefaultService } from "../../api";
 import MovieWidget from "./MovieWidget";
 import leftIcon from "../../assets/leftbutton.svg";
 import rightIcon from "../../assets/rightbutton.svg";
-// import Loading from "../Loading";
 
 interface Props {
     query: string, 
     page: number,
-}
+};
 
 const MovieResults = ({query, page}: Props) => {
     const currentPage = Number(page);
@@ -20,8 +19,7 @@ const MovieResults = ({query, page}: Props) => {
     const navigate = useNavigate();
 
     function prevPage() {
-        setLoading(true)
-        // navigate(`/search?query=${query}&page=${currentPage - 1}`);
+        setLoading(true);
         navigate({
             pathname: "/search",
             search: createSearchParams({
@@ -32,8 +30,7 @@ const MovieResults = ({query, page}: Props) => {
     }
 
     function nextPage() {
-        setLoading(true)
-        // navigate(`/search?query=${query}&page=${currentPage + 1}`);
+        setLoading(true);
         navigate({
             pathname: "/search",
             search: createSearchParams({
@@ -77,7 +74,7 @@ const MovieResults = ({query, page}: Props) => {
                 </div>
             </div>}
         </div>
-    )
+    );
 };
 
 export default MovieResults;

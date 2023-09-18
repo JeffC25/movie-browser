@@ -9,7 +9,7 @@ import Loading from "../Loading";
 interface Props {
     category: string, 
     page: string,
-}
+};
 
 const SearchResults = ({category, page}: Props) => {  
     const currentPage = Number(page);
@@ -28,7 +28,7 @@ const SearchResults = ({category, page}: Props) => {
                 page: String(currentPage - 1),
             }).toString()
         });
-    }
+    };
 
     function nextPage() {
         setLoading(true)
@@ -39,7 +39,7 @@ const SearchResults = ({category, page}: Props) => {
                 page: String(currentPage + 1),
             }).toString()
         });
-    }
+    };
 
     useEffect(() => {
         DefaultService.getCategory(category, Number(page))

@@ -5,7 +5,7 @@ import CategoryResults from "../components/movies/CategoryResults";
 
 const Results = () => {
     const location = useLocation();
-    const path = location.pathname
+    const path = location.pathname;
     const params = new URLSearchParams(location.search);
 
     return (

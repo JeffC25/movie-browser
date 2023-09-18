@@ -5,7 +5,7 @@ import MovieWidget from "../movies/MovieWidget";
 interface Props {
     title: string
     category: string
-}
+};
 
 const Carousel = ( {title, category }: Props) => {
     const [movieList, setMovieList] = useState<ReactNode[]>([]);

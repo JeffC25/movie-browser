@@ -4,7 +4,7 @@ import SideBar from "./sidebar/Sidebar";
 
 interface Props {
     children: ReactNode,
-}
+};
 
 const Layout = ({children}: Props) => {
     return (
