@@ -26,9 +26,6 @@ const SideBar = () => {
     return (
         <div onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="flex bg-gray-900 shadow fixed top-0 h-screen">
             <div className={` ${open ? "w-40" : "w-16"} duration-75 px-4`}>
-                {/* <button type="button" className={`${open && 'rotate-180'} duration-75`}>
-                    <img onClick={handleClick} src={menuIcon} className="h-6 w-6"/>
-                </button> */}
                 <ul>
                     {Menus.map((menu, index) => (
                         <Link to={menu.path} key={index}>
