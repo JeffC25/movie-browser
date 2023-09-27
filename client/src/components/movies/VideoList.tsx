@@ -1,7 +1,7 @@
 import { ReactNode, useEffect, useState } from "react";
 import { DefaultService, Video } from "../../api";
 
-const videoCard = (video: Video) => {
+const VideoCard = (video: Video) => {
     return (
         <div>
             <div className="block w-full bg-[rgba(32,32,32,0.25)] p-2">
@@ -21,7 +21,7 @@ const VideosList = (id: number) => {
     useEffect(() => {
         DefaultService.getMovieVideos(id)
         .then((result) => {
-            setVideos(result.map(videoCard));
+            setVideos(result.map(VideoCard));
         })
         .catch((error) => {
             console.error('Error: ', error);
@@ -36,4 +36,4 @@ const VideosList = (id: number) => {
     )
 }
 
-export default VideosList
+export default VideosList;

@@ -19,7 +19,7 @@ const SearchResults = ({category, page}: Props) => {
     const [loading, setLoading] = useState<boolean>(true);
     const navigate = useNavigate();
 
-    function prevPage() {
+    const prevPage = () => {
         setLoading(true)
         navigate({
             pathname: "/list",
@@ -30,7 +30,7 @@ const SearchResults = ({category, page}: Props) => {
         });
     };
 
-    function nextPage() {
+    const nextPage = () => {
         setLoading(true)
         navigate({
             pathname: "/list",

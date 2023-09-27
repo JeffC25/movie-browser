@@ -8,7 +8,7 @@ const SearchBar = () => {
     const navigate = useNavigate();
     
     const [search, setSearch] = useState(params.get("query") ?? "");
-    function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
+    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (search) {
             navigate({
