@@ -1,5 +1,4 @@
 # Movie Browser
-### 🚧 Under construction 🚧
 
 This project has been [deployed on AWS](https://movieapp.yerf.dev/)
 
@@ -18,6 +17,17 @@ Next, populate your environment variables as shown in server/config/env-template
 
 The project is containerized with Docker and Docker-Compose. Please ensure that Docker is installed and run `docker compose up` in the project directory.
 To view the application, navigate to http://localhost:3050 in your browser.
+
+## Technologies Used
+
+- React.js
+- Vite
+- TypeScript
+- Tailwind CSS
+- Go
+- Redis
+- Docker
+- AWS
 
 ## Project Structure
 ```
