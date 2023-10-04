@@ -20,14 +20,15 @@ To view the application, navigate to http://localhost:3050 in your browser.
 
 ## Technologies Used
 
-- React.js
-- Vite
-- TypeScript
-- Tailwind CSS
-- Go
-- Redis
-- Docker
-- AWS
+- [React.js](https://react.dev/)
+- [Vite](https://vitejs.dev/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Tailwind CSS](https://tailwindcss.com/)
+- [Go](https://go.dev/)
+- [Redis](https://redis.io/)
+- [Docker](https://www.docker.com/)
+- [Nginx](https://www.nginx.com/)
+- [AWS](https://aws.amazon.com/)
 
 ## Project Structure
 ```
