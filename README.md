@@ -8,7 +8,7 @@ This app leaverages is a single-page web application that allows users to browse
 
 ## Demo
 
-![Demo](https://github.com/JeffC25/movie-browser/blob/661282aa04af845ebdc894e283ca037d55a60081/movie-browser-demo.gif)
+![Demo](https://github.com/JeffC25/movie-browser/blob/main/demo/movie-browser-demo.gif?raw=true)
 
 ## Setup
 
