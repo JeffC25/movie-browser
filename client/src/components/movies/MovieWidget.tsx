@@ -19,13 +19,12 @@ const MovieWidget = (movie: MoviePreview) => {
                 <img 
                     src= {movie.poster} 
                     onError={e => {
-                        // empty svg
                         e.currentTarget.src="data:image/svg+xml,%3Csvg%20width%3D%22200%22%20height%3D%22200%22%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%3E%3C%2Fsvg%3E"
                     }} 
                     alt="poster" 
                     className="object-fill text-transparent"/>
             </div>    
-            <Link to={"/details/" + movie.id} className="block">{movie.name}</Link>
+            <Link to={"/details/" + movie.id} className="block text-ellipsis overflow-hidden whitespace-nowrap">{movie.name}</Link>
         </div>
     );
 };
