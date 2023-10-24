@@ -9,7 +9,7 @@ import Loading from "../Loading";
 interface Props {
     category: string, 
     page: string,
-};
+}
 
 const SearchResults = ({category, page}: Props) => {  
     const currentPage = Number(page);
@@ -56,7 +56,7 @@ const SearchResults = ({category, page}: Props) => {
 
     return (
         <div>
-            {loading ? <div className="w-full bg-gray-800 flex justify-center"><Loading/></div> : 
+            {loading ? <div className="w-full bg-transparent flex justify-center"><Loading/></div> : 
             <div className="flex justify-center">
                 <div className="w-12 m-8">
                     <button onClick={prevPage} className={`fixed h-12 w-12 top-1/2 ${currentPage <= 1 ? "hidden" : ""}`}>
@@ -64,7 +64,7 @@ const SearchResults = ({category, page}: Props) => {
                     </button>
                 </div>
                 <div className="static">
-                    <div className="text-gray-400">
+                    <div className="text-gray-300">
                         {category=="popular" ? "Trending"
                         : category=="now_playing" ? "Now Playing"
                         : category=="upcoming" ? "Upcoming"

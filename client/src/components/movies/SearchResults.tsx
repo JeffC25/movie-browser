@@ -4,11 +4,12 @@ import { DefaultService } from "../../api";
 import MovieWidget from "./MovieWidget";
 import leftIcon from "../../assets/leftbutton.svg";
 import rightIcon from "../../assets/rightbutton.svg";
+import Loading from "../Loading";
 
 interface Props {
     query: string, 
     page: number,
-};
+}
 
 const MovieResults = ({query, page}: Props) => {
     const currentPage = Number(page);
@@ -55,7 +56,7 @@ const MovieResults = ({query, page}: Props) => {
 
     return (
         <div>
-            {loading ? <div className="w-screen h-screen bg-gray-800"></div> :
+            {loading ? <div className="w-full bg-transparent flex justify-center"><Loading/></div>:
             <div className="flex justify-center">
                 <div className="w-12 m-8">
                     <button onClick={prevPage} className={`fixed h-12 w-12 top-1/2 ${currentPage == 1 ? "hidden" : ""}`}>
