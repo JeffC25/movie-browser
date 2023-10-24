@@ -9,7 +9,7 @@ import Loading from "../Loading";
 interface Props {
     category: string, 
     page: string,
-};
+}
 
 const SearchResults = ({category, page}: Props) => {  
     const currentPage = Number(page);
@@ -64,7 +64,7 @@ const SearchResults = ({category, page}: Props) => {
                     </button>
                 </div>
                 <div className="static">
-                    <div className="text-gray-400">
+                    <div className="text-gray-300">
                         {category=="popular" ? "Trending"
                         : category=="now_playing" ? "Now Playing"
                         : category=="upcoming" ? "Upcoming"

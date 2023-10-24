@@ -24,7 +24,7 @@ const SideBar = () => {
     ]
 
     return (
-        <div onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="flex bg-gray-900 shadow fixed top-0 h-screen">
+        <div onMouseOver={() => setOpen(true)} onMouseLeave={() => setOpen(false)} className="flex bg-gray-900 bg-opacity-80 backdrop-blur-md shadow fixed top-0 h-screen">
             <div className={` ${open ? "w-40" : "w-16"} duration-75 px-4`}>
                 <ul>
                     {Menus.map((menu, index) => (

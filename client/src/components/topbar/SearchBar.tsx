@@ -22,15 +22,15 @@ const SearchBar = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center justify-center align-middle h-full w-full ">
+        <form onSubmit={handleSubmit} className="flex items-center justify-between align-middle h-12 w-1/4 rounded-full bg-gray-900 bg-opacity-80 backdrop-blur-md">
             <input 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
                 type="text" 
                 placeholder="Search" 
-                className="h-12 w-1/4 rounded-l-full bg-gray-900 text-left text-gray-300 pl-6 focus:outline-none" 
+                className="h-12 w-fit  text-left text-gray-300 pl-6 focus:outline-none bg-transparent" 
             />
-            <button type="submit" className="h-12 w-16 rounded-r-full bg-gray-900 ">
+            <button type="submit" className="h-12 w-16">
                 <img src={searchIcon} className="w-12 h-6 hover:animate-pulse"/>
             </button>          
         </form>
