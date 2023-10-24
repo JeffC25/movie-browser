@@ -56,7 +56,7 @@ const MovieResults = ({query, page}: Props) => {
 
     return (
         <div>
-            {loading ? <div className="w-full bg-gray-800 flex justify-center"><Loading/></div>:
+            {loading ? <div className="w-full bg-transparent flex justify-center"><Loading/></div>:
             <div className="flex justify-center">
                 <div className="w-12 m-8">
                     <button onClick={prevPage} className={`fixed h-12 w-12 top-1/2 ${currentPage == 1 ? "hidden" : ""}`}>
