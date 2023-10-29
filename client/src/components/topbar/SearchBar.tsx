@@ -22,7 +22,7 @@ const SearchBar = () => {
     }
 
     return (
-        <form onSubmit={handleSubmit} className="flex items-center justify-between align-middle h-12 w-1/4 rounded-full bg-gray-900 bg-opacity-80 backdrop-blur-md">
+        <form onSubmit={handleSubmit} className="flex items-center justify-between align-middle h-12 w-full rounded-full bg-gray-900 bg-opacity-80 backdrop-blur-md">
             <input 
                 value={search}
                 onChange={(e) => setSearch(e.target.value)}
