@@ -30,7 +30,7 @@ const SearchBar = () => {
                 placeholder="Search" 
                 className="h-12 w-max text-left flex-grow text-gray-300 pl-6 focus:outline-none bg-transparent" 
             />
-            <button type="submit" className="h-12 w-16">
+            <button type="submit" className="h-12 w-16 invisible md:visible">
                 <img src={searchIcon} className="w-12 h-6 hover:animate-pulse"/>
             </button>          
         </form>
