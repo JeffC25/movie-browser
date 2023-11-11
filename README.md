@@ -1,5 +1,5 @@
-# Movie Browser
- 
+# Movie Browser 
+
 This project has been [deployed on AWS](https://movieapp.yerf.dev/)
 
 ## Overview
