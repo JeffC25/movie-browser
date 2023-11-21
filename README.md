@@ -4,7 +4,7 @@ This project has been [deployed on AWS](https://movieapp.yerf.dev/)
 
 ## Overview
 
-This app leaverages is a single-page web application that allows users to browse collection of movies and their detail information (duration, released date, overview, trailers, genres, reviews, cast, etc.)
+This app is a web application that allows users to browse collection of movies and their detail information (duration, released date, overview, trailers, genres, reviews, cast, etc.)
 
 ## Demo
 
