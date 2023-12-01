@@ -9,8 +9,10 @@ const About = () => {
                     <br/><br/>
                     This site leverages the TMDB API to fetch movie information including their rating, genres, overview, cast, reviews, and trailers. 
                     <br/><br/>
-                    This web application is a personal project for the sole puporse of practicing various tools and frameworks. 
-                    It is in no way intended for any commercial use.
+                    Information courtesy of
+                    IMDb
+                    (https://www.imdb.com).
+                    Used with permission.
                     <br/><br/>
                     Feel free to check out the source code <a href="https://github.com/JeffC25/movie-browser" className="underline font-semibold">here!</a>
                 </span>
