@@ -32,4 +32,8 @@ To view the application, navigate to http://localhost:3050 in your browser.
 - [AWS](https://aws.amazon.com/)
 
 ## Credits
-This product uses the TMDb API but is not endorsed or certified by TMDB. All data and images regarding to movies come from TMDB.
+Information courtesy of
+IMDb
+(https://www.imdb.com).
+Used with permission.
+
