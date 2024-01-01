@@ -23,7 +23,7 @@ https://movie.yerf.dev/api/popular?page=2
 ## Local Setup
 
 This application leverages The Movie Database (TMDB) API; to run this application locally, please [request for an API key](https://developer.themoviedb.org/).
-Next, populate your environment variables as shown in server/config/env-template.txt, including the api key and access token retrieved from TMDB.
+Next, populate your environment variables as shown in [server/config/env-template.txt](https://github.com/JeffC25/movie-browser/blob/main/server/config/env-template.txt), including the api key and access token retrieved from TMDB.
 
 The project is containerized with Docker and Docker-Compose. 
 Please ensure that Docker and Docker-Compose are installed and run ```docker compose up``` in the project's root directory.
