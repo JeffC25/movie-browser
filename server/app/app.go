@@ -85,7 +85,7 @@ func (a *App) GetTMDB(method string, url string, tmdbStruct tmdb.Struct) error {
 		return err
 	}
 
-	a.rdb.Set(a.ctx, url, body, 6*time.Hour).Err()
+	err = a.rdb.Set(a.ctx, url, body, 6*time.Hour).Err()
 	a.log.Info().Msg("caching " + url)
 	if err != nil {
 		a.log.Warn().Err(err).Msg("failed to cache tmdb response")
