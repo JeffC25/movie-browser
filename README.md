@@ -1,7 +1,5 @@
 # Movie Browser 
 
-This app has been [deployed on AWS](https://movieapp.yerf.dev/)
-
 ## Overview
 
 This is a web application that allows users to browse and discover collections of movies and their details (duration, released date, overview, trailers, genres, reviews, cast, etc.)
@@ -15,9 +13,6 @@ This is a web application that allows users to browse and discover collections o
 The standalone REST API can be accessed at `https://movie.yerf.dev/api/_`
 
 The OpenAPI document can be found at [/oapi/openapi.yaml](https://github.com/JeffC25/movie-browser/blob/main/oapi/openapi.yaml)
-
-#### Example:
-https://movie.yerf.dev/api/popular?page=2
 
 
 ## Local Setup
